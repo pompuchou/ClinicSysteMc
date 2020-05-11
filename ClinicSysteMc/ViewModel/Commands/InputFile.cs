@@ -12,9 +12,7 @@ namespace ClinicSysteMc.ViewModel.Commands
     internal class InputFile : ICommand
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         private readonly TaskbarIcon tb = new TaskbarIcon();
-
         public event EventHandler CanExecuteChanged;
 
         public bool CanExecute(object parameter)
@@ -60,6 +58,10 @@ namespace ClinicSysteMc.ViewModel.Commands
             DataSet ds = new DataSet();
             DataTable dtO = new DataTable();
             DataTable dtP = new DataTable();
+            int new_opd_N = 0;
+            int change_opd_N = 0;
+            int change_order_N = 0;
+            int total_rows = 0;
 
             #endregion 宣告
 
@@ -124,9 +126,11 @@ namespace ClinicSysteMc.ViewModel.Commands
             }
 
             // 通過測試
-            Logging.Record_admin("OPD file format", "correct");
-            log.Info("OPD XML 檔案格式正確");
-            tb.ShowBalloonTip("正確", "OPD XML 檔案格式正確", BalloonIcon.Info);
+            total_rows = dtO.Rows.Count;
+            Logging.Record_admin("OPD file format", $"correct, {total_rows} records.");
+            log.Info($"OPD XML 檔案格式正確, 共{total_rows}筆.");
+            tb.ShowBalloonTip("正確", $"OPD XML 檔案格式正確, 共{total_rows}筆.", BalloonIcon.Info);
+
 
             #endregion 整理datatable
 
@@ -185,6 +189,7 @@ namespace ClinicSysteMc.ViewModel.Commands
                         }
                         dc.tbl_opd.InsertOnSubmit(newOPD);
                         dc.SubmitChanges();
+                        new_opd_N++;
 
                         // tbl_opd沒有資料, tbl_opd_order就一定沒有資料, 所以要加入, 這裡的挑戰是要加上醫令序
                         // datatable 此時不能使用LINQ查詢
@@ -296,6 +301,7 @@ namespace ClinicSysteMc.ViewModel.Commands
                         {
                             // 做實改變
                             dc.SubmitChanges();
+                            change_opd_N++;
                             // 做記錄
                             Logging.Record_admin("update opd", $"{strCASENO}: {strChange}");
                         }
@@ -399,11 +405,16 @@ namespace ClinicSysteMc.ViewModel.Commands
                             dc.tbl_opd_order.InsertOnSubmit(newPr);
                             dc.SubmitChanges();
                         }
+                        change_order_N++;
                     }
                 }
             }
             // 這樣的add opd沒什麼用
             //        Record_adm("add opd", dtO.TableName)
+            string summary = $"一共讀取{new_opd_N}筆新門診紀錄, 更改{change_opd_N}筆門診紀錄, 更改{change_order_N}筆醫令.";
+            tb.ShowBalloonTip("讀取完成", summary,BalloonIcon.Info);
+            log.Info(summary);
+            Logging.Record_admin("opd_import", summary);
             dtO.Dispose();
             dtP.Dispose();
             ds.Dispose();
@@ -489,5 +500,6 @@ namespace ClinicSysteMc.ViewModel.Commands
             }
             return strReturn;
         }
+
     }
 }

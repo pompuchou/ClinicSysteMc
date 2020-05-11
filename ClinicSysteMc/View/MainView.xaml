@@ -60,7 +60,6 @@
                         CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}" />
                 <Button Margin="6" Content="檢驗" Grid.Column="2" Grid.Row="4" Command="{Binding BTN_INPUT}" 
                         CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}" />
-                <ProgressBar Margin="6" Grid.Row="7" Grid.ColumnSpan="3" />
                 <Grid Grid.Column="3" Grid.RowSpan="8">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
