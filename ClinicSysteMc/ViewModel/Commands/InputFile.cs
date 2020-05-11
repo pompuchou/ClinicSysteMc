@@ -132,7 +132,6 @@ namespace ClinicSysteMc.ViewModel.Commands
 
             #region 進行讀取資料
 
-            int totalN = dtO.Rows.Count;
             //Main.ProgressBar1.Minimum = 1
             //Main.ProgressBar1.Maximum = totalN
             CSDataContext dc = new CSDataContext();
@@ -142,13 +141,7 @@ namespace ClinicSysteMc.ViewModel.Commands
             {
                 //Main.ProgressBar1.Value = i + 1  // 顯示一下進度
                 // 檢查案號是否已經在資料庫中, dtO.CASENO, tbl_opd.CASENO
-
-            }
-
-
-            for (int i = 0; i < totalN; i++)    //row index 0~(totalN-1)
-            {
-                string strCASENO = (string)dtO.Rows[i]["CASENO"];
+                string strCASENO = (string)dtO_Row["CASENO"];
                 if (string.IsNullOrEmpty(strCASENO))
                 {
                     Logging.Record_error("在輸入門診資料時, 缺少案號CASENO");
@@ -157,251 +150,256 @@ namespace ClinicSysteMc.ViewModel.Commands
                     // 下一個
                     continue;
                 }
-                try
+
+                var q = from o in dc.tbl_opd
+                         where o.CASENO == strCASENO
+                         select o;
+                if (q.Count() == 0) // 資料庫裡面沒有 INSERT
                 {
-                    var q1 = from o in dc.tbl_opd
-                             where o.CASENO == strCASENO
-                             select o;
-                    if (q1.Count() == 0) // 資料庫裡面沒有 INSERT
+                    try
                     {
                         tbl_opd newOPD = new tbl_opd()
                         {
                             CASENO = strCASENO, // CASENO
-                            VIST = (string)dtO.Rows[i]["VIST"], // VIST
-                            RMNO = byte.Parse((string)dtO.Rows[i]["RMNO"]), // RMNO
-                            uid = (string)dtO.Rows[i]["IDNO"], // uid
-                            DEPTNAME = (string)dtO.Rows[i]["DEPTNAME"], // DEPTNAME
-                            DOCTNAME = (string)dtO.Rows[i]["DOCTNAME"], // DOCTNAME
-                            POSINAME = (string)dtO.Rows[i]["POSINAME"], // POSINAME
-                            PAYNO = (string)dtO.Rows[i]["PAYNO"],  // PAYNO
-                            HEATH_CARD = (string)dtO.Rows[i]["HEATH_CARD"], // HEATH_CARD
-                            ICDCODE1 = (string)dtO.Rows[i]["ICDCODE1"], // ICDCODE1
-                            ICDCODE2 = (string)dtO.Rows[i]["ICDCODE2"], // ICDCODE2
-                            ICDCODE3 = (string)dtO.Rows[i]["ICDCODE3"], // ICDCODE3
+                            VIST = (string)dtO_Row["VIST"], // VIST
+                            RMNO = byte.Parse((string)dtO_Row["RMNO"]), // RMNO
+                            uid = (string)dtO_Row["IDNO"], // uid
+                            DEPTNAME = (string)dtO_Row["DEPTNAME"], // DEPTNAME
+                            DOCTNAME = (string)dtO_Row["DOCTNAME"], // DOCTNAME
+                            POSINAME = (string)dtO_Row["POSINAME"], // POSINAME
+                            PAYNO = (string)dtO_Row["PAYNO"],  // PAYNO
+                            HEATH_CARD = (string)dtO_Row["HEATH_CARD"], // HEATH_CARD
+                            ICDCODE1 = (string)dtO_Row["ICDCODE1"], // ICDCODE1
+                            ICDCODE2 = (string)dtO_Row["ICDCODE2"], // ICDCODE2
+                            ICDCODE3 = (string)dtO_Row["ICDCODE3"], // ICDCODE3
                             INS_CODE = "A", // INS_CODE, default value "A"
-                            STEXT = (string)dtO.Rows[i]["STEXT"], // STEXT
-                            OTEXT = (string)dtO.Rows[i]["OTEXT"] // OTEXT
+                            STEXT = (string)dtO_Row["STEXT"], // STEXT
+                            OTEXT = (string)dtO_Row["OTEXT"] // OTEXT
                         };
 
                         string tempstr;
-                        tempstr = dtO.Rows[i]["SDATE"].ToString();
+                        tempstr = dtO_Row["SDATE"].ToString();
                         if (DateTime.TryParse($"{tempstr.Substring(0, 4)}/{tempstr.Substring(4, 2)}/{tempstr.Substring(6, 2)}", out DateTime temp_date))
                         {
                             newOPD.SDATE = temp_date;
                         }
                         dc.tbl_opd.InsertOnSubmit(newOPD);
                         dc.SubmitChanges();
+
                         // tbl_opd沒有資料, tbl_opd_order就一定沒有資料, 所以要加入, 這裡的挑戰是要加上醫令序
                         // datatable 此時不能使用LINQ查詢
                         List<DataRow> q2 = dtP.Select("CASENO='" + strCASENO + "'").ToList();
-                        // 這個r.count一定大於等於1
 
                         // 處理tbl_opd_order部分
-                        int totalP = q2.Count;
-                        for (int j = 0; j < totalP; j++)
+                        int j = 1;
+                        foreach (DataRow dtP_Row in q2)
                         {
                             tbl_opd_order newPr = new tbl_opd_order()
                             {
                                 CASENO = strCASENO,
-                                uid = (string)dtO.Rows[i]["IDNO"],
+                                uid = (string)dtO_Row["IDNO"],
                                 SDATE = temp_date,
                                 OD_idx = (byte)(j + 1),
-                                rid = (string)q2[j]["CODE"], //CODE
-                                TIMES_DAY = (string)q2[j]["TIMES_DAY"], //TIMES_DAY
-                                METHOD = (string)q2[j]["METHODE"], //METHOD
-                                TIME_QTY1 = (string)q2[j]["TIME_QTY1"], //TIME_QTY1
-                                DAYS = (string)q2[j]["DAYS"], //DAYS
-                                BILL_QTY = (string)q2[j]["BILL_QTY"], //BILL_QTY
-                                HC = (string)q2[j]["HC"], //HC
-                                PRICE = (string)q2[j]["PRICE"], //PRICE
-                                AMT = (string)q2[j]["AMT"], //AMT
-                                CLASS = (string)q2[j]["CLASS"], //CLASS
-                                CHRONIC = (string)q2[j]["CHRONIC"] //CHRONIC
+                                rid = (string)dtP_Row["CODE"], //CODE
+                                TIMES_DAY = (string)dtP_Row["TIMES_DAY"], //TIMES_DAY
+                                METHOD = (string)dtP_Row["METHODE"], //METHOD
+                                TIME_QTY1 = (string)dtP_Row["TIME_QTY1"], //TIME_QTY1
+                                DAYS = (string)dtP_Row["DAYS"], //DAYS
+                                BILL_QTY = (string)dtP_Row["BILL_QTY"], //BILL_QTY
+                                HC = (string)dtP_Row["HC"], //HC
+                                PRICE = (string)dtP_Row["PRICE"], //PRICE
+                                AMT = (string)dtP_Row["AMT"], //AMT
+                                CLASS = (string)dtP_Row["CLASS"], //CLASS
+                                CHRONIC = (string)dtP_Row["CHRONIC"] //CHRONIC
+                            };
+                            dc.tbl_opd_order.InsertOnSubmit(newPr);
+                            dc.SubmitChanges();
+                            j++;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error(ex.Message);
+                        tb.ShowBalloonTip("錯誤!", ex.Message, BalloonIcon.Error);
+                        Logging.Record_error(ex.Message);
+                    }
+                }
+                else    // 資料庫裡已經有了, 檢查是否有異,有異UPDATE
+                {
+                    // 先處理tbl_opd部分
+                    tbl_opd oldOPD = (from p in dc.tbl_opd
+                                      where p.CASENO == strCASENO
+                                      select p).ToList()[0];     // this is a record
+                    string strChange = string.Empty;
+                    bool bChange = false;
+
+                    try
+                    {
+                        string tempstr = string.Empty;
+                        if (oldOPD.DEPTNAME != (string)dtO_Row["DEPTNAME"])
+                        {
+                            strChange += $"改科別: {oldOPD.DEPTNAME} => {dtO_Row["DEPTNAME"]}";
+                            bChange = true;
+                            oldOPD.DEPTNAME = (string)dtO_Row["DEPTNAME"]; // DEPTNAME
+                        }
+
+                        if (oldOPD.DOCTNAME != (string)dtO_Row["DOCTNAME"])
+                        {
+                            strChange += $"改醫師: {oldOPD.DOCTNAME} => {dtO_Row["DOCTNAME"]}";
+                            bChange = true;
+                            oldOPD.DOCTNAME = (string)dtO_Row["DOCTNAME"]; //DOCTNAME
+                        }
+
+                        if (oldOPD.POSINAME != (string)dtO_Row["POSINAME"])
+                        {
+                            strChange += $"改身分: {oldOPD.POSINAME} => {dtO_Row["POSINAME"]}";
+                            bChange = true;
+                            oldOPD.POSINAME = (string)dtO_Row["POSINAME"]; //POSINAME
+                        }
+
+                        if (oldOPD.PAYNO != (string)dtO_Row["PAYNO"])
+                        {
+                            strChange += $"改負擔: {oldOPD.PAYNO} => {dtO_Row["PAYNO"]}";
+                            bChange = true;
+                            oldOPD.PAYNO = (string)dtO_Row["PAYNO"];  //PAYNO
+                        }
+
+                        if (oldOPD.HEATH_CARD != (string)dtO_Row["HEATH_CARD"])
+                        {
+                            strChange += $"改卡號: {oldOPD.HEATH_CARD} => {dtO_Row["HEATH_CARD"]}";
+                            bChange = true;
+                            oldOPD.HEATH_CARD = (string)dtO_Row["HEATH_CARD"]; //HEATH_CARD
+                        }
+
+                        if (oldOPD.ICDCODE1 != (string)dtO_Row["ICDCODE1"])
+                        {
+                            strChange += $"改診斷1: {oldOPD.ICDCODE1} => {dtO_Row["ICDCODE1"]}";
+                            bChange = true;
+                            oldOPD.ICDCODE1 = (string)dtO_Row["ICDCODE1"]; //ICDCODE1
+                        }
+
+                        if (oldOPD.ICDCODE2 != (string)dtO_Row["ICDCODE2"])
+                        {
+                            strChange += $"改診斷2: {oldOPD.ICDCODE2} => {dtO_Row["ICDCODE2"]}";
+                            bChange = true;
+                            oldOPD.ICDCODE2 = (string)dtO_Row["ICDCODE2"]; //ICDCODE2
+                        }
+
+                        if (oldOPD.ICDCODE3 != (string)dtO_Row["ICDCODE3"])
+                        {
+                            strChange += $"改診斷3: {oldOPD.ICDCODE3} => {dtO_Row["ICDCODE3"]}";
+                            bChange = true;
+                            oldOPD.ICDCODE3 = (string)dtO_Row["ICDCODE3"]; //ICDCODE3
+                        }
+
+                        if (bChange == true)
+                        {
+                            // 做實改變
+                            dc.SubmitChanges();
+                            // 做記錄
+                            Logging.Record_admin("update opd", $"{strCASENO}: {strChange}");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error(strCASENO + ex.Message);
+                        tb.ShowBalloonTip("錯誤!", strCASENO + ex.Message, BalloonIcon.Error);
+                        Logging.Record_error(strCASENO + ex.Message);
+                    }
+
+                    // 再處理tbl_opd_order部分
+                    // 先製造兩個list of tbl_opd_order
+                    List<Prescription> oldPre = (from d in dc.tbl_opd_order
+                                                 where d.CASENO == strCASENO
+                                                 orderby d.rid, d.TIMES_DAY
+                                                 select new Prescription()
+                                                 {
+                                                     CASENO = d.CASENO,
+                                                     Rid = d.rid,
+                                                     TIMES_DAY = d.TIMES_DAY,
+                                                     METHOD = d.METHOD,
+                                                     TIME_QTY1 = d.TIME_QTY1,
+                                                     DAYS = d.DAYS,
+                                                     BILL_QTY = d.BILL_QTY,
+                                                     HC = d.HC,
+                                                     PRICE = d.PRICE,
+                                                     AMT = d.AMT,
+                                                     CLAS = d.CLASS,
+                                                     CHRONIC = d.CHRONIC
+                                                 }).ToList();
+                    List<Prescription> newPre = new List<Prescription>();
+                    List<DataRow> q2 = dtP.Select($"CASENO='{strCASENO}'", "CODE, TIMES_DAY").ToList();
+                    // 這個r.count一定大於等於1
+
+                    // 處理tbl_opd_order部分
+                    int totalP = q2.Count();
+                    for (int j = 0; j < totalP; j++)
+                    {
+                        Prescription newP = new Prescription()
+                        {
+                            CASENO = strCASENO,
+                            Rid = (string)q2[j]["CODE"], //CODE
+                            TIMES_DAY = (string)q2[j]["TIMES_DAY"], //TIMES_DAY
+                            METHOD = (string)q2[j]["METHODE"], //METHOD
+                            TIME_QTY1 = (string)q2[j]["TIME_QTY1"], //TIME_QTY1
+                            DAYS = (string)q2[j]["DAYS"], //DAYS
+                            BILL_QTY = (string)q2[j]["BILL_QTY"], //BILL_QTY
+                            HC = (string)q2[j]["HC"], //HC
+                            PRICE = (string)q2[j]["PRICE"], //PRICE
+                            AMT = (string)q2[j]["AMT"], //AMT
+                            CLAS = (string)q2[j]["CLASS"], //CLASS
+                            CHRONIC = (string)q2[j]["CHRONIC"] //CHRONIC
+                        };
+                        newPre.Add(newP);
+                    }
+                    // Now we have 2 lists now, but lists are only references
+                    // 先比較兩者是否相同, 相同則跳下一筆
+                    string strT = Exact(oldPre, newPre);
+                    if (strT.Length != 0) // "" stands for identical
+                    {
+                        // 若不同則找出哪裡不同, 記錄下來
+                        Logging.Record_admin("update opd order", $"{strCASENO}: {strT}");
+                        // 最後把舊的刪掉, 插入新的
+
+                        // 刪掉舊的
+                        var q3 = from p in dc.tbl_opd_order
+                                 where p.CASENO == strCASENO
+                                 select p;
+                        foreach (tbl_opd_order pr in q3)
+                        {
+                            dc.tbl_opd_order.DeleteOnSubmit(pr);
+                        }
+                        dc.SubmitChanges();
+                        // 插入新的
+                        // datatable 此時不能使用LINQ查詢
+                        List<DataRow> q4 = dtP.Select($"CASENO='{strCASENO}'").ToList();
+
+                        // 處理tbl_opd_order部分
+                        int totalPr = q4.Count;
+                        for (int j = 0; j < totalPr; j++)
+                        {
+                            tbl_opd_order newPr = new tbl_opd_order()
+                            {
+                                CASENO = strCASENO,
+                                uid = oldOPD.uid,
+                                SDATE = oldOPD.SDATE,
+                                OD_idx = (byte)(j + 1),
+                                rid = (string)q4[j]["CODE"], //CODE
+                                TIMES_DAY = (string)q4[j]["TIMES_DAY"], //TIMES_DAY
+                                METHOD = (string)q4[j]["METHODE"], //METHOD
+                                TIME_QTY1 = (string)q4[j]["TIME_QTY1"], //TIME_QTY1
+                                DAYS = (string)q4[j]["DAYS"], //DAYS
+                                BILL_QTY = (string)q4[j]["BILL_QTY"], //BILL_QTY
+                                HC = (string)q4[j]["HC"], //HC
+                                PRICE = (string)q4[j]["PRICE"], //PRICE
+                                AMT = (string)q4[j]["AMT"], //AMT
+                                CLASS = (string)q4[j]["CLASS"], //CLASS
+                                CHRONIC = (string)q4[j]["CHRONIC"] //CHRONIC
                             };
                             dc.tbl_opd_order.InsertOnSubmit(newPr);
                             dc.SubmitChanges();
                         }
                     }
-                    else    // 資料庫裡已經有了, 檢查是否有異,有異UPDATE
-                    {
-                        // 先處理tbl_opd部分
-                        tbl_opd oldOPD = (from p in dc.tbl_opd
-                                          where p.CASENO == strCASENO
-                                          select p).ToList()[0];     // this is a record
-                        string strChange = string.Empty;
-                        bool bChange = false;
-
-                        try
-                        {
-                            string tempstr = string.Empty;
-                            if (oldOPD.DEPTNAME != (string)dtO.Rows[i]["DEPTNAME"])
-                            {
-                                strChange += $"改科別: {oldOPD.DEPTNAME} => {dtO.Rows[i]["DEPTNAME"]}";
-                                bChange = true;
-                                oldOPD.DEPTNAME = (string)dtO.Rows[i]["DEPTNAME"]; // DEPTNAME
-                            }
-
-                            if (oldOPD.DOCTNAME != (string)dtO.Rows[i]["DOCTNAME"])
-                            {
-                                strChange += $"改醫師: {oldOPD.DOCTNAME} => {dtO.Rows[i]["DOCTNAME"]}";
-                                bChange = true;
-                                oldOPD.DOCTNAME = (string)dtO.Rows[i]["DOCTNAME"]; //DOCTNAME
-                            }
-
-                            if (oldOPD.POSINAME != (string)dtO.Rows[i]["POSINAME"])
-                            {
-                                strChange += $"改身分: {oldOPD.POSINAME} => {dtO.Rows[i]["POSINAME"]}";
-                                bChange = true;
-                                oldOPD.POSINAME = (string)dtO.Rows[i]["POSINAME"]; //POSINAME
-                            }
-
-                            if (oldOPD.PAYNO != (string)dtO.Rows[i]["PAYNO"])
-                            {
-                                strChange += $"改負擔: {oldOPD.PAYNO} => {dtO.Rows[i]["PAYNO"]}";
-                                bChange = true;
-                                oldOPD.PAYNO = (string)dtO.Rows[i]["PAYNO"];  //PAYNO
-                            }
-
-                            if (oldOPD.HEATH_CARD != (string)dtO.Rows[i]["HEATH_CARD"])
-                            {
-                                strChange += $"改卡號: {oldOPD.HEATH_CARD} => {dtO.Rows[i]["HEATH_CARD"]}";
-                                bChange = true;
-                                oldOPD.HEATH_CARD = (string)dtO.Rows[i]["HEATH_CARD"]; //HEATH_CARD
-                            }
-
-                            if (oldOPD.ICDCODE1 != (string)dtO.Rows[i]["ICDCODE1"])
-                            {
-                                strChange += $"改診斷1: {oldOPD.ICDCODE1} => {dtO.Rows[i]["ICDCODE1"]}";
-                                bChange = true;
-                                oldOPD.ICDCODE1 = (string)dtO.Rows[i]["ICDCODE1"]; //ICDCODE1
-                            }
-
-                            if (oldOPD.ICDCODE2 != (string)dtO.Rows[i]["ICDCODE2"])
-                            {
-                                strChange += $"改診斷2: {oldOPD.ICDCODE2} => {dtO.Rows[i]["ICDCODE2"]}";
-                                bChange = true;
-                                oldOPD.ICDCODE2 = (string)dtO.Rows[i]["ICDCODE2"]; //ICDCODE2
-                            }
-
-                            if (oldOPD.ICDCODE3 != (string)dtO.Rows[i]["ICDCODE3"])
-                            {
-                                strChange += $"改診斷3: {oldOPD.ICDCODE3} => {dtO.Rows[i]["ICDCODE3"]}";
-                                bChange = true;
-                                oldOPD.ICDCODE3 = (string)dtO.Rows[i]["ICDCODE3"]; //ICDCODE3
-                            }
-
-                            if (bChange == true)
-                            {
-                                // 做實改變
-                                dc.SubmitChanges();
-                                // 做記錄
-                                Logging.Record_admin("update opd", $"{strCASENO}: {strChange}");
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Logging.Record_error(strCASENO + ex.Message);
-                        }
-
-                        // 再處理tbl_opd_order部分
-                        // 先製造兩個list of tbl_opd_order
-
-                        List<Prescription> oldPre = (from d in dc.tbl_opd_order
-                                                     where d.CASENO == strCASENO
-                                                     orderby d.rid, d.TIMES_DAY
-                                                     select new Prescription()
-                                                     {
-                                                         CASENO = d.CASENO,
-                                                         Rid = d.rid,
-                                                         TIMES_DAY = d.TIMES_DAY,
-                                                         METHOD = d.METHOD,
-                                                         TIME_QTY1 = d.TIME_QTY1,
-                                                         DAYS = d.DAYS,
-                                                         BILL_QTY = d.BILL_QTY,
-                                                         HC = d.HC,
-                                                         PRICE = d.PRICE,
-                                                         AMT = d.AMT,
-                                                         CLAS = d.CLASS,
-                                                         CHRONIC = d.CHRONIC
-                                                     }).ToList();
-                        List<Prescription> newPre = new List<Prescription>();
-                        List<DataRow> q2 = dtP.Select($"CASENO='{strCASENO}'", "CODE, TIMES_DAY").ToList();
-                        // 這個r.count一定大於等於1
-
-                        // 處理tbl_opd_order部分
-                        int totalP = q2.Count();
-                        for (int j = 0; j < totalP; j++)
-                        {
-                            Prescription newP = new Prescription()
-                            {
-                                CASENO = strCASENO,
-                                Rid = (string)q2[j]["CODE"], //CODE
-                                TIMES_DAY = (string)q2[j]["TIMES_DAY"], //TIMES_DAY
-                                METHOD = (string)q2[j]["METHODE"], //METHOD
-                                TIME_QTY1 = (string)q2[j]["TIME_QTY1"], //TIME_QTY1
-                                DAYS = (string)q2[j]["DAYS"], //DAYS
-                                BILL_QTY = (string)q2[j]["BILL_QTY"], //BILL_QTY
-                                HC = (string)q2[j]["HC"], //HC
-                                PRICE = (string)q2[j]["PRICE"], //PRICE
-                                AMT = (string)q2[j]["AMT"], //AMT
-                                CLAS = (string)q2[j]["CLASS"], //CLASS
-                                CHRONIC = (string)q2[j]["CHRONIC"] //CHRONIC
-                            };
-                            newPre.Add(newP);
-                        }
-                        // Now we have 2 lists now, but lists are only references
-                        // 先比較兩者是否相同, 相同則跳下一筆
-                        string strT = Exact(oldPre, newPre);
-                        if (strT.Length != 0) // "" stands for identical
-                        {
-                            // 若不同則找出哪裡不同, 記錄下來
-                            Logging.Record_admin("update opd order", $"{strCASENO}: {strT}");
-                            // 最後把舊的刪掉, 插入新的
-
-                            // 刪掉舊的
-                            var q3 = from p in dc.tbl_opd_order
-                                     where p.CASENO == strCASENO
-                                     select p;
-                            foreach (tbl_opd_order pr in q3)
-                            {
-                                dc.tbl_opd_order.DeleteOnSubmit(pr);
-                            }
-                            dc.SubmitChanges();
-                            // 插入新的
-                            // datatable 此時不能使用LINQ查詢
-                            List<DataRow> q4 = dtP.Select($"CASENO='{strCASENO}'").ToList();
-
-                            // 處理tbl_opd_order部分
-                            int totalPr = q4.Count;
-                            for (int j = 0; j < totalPr; j++)
-                            {
-                                tbl_opd_order newPr = new tbl_opd_order()
-                                {
-                                    CASENO = strCASENO,
-                                    uid = oldOPD.uid,
-                                    SDATE = oldOPD.SDATE,
-                                    OD_idx = (byte)(j + 1),
-                                    rid = (string)q4[j]["CODE"], //CODE
-                                    TIMES_DAY = (string)q4[j]["TIMES_DAY"], //TIMES_DAY
-                                    METHOD = (string)q4[j]["METHODE"], //METHOD
-                                    TIME_QTY1 = (string)q4[j]["TIME_QTY1"], //TIME_QTY1
-                                    DAYS = (string)q4[j]["DAYS"], //DAYS
-                                    BILL_QTY = (string)q4[j]["BILL_QTY"], //BILL_QTY
-                                    HC = (string)q4[j]["HC"], //HC
-                                    PRICE = (string)q4[j]["PRICE"], //PRICE
-                                    AMT = (string)q4[j]["AMT"], //AMT
-                                    CLASS = (string)q4[j]["CLASS"], //CLASS
-                                    CHRONIC = (string)q4[j]["CHRONIC"] //CHRONIC
-                                };
-                                dc.tbl_opd_order.InsertOnSubmit(newPr);
-                                dc.SubmitChanges();
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Logging.Record_error(ex.Message);
                 }
             }
             // 這樣的add opd沒什麼用
