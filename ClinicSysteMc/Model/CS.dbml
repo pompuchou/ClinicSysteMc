@@ -47,4 +47,47 @@
       <Column Name="l08" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
     </Type>
   </Table>
+  <Table Name="dbo.tbl_opd" Member="tbl_opd">
+    <Type Name="tbl_opd">
+      <Column Name="CASENO" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="SDATE" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="VIST" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="RMNO" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="uid" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="DEPTNAME" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="DOCTNAME" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="POSINAME" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="PAYNO" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="HEATH_CARD" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ICDCODE1" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ICDCODE2" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ICDCODE3" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="INS_CODE" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="STEXT" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="OTEXT" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Pijia" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="t3" Type="System.String" DbType="NChar(5)" CanBeNull="true" />
+      <Column Name="d1" Type="System.String" DbType="NChar(2)" CanBeNull="true" />
+      <Column Name="d2" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_opd_order" Member="tbl_opd_order">
+    <Type Name="tbl_opd_order">
+      <Column Name="CASENO" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="uid" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="SDATE" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="OD_idx" Type="System.Byte" DbType="TinyInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="rid" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="TIMES_DAY" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="METHOD" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="TIME_QTY1" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="DAYS" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="BILL_QTY" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="HC" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="PRICE" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="AMT" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CLASS" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CHRONIC" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
 </Database>

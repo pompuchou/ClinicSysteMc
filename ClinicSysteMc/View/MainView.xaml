@@ -41,20 +41,25 @@
                 </Grid.RowDefinitions>
                 <Label Content="每日工作" Background="AliceBlue" Margin="6" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
                 <Label Content="每月工作" Background="AliceBlue" Margin="6" Grid.Column="1"
-               VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                       VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
                 <Label Content="手動" Background="AliceBlue" Margin="6" Grid.Column="2"
-               VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                       VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
                 <Button Margin="6" Content="門診(自動)" Grid.Row="1" />
                 <Button Margin="6" Content="病患(自動)" Grid.Row="2" />
                 <Button Margin="6" Content="醫令(自動)" Grid.Row="3" />
                 <Button Margin="6" Content="匯入批價檔" Grid.Row="4" />
                 <Button Margin="6" Content="調整科別" Grid.Row="5" />
                 <Button Margin="6" Content="制檢驗上傳" Grid.Column="1" Grid.Row="1" />
-                <Button Margin="6" Content="申報匯入" Grid.Column="1" Grid.Row="2" />
-                <Button Margin="6" Content="門診" Grid.Column="2" Grid.Row="1" />
-                <Button Margin="6" Content="病患" Grid.Column="2" Grid.Row="2" />
-                <Button Margin="6" Content="醫令" Grid.Column="2" Grid.Row="3" />
-                <Button Margin="6" Content="檢驗" Grid.Column="2" Grid.Row="4" />
+                <Button Margin="6" Content="申報匯入" Grid.Column="1" Grid.Row="2" Command="{Binding BTN_INPUT}" 
+                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}" />
+                <Button Margin="6" Content="門診" Grid.Column="2" Grid.Row="1" Command="{Binding BTN_INPUT}" 
+                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}" />
+                <Button Margin="6" Content="病患" Grid.Column="2" Grid.Row="2" Command="{Binding BTN_INPUT}" 
+                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}" />
+                <Button Margin="6" Content="醫令" Grid.Column="2" Grid.Row="3" Command="{Binding BTN_INPUT}" 
+                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}" />
+                <Button Margin="6" Content="檢驗" Grid.Column="2" Grid.Row="4" Command="{Binding BTN_INPUT}" 
+                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}" />
                 <ProgressBar Margin="6" Grid.Row="7" Grid.ColumnSpan="3" />
                 <Grid Grid.Column="3" Grid.RowSpan="8">
                     <Grid.ColumnDefinitions>

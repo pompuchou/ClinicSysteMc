@@ -1,4 +1,5 @@
 ﻿using ClinicSysteMc.Model;
+using ClinicSysteMc.ViewModel.Commands;
 using System.ComponentModel;
 using System.Deployment.Application;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace ClinicSysteMc.ViewModel
     /// </summary>
     internal class MainVM : INotifyPropertyChanged
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);        
 
         public MainVM() //constructor
         {
@@ -29,8 +30,15 @@ namespace ClinicSysteMc.ViewModel
 
             log.Info($"Clinic System log in, version: {version}.");
 
+            BTN_INPUT = new InputFile();
             Refresh_Data();
         }
+
+        #region Command Properties
+
+        public InputFile BTN_INPUT { get; set; }
+
+        #endregion
 
         #region Data Properties
 

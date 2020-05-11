@@ -13,6 +13,7 @@ namespace ClinicSysteMc.ViewModel
 
         public InfoVM() //constructor
         {
+            log.Info("Execute InfoVM.");
             Refresh_Data();
         }
 

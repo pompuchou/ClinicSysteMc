@@ -11,6 +11,7 @@ namespace ClinicSysteMc.ViewModel
 
         public LabMatchVM()
         {
+            log.Info("Execute LabMatchVM.");
             Refresh_Data();
         }
 
