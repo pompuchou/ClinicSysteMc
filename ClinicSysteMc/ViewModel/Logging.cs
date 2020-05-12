@@ -19,7 +19,7 @@ namespace ClinicSysteMc.ViewModel
                 log_Err newErr = new log_Err()
                 {
                     error_date = DateTime.Now,
-                    application_name = System.Reflection.Assembly.GetExecutingAssembly().FullName,
+                    application_name = System.Reflection.Assembly.GetExecutingAssembly().FullName.Substring(0, 49),
                     machine_name = Dns.GetHostName(),
                     ip_address = Dns.GetHostEntry(Dns.GetHostName()).AddressList[0].ToString(),
                     userid = "Ethan",

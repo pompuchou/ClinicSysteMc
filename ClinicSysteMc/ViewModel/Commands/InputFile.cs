@@ -1,9 +1,11 @@
 ﻿using ClinicSysteMc.Model;
 using Hardcodet.Wpf.TaskbarNotification;
+using Microsoft.Office.Interop.Excel;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
 
@@ -13,6 +15,7 @@ namespace ClinicSysteMc.ViewModel.Commands
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private readonly TaskbarIcon tb = new TaskbarIcon();
+
         public event EventHandler CanExecuteChanged;
 
         public bool CanExecute(object parameter)
@@ -29,26 +32,277 @@ namespace ClinicSysteMc.ViewModel.Commands
             // 讀取要輸入的位置
             string loadpath;
             // 從杏翔病患資料輸入, 只有一種xml格式
-            // Xml格式的index=2
+            // 依照parameter, 不同來源: 申報匯入, 門診, 病患, 醫令, 檢驗, 指向不同方向
             OpenFileDialog oFDialog = new OpenFileDialog();
             switch ((string)parameter)
             {
                 case "門診":
                     oFDialog.Filter = "xml|*.xml";
+                    if (oFDialog.ShowDialog() != true) return;
+                    loadpath = oFDialog.FileName;
+
+                    ImportOPD(loadpath);
+                    Logging.Record_admin("add opd", "匯入門診檔案 Manual");
+
+                    break;
+
+                case "病患":
+                    oFDialog.Filter = "xlsx|*.xlsx";
+                    if (oFDialog.ShowDialog() != true) return;
+                    loadpath = oFDialog.FileName;
+
+                    Microsoft.Office.Interop.Excel.Application myExcel = new Microsoft.Office.Interop.Excel.Application();
+                    Workbook wb = myExcel.Workbooks.Open(loadpath);
+                    ImportPT(myExcel);
                     break;
 
                 default:
                     break;
             }
 
-            if (oFDialog.ShowDialog() != true) return;
-            loadpath = oFDialog.FileName;
-
             #endregion 讀取檔案路徑
+        }
 
-            // 依照parameter, 不同來源: 申報匯入, 門診, 病患, 醫令, 檢驗, 指向不同方向
-            ImportOPD(loadpath);
-            Logging.Record_admin("add opd", "匯入門診檔案 Manual");
+        private void ImportPT(Microsoft.Office.Interop.Excel.Application myExcel)
+        {
+            // 20190611 created
+            // 20200511 transcribed into c#
+            // Purpose: import patient data in Excel form into DATABASE al
+            Workbook wb = myExcel.ActiveWorkbook;
+            // 要刪除什麼欄位,合計等等資料
+            // ====================================================================================================================================
+            Worksheet ws = wb.ActiveSheet;
+
+            // 檢查檔案格式
+            // 可以算出總筆數,第一行是標題,不算
+            string[] strT = { "病歷號", "姓名", "性別", "室內電話", "手機門號", "電子郵件", "傳送日期", "身分證號", "生日", "地址", "提醒" };
+            for (int i = 1; i <= strT.Length; i++)
+            {
+                if (ws.Cells[1, i].Value != strT[i - 1])
+                {
+                    // 寫入Error Log
+                    Logging.Record_error(" 輸入的病患資料檔案格式不對");
+                    log.Error("輸入的病患資料檔案格式不對");
+                    tb.ShowBalloonTip("錯誤", "檔案格式不對", BalloonIcon.Error);
+                    return;
+                }
+            }
+
+            // 通過測試
+            Logging.Record_admin("病患檔案格式", "correct");
+            log.Info("輸入的病患資料檔案格式正確");
+            tb.ShowBalloonTip("正確", "檔案格式正確", BalloonIcon.Info);
+
+            int totalN = ws.UsedRange.Rows.Count - 1;
+
+            // 要有迴路, 來讀一行一行的xls, 能夠判斷
+            for (int i = 2; i <= (totalN + 1); i++)
+            {
+                // 先判斷是否已經在資料表中, 如果不是就insert否則判斷要不要update
+                // 如何判斷是否已經在資料表中?
+                CSDataContext dc = new CSDataContext();
+                string strUID = string.Empty;
+                // 先判斷身分證字號是否空白
+                if (ws.Cells[i, 8].Value.ToString().Length == 0)
+                {
+                    // 寫入Error Log
+                    // 沒有身分證字號是不行的
+                    Logging.Record_error("身分證字號是空的");
+                    log.Error("身分證字號是空的");
+                    tb.ShowBalloonTip("錯誤", "身分證字號是空的", BalloonIcon.Error);
+                }
+                else
+                {
+                    // 再判斷是否已在資料表中
+                    strUID = ws.Cells[i, 8].Value;    //身分證號,第8欄
+                    var pt = from p in dc.tbl_patients
+                             where p.uid == strUID
+                             select p;    // this is a querry
+                    if (pt.Count() == 0)
+                    {
+                        // insert
+                        // 沒這個人可以新增這個人
+                        // 填入資料
+                        try
+                        {
+                            tbl_patients newPt = new tbl_patients();
+                            if (ws.Cells[i, 1].Value.ToString().Length = 0)
+                            {
+                                // 寫入Error Log
+                                Logging.Record_error($"{strUID} 沒有病歷號碼");
+                                log.Error($"{strUID} 沒有病歷號碼");
+                                tb.ShowBalloonTip("錯誤", $"{strUID} 沒有病歷號碼", BalloonIcon.Error);
+                            }
+                            else
+                            {
+                                newPt.cid = double.Parse(ws.Cells[i, 1].Value);  // 病歷號, 第1欄
+                            }
+                            newPt.uid = strUID;     // 身分證號,第8欄
+                            if (ws.Cells[i, 2].Value.ToString().Length == 0)
+                            {
+                                // 寫入Error Log
+                                Logging.Record_error($"{strUID} 沒有姓名");
+                                log.Error($"{strUID} 沒有姓名");
+                                tb.ShowBalloonTip("錯誤", $"{strUID} 沒有姓名", BalloonIcon.Error);
+                            }
+                            else
+                            {
+                                newPt.cname = ws.Cells[i, 2].Value;  //姓名,第2欄
+                            }
+                            newPt.mf = ws.Cells[i, 3].Value; // 性別, 第3欄
+                            if (ws.Cells[i, 9].Value.ToString().Length == 0)
+                            {
+                                // 寫入Error Log
+                                Logging.Record_error($"{strUID} 沒有生日資料");
+                                log.Error($"{strUID} 沒有生日資料");
+                                tb.ShowBalloonTip("錯誤", $"{strUID} 沒有生日資料", BalloonIcon.Error);
+                            }
+                            else
+                            {
+                                string strD = ws.Cells[i, 9].Value;   // 生日, 第9欄
+                                newPt.bd = DateTime.Parse($"{strD.Substring(0, 4)}/{strD.Substring(4, 2)}/{strD.Substring(6, 2)}");
+                            }
+                            newPt.p01 = ws.Cells[i, 4].Value;  // 市內電話, 第4欄
+                            newPt.p02 = ws.Cells[i, 5].Value;  // 手機電話, 第5欄
+                            newPt.p03 = ws.Cells[i, 10].Value;  // 地址,第10欄
+                            newPt.p04 = ws.Cells[i, 11].Value;  // 提醒,第11欄
+
+                            dc.tbl_patients.InsertOnSubmit(newPt);
+                            dc.SubmitChanges();
+
+                            // 20190929 加姓名, 病歷號
+                            Logging.Record_admin("Add a new patient", $"{ws.Cells[i, 1].Value} {strUID} {ws.Cells[i, 2].Value}");
+                            log.Info($"Add a new patient: {ws.Cells[i, 1].Value} {strUID} {ws.Cells[i, 2].Value}");
+                        }
+                        catch (Exception ex)
+                        {
+                            Logging.Record_error(ex.Message);
+                            log.Error(ex.Message);
+                            tb.ShowBalloonTip("錯誤", ex.Message, BalloonIcon.Error);
+                        }
+                    }
+                    else
+                    {
+                        // update
+                        // 有此人喔, 走update方向
+                        // 拿pt比較ws.cells(i),如果不同就修改,並且記錄
+                        tbl_patients oldPt = (from p in dc.tbl_patients
+                                              where p.uid == strUID
+                                              select p).ToList()[0];     // this is a record
+                        string strChange = string.Empty;
+                        bool bChange = false;
+                        try
+                        {
+                            // 病歷號, 20200512加上修改病歷號
+                            if (ws.Cells[i, 1].Value.ToString().Length = 0)
+                            {
+                                // 寫入Error Log
+                                Logging.Record_error($"{strUID} 沒有病歷號碼");
+                                log.Error($"{strUID} 沒有病歷號碼");
+                                tb.ShowBalloonTip("錯誤", $"{strUID} 沒有病歷號碼", BalloonIcon.Error);
+                            }
+                            else if (oldPt.cid != ws.Cells[i, 1].Value)
+                            {
+                                strChange += $"改病歷號: {oldPt.cid}=>{ws.Cells[i, 1].Value}; ";
+                                bChange = true;
+                                oldPt.cid = double.Parse(ws.Cells[i, 1].Value);  // 病歷號, 第1欄
+                            }
+                            // 姓名
+                            if (ws.Cells[i, 2].Value.ToString().Length = 0)
+                            {
+                                // 寫入Error Log
+                                Logging.Record_error(strUID + " 沒有姓名");
+                                log.Error($"{strUID} 沒有姓名");
+                                tb.ShowBalloonTip("錯誤", $"{strUID} 沒有姓名", BalloonIcon.Error);
+                            }
+                            else if (oldPt.cname != ws.Cells[i, 2].Value)
+                            {
+                                strChange += $"改名: {oldPt.cname}=>{ws.Cells[i, 2].Value}; ";
+                                bChange = true;
+                                oldPt.cname = ws.Cells[i, 2].Value;  // 姓名,第2欄
+                            }
+                            // 性別
+                            if (oldPt.mf != ws.Cells[i, 3].Value)
+                            {
+                                strChange += $"改性別: {oldPt.mf}=>{ws.Cells[i, 3].Value}; ";
+                                bChange = true;
+                                oldPt.mf = ws.Cells[i, 3].Value;  // 性別, 第3欄
+                            }
+                            // 生日
+                            if (ws.Cells[i, 9].Value.ToString().Length == 0)
+                            {
+                                // 寫入Error Log
+                                Logging.Record_error($"{strUID} 沒有生日資料");
+                                log.Error($"{strUID} 沒有生日資料");
+                                tb.ShowBalloonTip("錯誤", $"{strUID} 沒有生日資料", BalloonIcon.Error);
+                            }
+                            else
+                            {
+                                string strBD = ws.Cells[i, 9].Value;   // 生日, 第9欄
+                                DateTime dBD = DateTime.Parse($"{strBD.Substring(0, 4)}/{strBD.Substring(4, 2)}/{strBD.Substring(6, 2)}");
+                                if (oldPt.bd != dBD)
+                                {
+                                    strChange += $"改生日: {oldPt.bd}=>{dBD}; ";
+                                    bChange = true;
+                                    oldPt.bd = dBD; // 生日,第9欄
+                                }
+                            }
+                            // 市內電話
+                            if (oldPt.p01 != ws.Cells[i, 4].Value)
+                            {
+                                strChange += $"改市內電話: {oldPt.p01}=>{ws.Cells[i, 4].Value}; ";
+                                bChange = true;
+                                oldPt.p01 = ws.Cells[i, 4].Value;  // 市內電話,第4欄
+                            }
+
+                            // 手機電話
+                            if (oldPt.p02 != ws.Cells[i, 5].Value)
+                                strChange += $"改手機電話: {oldPt.p02}=>{ws.Cells[i, 5].Value}; ";
+                            bChange = true;
+                            oldPt.p02 = ws.Cells[i, 5].Value;  // 手機電話,第5欄
+
+                            // 地址
+                            if (oldPt.p03 != ws.Cells[i, 10].Value)
+                            {
+                                strChange += $"改地址: {oldPt.p03}=>{ws.Cells[i, 10].Value}; ";
+                                bChange = true;
+                                oldPt.p03 = ws.Cells[i, 10].Value;  // 地址,第10欄
+                            }
+
+                            // 提醒
+                            if (oldPt.p04 != ws.Cells[i, 11].Value)
+                            {
+                                strChange += $"改提醒: {oldPt.p04}=>{ws.Cells[i, 11].Value}; ";
+                                bChange = true;
+                                oldPt.p04 = ws.Cells[i, 11].Value;  // 提醒,第11欄
+                            }
+
+                            if (bChange)
+                            {
+                                // 做實改變
+                                dc.SubmitChanges();
+                                // 做記錄
+                                // 20190929 加姓名, 病歷號
+                                Logging.Record_admin("Change patient data", $"{ws.Cells[i, 1].Value} {strUID} {ws.Cells[i, 2].Value}: {strChange}");
+                                log.Info($"Change patient data: {ws.Cells[i, 1].Value} {strUID} {ws.Cells[i, 2].Value}: {strChange}");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Logging.Record_error(ex.Message);
+                            log.Error(ex.Message);
+                            tb.ShowBalloonTip("錯誤", ex.Message, BalloonIcon.Error);
+                        }
+                    }
+                }
+            }
+
+            wb.Close();
+            // 殺掉所有的EXCEL
+            foreach (Process p in Process.GetProcessesByName("EXCEL"))
+            {
+                p.Kill();
+            }
         }
 
         private void ImportOPD(string loadpath)
@@ -56,8 +310,8 @@ namespace ClinicSysteMc.ViewModel.Commands
             #region 宣告
 
             DataSet ds = new DataSet();
-            DataTable dtO = new DataTable();
-            DataTable dtP = new DataTable();
+            System.Data.DataTable dtO = new System.Data.DataTable();
+            System.Data.DataTable dtP = new System.Data.DataTable();
             int new_opd_N = 0;
             int change_opd_N = 0;
             int change_order_N = 0;
@@ -131,7 +385,6 @@ namespace ClinicSysteMc.ViewModel.Commands
             log.Info($"OPD XML 檔案格式正確, 共{total_rows}筆.");
             tb.ShowBalloonTip("正確", $"OPD XML 檔案格式正確, 共{total_rows}筆.", BalloonIcon.Info);
 
-
             #endregion 整理datatable
 
             #region 進行讀取資料
@@ -156,8 +409,8 @@ namespace ClinicSysteMc.ViewModel.Commands
                 }
 
                 var q = from o in dc.tbl_opd
-                         where o.CASENO == strCASENO
-                         select o;
+                        where o.CASENO == strCASENO
+                        select o;
                 if (q.Count() == 0) // 資料庫裡面沒有 INSERT
                 {
                     try
@@ -412,7 +665,7 @@ namespace ClinicSysteMc.ViewModel.Commands
             // 這樣的add opd沒什麼用
             //        Record_adm("add opd", dtO.TableName)
             string summary = $"一共讀取{new_opd_N}筆新門診紀錄, 更改{change_opd_N}筆門診紀錄, 更改{change_order_N}筆醫令.";
-            tb.ShowBalloonTip("讀取完成", summary,BalloonIcon.Info);
+            tb.ShowBalloonTip("讀取完成", summary, BalloonIcon.Info);
             log.Info(summary);
             Logging.Record_admin("opd_import", summary);
             dtO.Dispose();
@@ -500,6 +753,5 @@ namespace ClinicSysteMc.ViewModel.Commands
             }
             return strReturn;
         }
-
     }
 }

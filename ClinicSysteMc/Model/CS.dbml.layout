@@ -38,5 +38,11 @@
         <elementListCompartment Id="dae680f1-bac9-4529-9dbb-946b55bcfdd1" absoluteBounds="6.015, 3.835, 1.9700000000000002, 3.010040283203125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
+    <classShape Id="ebd4043c-d282-4322-823f-c919095bc90e" absoluteBounds="8.5, 3.625, 2, 2.4612756347656251">
+      <DataClassMoniker Name="/CSDataContext/tbl_patients" />
+      <nestedChildShapes>
+        <elementListCompartment Id="4b690eef-a2e3-4c72-bcb8-fc281bf0451d" absoluteBounds="8.515, 4.085, 1.9700000000000002, 1.901275634765625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>
