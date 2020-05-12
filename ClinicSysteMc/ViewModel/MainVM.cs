@@ -30,13 +30,15 @@ namespace ClinicSysteMc.ViewModel
 
             log.Info($"Clinic System log in, version: {version}.");
 
-            BTN_INPUT = new InputFile();
+            BTN_INPUT = new InputFile(this);
             Refresh_Data();
         }
 
         #region Command Properties
 
         public InputFile BTN_INPUT { get; set; }
+
+        public string Current_State { get; set; }
 
         #endregion
 
