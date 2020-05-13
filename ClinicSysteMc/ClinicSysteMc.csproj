@@ -120,6 +120,7 @@
     <Compile Include="ViewModel\LabMatchVM.cs" />
     <Compile Include="ViewModel\Logging.cs" />
     <Compile Include="ViewModel\MainVM.cs" />
+    <Compile Include="ViewModel\PTinput.cs" />
     <Compile Include="View\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
       <SubType>Code</SubType>

@@ -19,12 +19,6 @@ namespace ClinicSysteMc.ViewModel.Commands
 
         public event EventHandler CanExecuteChanged;
 
-        private MainVM _mainVM;
-        public InputFile(MainVM mainVM)
-        {
-            _mainVM = mainVM;
-        }
-
         public bool CanExecute(object parameter)
         {
             return true;
@@ -70,7 +64,7 @@ namespace ClinicSysteMc.ViewModel.Commands
             #endregion 讀取檔案路徑
         }
 
-        private void ImportPT(Microsoft.Office.Interop.Excel.Application myExcel)
+        private async void ImportPT(Microsoft.Office.Interop.Excel.Application myExcel)
         {
             // 20190611 created
             // 20200511 transcribed into c#
@@ -82,6 +76,7 @@ namespace ClinicSysteMc.ViewModel.Commands
             object[,] data = ws.UsedRange.Value2;
 
             wb.Close();
+
             // 殺掉所有的EXCEL
             foreach (Process p in Process.GetProcessesByName("EXCEL"))
             {
@@ -102,7 +97,7 @@ namespace ClinicSysteMc.ViewModel.Commands
                     return;
                 }
             }
-            
+
             // 通過測試
             Logging.Record_admin("病患檔案格式", "correct");
             log.Info("輸入的病患資料檔案格式正確");
@@ -119,9 +114,9 @@ namespace ClinicSysteMc.ViewModel.Commands
             int residual = totalN % 500;
 
             log.Info($"  start async process.");
-            List<Task> tasks = new List<Task>();
+            List<Task<PTinput>> tasks = new List<Task<PTinput>>();
 
-            for (int i = 0, idx = 12; i <= total_div; i++, idx+=5500)
+            for (int i = 0, idx = 12; i <= total_div; i++, idx += 5500)
             {
                 object[,] dummy;
                 if (i < total_div)
@@ -132,240 +127,52 @@ namespace ClinicSysteMc.ViewModel.Commands
                 else
                 {
                     dummy = new object[residual, 11];
-                    Array.Copy(data, idx, dummy, 0, residual*11);
+                    Array.Copy(data, idx, dummy, 0, residual * 11);
                 }
                 tasks.Add(ImportPT_async(dummy));
             }
+            
+            PTinput[] result = await Task.WhenAll(tasks);
 
+            int total_NewPT = (from p in result
+                               select p.NewPT).Sum();
+            int total_ChangePT = (from p in result
+                               select p.ChangePT).Sum();
             log.Info($"  end async process.");
 
-            _mainVM.Current_State = string.Empty;
-
-            log.Info("完成");
-            tb.ShowBalloonTip("完成", "檔案完成", BalloonIcon.Info);
-
+            string output = $"檔案完成, 一共{total_NewPT}筆新病歷, 修改{total_ChangePT}筆病歷.";
+            log.Info(output);
+            tb.ShowBalloonTip("完成", output, BalloonIcon.Info);
+            Logging.Record_admin("OPD input", output);
             return;
-
-            // 要有迴路, 來讀一行一行的xls, 能夠判斷
-            for (int i = 2; i <= (totalN + 1); i++)
-            {
-                // 先判斷是否已經在資料表中, 如果不是就insert否則判斷要不要update
-                // 如何判斷是否已經在資料表中?
-                CSDataContext dc = new CSDataContext();
-                string strUID = string.Empty;
-                // 先判斷身分證字號是否空白
-                if (string.IsNullOrEmpty((string)data[i, 8]))
-                {
-                    // 寫入Error Log
-                    // 沒有身分證字號是不行的
-                    Logging.Record_error("身分證字號是空的");
-                    log.Error("身分證字號是空的");
-                }
-                else
-                {
-                    // 再判斷是否已在資料表中
-                    strUID = (string)data[i, 8];    //身分證號,第8欄
-                    var pt = from p in dc.tbl_patients
-                             where p.uid == strUID
-                             select p;    // this is a querry
-                    if (pt.Count() == 0)
-                    {
-                        // insert
-                        // 沒這個人可以新增這個人
-                        // 填入資料
-                        try
-                        {
-                            tbl_patients newPt = new tbl_patients();
-                            if (string.IsNullOrEmpty((string)data[i, 1]))
-                            {
-                                // 寫入Error Log
-                                Logging.Record_error($"{strUID} 沒有病歷號碼");
-                                log.Error($"{strUID} 沒有病歷號碼");
-                            }
-                            else
-                            {
-                                newPt.cid = long.Parse((string)data[i, 1]);  // 病歷號, 第1欄
-                            }
-                            newPt.uid = strUID;     // 身分證號,第8欄
-                            if (string.IsNullOrEmpty((string)data[i, 2]))
-                            {
-                                // 寫入Error Log
-                                Logging.Record_error($"{strUID} 沒有姓名");
-                                log.Error($"{strUID} 沒有姓名");
-                            }
-                            else
-                            {
-                                newPt.cname = (string)data[i, 2];  //姓名,第2欄
-                            }
-                            newPt.mf = (string)data[i, 3]; // 性別, 第3欄
-                            if (string.IsNullOrEmpty((string)data[i, 9]))
-                            {
-                                // 寫入Error Log
-                                Logging.Record_error($"{strUID} 沒有生日資料");
-                                log.Error($"{strUID} 沒有生日資料");
-                            }
-                            else
-                            {
-                                string strD = (string)data[i, 9];   // 生日, 第9欄
-                                newPt.bd = DateTime.Parse($"{strD.Substring(0, 4)}/{strD.Substring(4, 2)}/{strD.Substring(6, 2)}");
-                            }
-                            newPt.p01 = (string)data[i, 4];  // 市內電話, 第4欄
-                            newPt.p02 = (string)data[i, 5];  // 手機電話, 第5欄
-                            newPt.p03 = (string)data[i, 10];  // 地址,第10欄
-                            newPt.p04 = (string)data[i, 11];  // 提醒,第11欄
-
-                            dc.tbl_patients.InsertOnSubmit(newPt);
-                            //dc.SubmitChanges();
-
-                            // 20190929 加姓名, 病歷號
-                            //Logging.Record_admin("Add a new patient", $"{data[i, 1]} {strUID} {data[i, 2]}");
-                            log.Info($"Add a new patient: {data[i, 1]} {strUID} {data[i, 2]}");
-                        }
-                        catch (Exception ex)
-                        {
-                            Logging.Record_error(ex.Message);
-                            log.Error(ex.Message);
-                        }
-                    }
-                    else
-                    {
-                        // update
-                        // 有此人喔, 走update方向
-                        // 拿pt比較ws.cells(i),如果不同就修改,並且記錄
-                        tbl_patients oldPt = (from p in dc.tbl_patients
-                                              where p.uid == strUID
-                                              select p).ToList()[0];     // this is a record
-                        string strChange = string.Empty;
-                        bool bChange = false;
-                        try
-                        {
-                            // 病歷號, 20200512加上修改病歷號
-                            if (string.IsNullOrEmpty((string)data[i, 1]))
-                            {
-                                // 寫入Error Log
-                                Logging.Record_error($"{strUID} 沒有病歷號碼");
-                                log.Error($"{strUID} 沒有病歷號碼");
-                            }
-                            else if (oldPt.cid != long.Parse((string)data[i, 1]))
-                            {
-                                strChange += $"改病歷號: {oldPt.cid}=>{data[i, 1]}; ";
-                                bChange = true;
-                                oldPt.cid = long.Parse((string)data[i, 1]);  // 病歷號, 第1欄
-                            }
-                            // 姓名
-                            if (string.IsNullOrEmpty((string)data[i, 2]))
-                            {
-                                // 寫入Error Log
-                                Logging.Record_error(strUID + " 沒有姓名");
-                                log.Error($"{strUID} 沒有姓名");
-                            }
-                            else if (oldPt.cname != (string)data[i, 2])
-                            {
-                                strChange += $"改名: {oldPt.cname}=>{data[i, 2]}; ";
-                                bChange = true;
-                                oldPt.cname = (string)data[i, 2];  // 姓名,第2欄
-                            }
-                            // 性別
-                            if (oldPt.mf != (string)data[i, 3])
-                            {
-                                strChange += $"改性別: {oldPt.mf}=>{data[i, 3]}; ";
-                                bChange = true;
-                                oldPt.mf = (string)data[i, 3];  // 性別, 第3欄
-                            }
-                            // 生日
-                            if (string.IsNullOrEmpty((string)data[i, 9]))
-                            {
-                                // 寫入Error Log
-                                Logging.Record_error($"{strUID} 沒有生日資料");
-                                log.Error($"{strUID} 沒有生日資料");
-                            }
-                            else
-                            {
-                                string strBD = (string)data[i, 9];   // 生日, 第9欄
-                                DateTime dBD = DateTime.Parse($"{strBD.Substring(0, 4)}/{strBD.Substring(4, 2)}/{strBD.Substring(6, 2)}");
-                                if (oldPt.bd != dBD)
-                                {
-                                    strChange += $"改生日: {oldPt.bd}=>{dBD}; ";
-                                    bChange = true;
-                                    oldPt.bd = dBD; // 生日,第9欄
-                                }
-                            }
-                            // 市內電話
-                            if ((oldPt.p01 != (string)data[i, 4]) && (!string.IsNullOrEmpty((string)data[i, 4])))
-                            {
-                                strChange += $"改市內電話: {oldPt.p01}=>{data[i, 4]}; ";
-                                bChange = true;
-                                oldPt.p01 = (string)data[i, 4];  // 市內電話,第4欄
-                            }
-
-                            // 手機電話
-                            if ((oldPt.p02 != (string)data[i, 5]) && (!string.IsNullOrEmpty((string)data[i, 5])))
-                            {
-                                strChange += $"改手機電話: {oldPt.p02}=>{data[i, 5]}; ";
-                                bChange = true;
-                                oldPt.p02 = (string)data[i, 5];  // 手機電話,第5欄
-                            }
-
-                            // 地址
-                            if ((oldPt.p03 != (string)data[i, 10]) && (!string.IsNullOrEmpty((string)data[i, 10])))
-                            {
-                                strChange += $"改地址: {oldPt.p03}=>{data[i, 10]}; ";
-                                bChange = true;
-                                oldPt.p03 = (string)data[i, 10];  // 地址,第10欄
-                            }
-
-                            // 提醒
-                            if ((oldPt.p04 != (string)data[i, 11]) && (!string.IsNullOrEmpty((string)data[i, 11])))
-                            {
-                                strChange += $"改提醒: {oldPt.p04}=>{data[i, 11]}; ";
-                                bChange = true;
-                                oldPt.p04 = (string)data[i, 11];  // 提醒,第11欄
-                            }
-
-                            if (bChange)
-                            {
-                                // 做實改變
-                                //dc.SubmitChanges();
-                                // 做記錄
-                                // 20190929 加姓名, 病歷號
-                                //Logging.Record_admin("Change patient data", $"{data[i, 1]} {strUID} {data[i, 2]}: {strChange}");
-                                log.Info($"Change patient data: {data[i, 1]} {strUID} {data[i, 2]}: {strChange}");
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Logging.Record_error(ex.Message);
-                            log.Error(ex.Message);
-                        }
-                    }
-                }
-            }
-
         }
 
-        private async Task ImportPT_async(object[,] data)
+        private async Task<PTinput> ImportPT_async(object[,] data)
         {
             int totalN = data.GetUpperBound(0);
+            int add_N = 0;
+            int change_N = 0;
 
-            // 要有迴路, 來讀一行一行的xls, 能夠判斷
-            for (int i = 2; i <= (totalN + 1); i++)
+            await Task.Run(() =>
             {
-                // 先判斷是否已經在資料表中, 如果不是就insert否則判斷要不要update
-                // 如何判斷是否已經在資料表中?
-                CSDataContext dc = new CSDataContext();
-                string strUID = string.Empty;
-                // 先判斷身分證字號是否空白, 原本第8, 現在第7
-                if (string.IsNullOrEmpty((string)data[i, 8]))
+                // 要有迴路, 來讀一行一行的xls, 能夠判斷
+                for (int i = 0; i <= totalN; i++)
                 {
-                    // 寫入Error Log
-                    // 沒有身分證字號是不行的
-                    Logging.Record_error("身分證字號是空的");
-                    log.Error("身分證字號是空的");
-                }
-                else
-                {
+                    // 先判斷是否已經在資料表中, 如果不是就insert否則判斷要不要update
+                    // 如何判斷是否已經在資料表中?
+                    CSDataContext dc = new CSDataContext();
+                    string strUID = string.Empty;
+                    // 先判斷身分證字號是否空白, 原本第8, 現在第7
+                    if (string.IsNullOrEmpty((string)data[i, 7]))
+                    {
+                        // 寫入Error Log
+                        // 沒有身分證字號是不行的
+                        Logging.Record_error("身分證字號是空的");
+                        log.Error("身分證字號是空的");
+                        return;
+                    }
                     // 再判斷是否已在資料表中
-                    strUID = (string)data[i, 8];    //身分證號,第8欄
+                    strUID = (string)data[i, 7];    //身分證號,第7欄
                     var pt = from p in dc.tbl_patients
                              where p.uid == strUID
                              select p;    // this is a querry
@@ -377,7 +184,7 @@ namespace ClinicSysteMc.ViewModel.Commands
                         try
                         {
                             tbl_patients newPt = new tbl_patients();
-                            if (string.IsNullOrEmpty((string)data[i, 1]))
+                            if (string.IsNullOrEmpty((string)data[i, 0]))
                             {
                                 // 寫入Error Log
                                 Logging.Record_error($"{strUID} 沒有病歷號碼");
@@ -385,10 +192,10 @@ namespace ClinicSysteMc.ViewModel.Commands
                             }
                             else
                             {
-                                newPt.cid = long.Parse((string)data[i, 1]);  // 病歷號, 第1欄
+                                newPt.cid = long.Parse((string)data[i, 0]);  // 病歷號, 第1欄
                             }
                             newPt.uid = strUID;     // 身分證號,第8欄
-                            if (string.IsNullOrEmpty((string)data[i, 2]))
+                            if (string.IsNullOrEmpty((string)data[i, 1]))
                             {
                                 // 寫入Error Log
                                 Logging.Record_error($"{strUID} 沒有姓名");
@@ -396,10 +203,10 @@ namespace ClinicSysteMc.ViewModel.Commands
                             }
                             else
                             {
-                                newPt.cname = (string)data[i, 2];  //姓名,第2欄
+                                newPt.cname = (string)data[i, 1];  //姓名,第2欄
                             }
-                            newPt.mf = (string)data[i, 3]; // 性別, 第3欄
-                            if (string.IsNullOrEmpty((string)data[i, 9]))
+                            newPt.mf = (string)data[i, 2]; // 性別, 第3欄
+                            if (string.IsNullOrEmpty((string)data[i, 8]))
                             {
                                 // 寫入Error Log
                                 Logging.Record_error($"{strUID} 沒有生日資料");
@@ -407,20 +214,21 @@ namespace ClinicSysteMc.ViewModel.Commands
                             }
                             else
                             {
-                                string strD = (string)data[i, 9];   // 生日, 第9欄
+                                string strD = (string)data[i, 8];   // 生日, 第9欄
                                 newPt.bd = DateTime.Parse($"{strD.Substring(0, 4)}/{strD.Substring(4, 2)}/{strD.Substring(6, 2)}");
                             }
-                            newPt.p01 = (string)data[i, 4];  // 市內電話, 第4欄
-                            newPt.p02 = (string)data[i, 5];  // 手機電話, 第5欄
-                            newPt.p03 = (string)data[i, 10];  // 地址,第10欄
-                            newPt.p04 = (string)data[i, 11];  // 提醒,第11欄
+                            newPt.p01 = (string)data[i, 3];  // 市內電話, 第4欄
+                            newPt.p02 = (string)data[i, 4];  // 手機電話, 第5欄
+                            newPt.p03 = (string)data[i, 9];  // 地址,第10欄
+                            newPt.p04 = (string)data[i, 10];  // 提醒,第11欄
 
                             dc.tbl_patients.InsertOnSubmit(newPt);
                             //dc.SubmitChanges();
 
                             // 20190929 加姓名, 病歷號
-                            //Logging.Record_admin("Add a new patient", $"{data[i, 1]} {strUID} {data[i, 2]}");
-                            log.Info($"Add a new patient: {data[i, 1]} {strUID} {data[i, 2]}");
+                            //Logging.Record_admin("Add a new patient", $"{data[i, 0]} {strUID} {data[i, 1]}");
+                            log.Info($"Add a new patient: {data[i, 0]} {strUID} {data[i, 1]}");
+                            add_N++;
                         }
                         catch (Exception ex)
                         {
@@ -441,40 +249,40 @@ namespace ClinicSysteMc.ViewModel.Commands
                         try
                         {
                             // 病歷號, 20200512加上修改病歷號
-                            if (string.IsNullOrEmpty((string)data[i, 1]))
+                            if (string.IsNullOrEmpty((string)data[i, 0]))
                             {
                                 // 寫入Error Log
                                 Logging.Record_error($"{strUID} 沒有病歷號碼");
                                 log.Error($"{strUID} 沒有病歷號碼");
                             }
-                            else if (oldPt.cid != long.Parse((string)data[i, 1]))
+                            else if (oldPt.cid != long.Parse((string)data[i, 0]))
                             {
-                                strChange += $"改病歷號: {oldPt.cid}=>{data[i, 1]}; ";
+                                strChange += $"改病歷號: {oldPt.cid}=>{data[i, 0]}; ";
                                 bChange = true;
-                                oldPt.cid = long.Parse((string)data[i, 1]);  // 病歷號, 第1欄
+                                oldPt.cid = long.Parse((string)data[i, 0]);  // 病歷號, 第1欄
                             }
                             // 姓名
-                            if (string.IsNullOrEmpty((string)data[i, 2]))
+                            if (string.IsNullOrEmpty((string)data[i, 1]))
                             {
                                 // 寫入Error Log
                                 Logging.Record_error(strUID + " 沒有姓名");
                                 log.Error($"{strUID} 沒有姓名");
                             }
-                            else if (oldPt.cname != (string)data[i, 2])
+                            else if (oldPt.cname != (string)data[i, 1])
                             {
-                                strChange += $"改名: {oldPt.cname}=>{data[i, 2]}; ";
+                                strChange += $"改名: {oldPt.cname}=>{data[i, 1]}; ";
                                 bChange = true;
-                                oldPt.cname = (string)data[i, 2];  // 姓名,第2欄
+                                oldPt.cname = (string)data[i, 1];  // 姓名,第2欄
                             }
                             // 性別
-                            if (oldPt.mf != (string)data[i, 3])
+                            if (oldPt.mf != (string)data[i, 2])
                             {
-                                strChange += $"改性別: {oldPt.mf}=>{data[i, 3]}; ";
+                                strChange += $"改性別: {oldPt.mf}=>{data[i, 2]}; ";
                                 bChange = true;
-                                oldPt.mf = (string)data[i, 3];  // 性別, 第3欄
+                                oldPt.mf = (string)data[i, 2];  // 性別, 第3欄
                             }
                             // 生日
-                            if (string.IsNullOrEmpty((string)data[i, 9]))
+                            if (string.IsNullOrEmpty((string)data[i, 8]))
                             {
                                 // 寫入Error Log
                                 Logging.Record_error($"{strUID} 沒有生日資料");
@@ -482,7 +290,7 @@ namespace ClinicSysteMc.ViewModel.Commands
                             }
                             else
                             {
-                                string strBD = (string)data[i, 9];   // 生日, 第9欄
+                                string strBD = (string)data[i, 8];   // 生日, 第9欄
                                 DateTime dBD = DateTime.Parse($"{strBD.Substring(0, 4)}/{strBD.Substring(4, 2)}/{strBD.Substring(6, 2)}");
                                 if (oldPt.bd != dBD)
                                 {
@@ -492,35 +300,35 @@ namespace ClinicSysteMc.ViewModel.Commands
                                 }
                             }
                             // 市內電話
-                            if ((oldPt.p01 != (string)data[i, 4]) && (!string.IsNullOrEmpty((string)data[i, 4])))
+                            if ((oldPt.p01 != (string)data[i, 3]) && (!string.IsNullOrEmpty((string)data[i, 3])))
                             {
-                                strChange += $"改市內電話: {oldPt.p01}=>{data[i, 4]}; ";
+                                strChange += $"改市內電話: {oldPt.p01}=>{data[i, 3]}; ";
                                 bChange = true;
-                                oldPt.p01 = (string)data[i, 4];  // 市內電話,第4欄
+                                oldPt.p01 = (string)data[i, 3];  // 市內電話,第4欄
                             }
 
                             // 手機電話
-                            if ((oldPt.p02 != (string)data[i, 5]) && (!string.IsNullOrEmpty((string)data[i, 5])))
+                            if ((oldPt.p02 != (string)data[i, 4]) && (!string.IsNullOrEmpty((string)data[i, 4])))
                             {
-                                strChange += $"改手機電話: {oldPt.p02}=>{data[i, 5]}; ";
+                                strChange += $"改手機電話: {oldPt.p02}=>{data[i, 4]}; ";
                                 bChange = true;
-                                oldPt.p02 = (string)data[i, 5];  // 手機電話,第5欄
+                                oldPt.p02 = (string)data[i, 4];  // 手機電話,第5欄
                             }
 
                             // 地址
-                            if ((oldPt.p03 != (string)data[i, 10]) && (!string.IsNullOrEmpty((string)data[i, 10])))
+                            if ((oldPt.p03 != (string)data[i, 9]) && (!string.IsNullOrEmpty((string)data[i, 9])))
                             {
-                                strChange += $"改地址: {oldPt.p03}=>{data[i, 10]}; ";
+                                strChange += $"改地址: {oldPt.p03}=>{data[i, 9]}; ";
                                 bChange = true;
-                                oldPt.p03 = (string)data[i, 10];  // 地址,第10欄
+                                oldPt.p03 = (string)data[i, 9];  // 地址,第10欄
                             }
 
                             // 提醒
-                            if ((oldPt.p04 != (string)data[i, 11]) && (!string.IsNullOrEmpty((string)data[i, 11])))
+                            if ((oldPt.p04 != (string)data[i, 10]) && (!string.IsNullOrEmpty((string)data[i, 10])))
                             {
-                                strChange += $"改提醒: {oldPt.p04}=>{data[i, 11]}; ";
+                                strChange += $"改提醒: {oldPt.p04}=>{data[i, 10]}; ";
                                 bChange = true;
-                                oldPt.p04 = (string)data[i, 11];  // 提醒,第11欄
+                                oldPt.p04 = (string)data[i, 10];  // 提醒,第11欄
                             }
 
                             if (bChange)
@@ -529,8 +337,9 @@ namespace ClinicSysteMc.ViewModel.Commands
                                 //dc.SubmitChanges();
                                 // 做記錄
                                 // 20190929 加姓名, 病歷號
-                                //Logging.Record_admin("Change patient data", $"{data[i, 1]} {strUID} {data[i, 2]}: {strChange}");
-                                log.Info($"Change patient data: {data[i, 1]} {strUID} {data[i, 2]}: {strChange}");
+                                //Logging.Record_admin("Change patient data", $"{data[i, 0]} {strUID} {data[i, 1]}: {strChange}");
+                                log.Info($"Change patient data: {data[i, 0]} {strUID} {data[i, 1]}: {strChange}");
+                                change_N++;
                             }
                         }
                         catch (Exception ex)
@@ -540,8 +349,12 @@ namespace ClinicSysteMc.ViewModel.Commands
                         }
                     }
                 }
-            }
-
+            });
+            return new PTinput() 
+            {
+                NewPT = add_N, 
+                ChangePT = change_N 
+            };
         }
 
         private void ImportOPD(string loadpath)

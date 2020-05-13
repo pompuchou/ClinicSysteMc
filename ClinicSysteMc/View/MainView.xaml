@@ -60,8 +60,6 @@
                         CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}" />
                 <Button Margin="6" Content="檢驗" Grid.Column="2" Grid.Row="4" Command="{Binding BTN_INPUT}" 
                         CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}" />
-                <Label Margin="6" Content="aaa" Grid.ColumnSpan="3" Grid.Row="6" FontSize="48" Width="288"
-                       HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Red" />
                 <Grid Grid.Column="3" Grid.RowSpan="8">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
