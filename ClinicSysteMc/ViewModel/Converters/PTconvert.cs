@@ -80,10 +80,10 @@ namespace ClinicSysteMc.ViewModel.Converters
                                select p.AllPT).Sum();
             log.Info($"  end async process.");
 
-            string output = $"檔案完成, 一共處理{total_AllPT}筆資料, 其中{total_NewPT}筆新病歷, 修改{total_ChangePT}筆病歷.";
+            string output = $"共處理{total_AllPT}筆資料, 其中{total_NewPT}筆新病歷, 修改{total_ChangePT}筆病歷.";
             log.Info(output);
             tb.ShowBalloonTip("完成", output, BalloonIcon.Info);
-            Logging.Record_admin("OPD input", output);
+            Logging.Record_admin("PT add/change", output);
 
             this.Dispose();
             return;
