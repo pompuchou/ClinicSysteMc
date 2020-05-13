@@ -27,7 +27,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>3</ApplicationRevision>
+    <ApplicationRevision>4</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -116,11 +116,13 @@
     </Compile>
     <Compile Include="ViewModel\Commands\InputFile.cs" />
     <Compile Include="ViewModel\Commands\Prescription.cs" />
+    <Compile Include="ViewModel\Converters\OPDconvert.cs" />
+    <Compile Include="ViewModel\Converters\PTconvert.cs" />
     <Compile Include="ViewModel\InfoVM.cs" />
     <Compile Include="ViewModel\LabMatchVM.cs" />
     <Compile Include="ViewModel\Logging.cs" />
     <Compile Include="ViewModel\MainVM.cs" />
-    <Compile Include="ViewModel\PTinput.cs" />
+    <Compile Include="ViewModel\Converters\PTinput.cs" />
     <Compile Include="View\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
       <SubType>Code</SubType>
