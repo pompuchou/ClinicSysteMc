@@ -11,8 +11,6 @@ namespace ClinicSysteMc.View
 
     public partial class MainView : Window
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         public MainView()
         {
             InitializeComponent();

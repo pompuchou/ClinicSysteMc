@@ -103,4 +103,162 @@
       <Column Name="p04" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
     </Type>
   </Table>
+  <Table Name="dbo.p_order" Member="p_order">
+    <Type Name="p_order">
+      <Column Name="rid" Type="System.String" DbType="NVarChar(255) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="r01" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r02" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r03" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r04" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r06" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r07" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r08" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r09" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r10" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r11" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r12" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r13" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r14" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r15" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r16" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r18" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r19" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r25" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r26" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r27" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r28" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r29" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r30" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r31" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r32" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r33" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r34" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r40" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r48" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r52" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="r60" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="r61" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="r62" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_lab" Member="tbl_lab">
+    <Type Name="tbl_lab">
+      <Column Name="uid" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="lid" Type="System.String" DbType="NVarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="cname" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="bd" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="mf" Type="System.String" DbType="NVarChar(2)" CanBeNull="true" />
+      <Column Name="cid" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="l01" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="l02" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="l03" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="l04" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="l05" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="l06" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_lab_record" Member="tbl_lab_record">
+    <Type Name="tbl_lab_record">
+      <Column Name="uid" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="lid" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="l05" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="iid" Type="System.String" DbType="NVarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="l07" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="l09" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CASENO" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="OD_idx" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.p_lab_temp" Member="p_lab_temp">
+    <Type Name="p_lab_temp">
+      <Column Name="temp_id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="l05" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="iid" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="l08" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="l10" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="l11" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.xml_ddata" Member="xml_ddata">
+    <Type Name="xml_ddata">
+      <Column Name="t3" Type="System.String" DbType="NChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="d1" Type="System.String" DbType="NChar(2) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="d2" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="d3" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Column Name="d4" Type="System.String" DbType="NChar(2)" CanBeNull="true" />
+      <Column Name="d8" Type="System.String" DbType="NChar(2)" CanBeNull="true" />
+      <Column Name="d9" Type="System.String" DbType="NChar(7)" CanBeNull="true" />
+      <Column Name="d11" Type="System.String" DbType="NChar(7)" CanBeNull="true" />
+      <Column Name="d14" Type="System.Char" DbType="NChar(1)" CanBeNull="true" />
+      <Column Name="d15" Type="System.String" DbType="NChar(3)" CanBeNull="true" />
+      <Column Name="d16" Type="System.String" DbType="NChar(2)" CanBeNull="true" />
+      <Column Name="d17" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Column Name="d18" Type="System.Char" DbType="NChar(1)" CanBeNull="true" />
+      <Column Name="d19" Type="System.String" DbType="NChar(9)" CanBeNull="true" />
+      <Column Name="d20" Type="System.String" DbType="NChar(9)" CanBeNull="true" />
+      <Column Name="d21" Type="System.String" DbType="NChar(9)" CanBeNull="true" />
+      <Column Name="d22" Type="System.String" DbType="NChar(9)" CanBeNull="true" />
+      <Column Name="d23" Type="System.String" DbType="NChar(9)" CanBeNull="true" />
+      <Column Name="d27" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="d28" Type="System.Char" DbType="NChar(1)" CanBeNull="true" />
+      <Column Name="d29" Type="System.String" DbType="NChar(4)" CanBeNull="true" />
+      <Column Name="d30" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Column Name="d32" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="d33" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="d34" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="d35" Type="System.String" DbType="NChar(12)" CanBeNull="true" />
+      <Column Name="d36" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="d38" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="d39" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="d40" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="d41" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="d49" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.xml_tdata" Member="xml_tdata">
+    <Type Name="xml_tdata">
+      <Column Name="t1" Type="System.String" DbType="NChar(2)" CanBeNull="true" />
+      <Column Name="t2" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Column Name="t3" Type="System.String" DbType="NChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="t4" Type="System.Char" DbType="NChar(1)" CanBeNull="true" />
+      <Column Name="t5" Type="System.Char" DbType="NChar(1)" CanBeNull="true" />
+      <Column Name="t6" Type="System.String" DbType="NChar(7)" CanBeNull="true" />
+      <Column Name="t37" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="t38" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="t39" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="t40" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="t41" Type="System.String" DbType="NChar(7)" CanBeNull="true" />
+      <Column Name="t42" Type="System.String" DbType="NChar(7)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.xml_pdata" Member="xml_pdata">
+    <Type Name="xml_pdata">
+      <Column Name="t3" Type="System.String" DbType="NChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="d1" Type="System.String" DbType="NChar(2) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="d2" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="p1" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="p2" Type="System.Char" DbType="NChar(1)" CanBeNull="true" />
+      <Column Name="p3" Type="System.Char" DbType="NChar(1)" CanBeNull="true" />
+      <Column Name="p4" Type="System.String" DbType="NChar(12)" CanBeNull="true" />
+      <Column Name="p5" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="p6" Type="System.String" DbType="NChar(6)" CanBeNull="true" />
+      <Column Name="p7" Type="System.String" DbType="NChar(18)" CanBeNull="true" />
+      <Column Name="p8" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="p9" Type="System.String" DbType="NChar(4)" CanBeNull="true" />
+      <Column Name="p10" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="p11" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="p12" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="p13" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="p14" Type="System.String" DbType="NChar(11)" CanBeNull="true" />
+      <Column Name="p15" Type="System.String" DbType="NChar(11)" CanBeNull="true" />
+      <Column Name="p16" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Column Name="p17" Type="System.Char" DbType="NChar(1)" CanBeNull="true" />
+      <Column Name="p20" Type="System.String" DbType="NChar(2)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Function Name="dbo.sp_match_xml" Method="sp_match_xml">
+    <ElementType Name="sp_match_xmlResult">
+      <Column Name="rows_affected" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
 </Database>

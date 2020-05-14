@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 13.25, 8.5" name="CS">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 13.375, 16.625" name="CS">
   <DataContextMoniker Name="/CSDataContext" />
   <nestedChildShapes>
     <classShape Id="7ca38daf-ff9c-43cf-87b9-9c8886bb2eb0" absoluteBounds="3.375, 0.5, 2, 2.2764815266927085">
@@ -42,6 +42,48 @@
       <DataClassMoniker Name="/CSDataContext/tbl_patients" />
       <nestedChildShapes>
         <elementListCompartment Id="4b690eef-a2e3-4c72-bcb8-fc281bf0451d" absoluteBounds="8.515, 4.085, 1.9700000000000002, 1.901275634765625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="baba26a1-4a2c-43f3-a689-8ffe59c92f73" absoluteBounds="11.125, 3.375, 2, 7.0811283365885407">
+      <DataClassMoniker Name="/CSDataContext/p_order" />
+      <nestedChildShapes>
+        <elementListCompartment Id="9be4b0dd-773c-48fc-be00-23cc54b5bbbe" absoluteBounds="11.14, 3.835, 1.9700000000000002, 6.5211283365885411" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="6a472778-097c-43a4-884b-ff41fbbc1aed" absoluteBounds="6.75, 7.75, 2, 3.0156579589843764">
+      <DataClassMoniker Name="/CSDataContext/tbl_lab" />
+      <nestedChildShapes>
+        <elementListCompartment Id="3bf62cd0-0bb2-45e5-9d9f-0efaa98dfc13" absoluteBounds="6.765, 8.21, 1.9700000000000002, 2.455657958984375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="78a17fce-6418-4293-a1c2-71818d905060" absoluteBounds="0.75, 8.75, 2, 2.2764815266927094">
+      <DataClassMoniker Name="/CSDataContext/tbl_lab_record" />
+      <nestedChildShapes>
+        <elementListCompartment Id="abbb36c7-0f3c-401b-be13-63bd6d3eb38b" absoluteBounds="0.765, 9.21, 1.9700000000000002, 1.7164815266927085" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="f465a355-e2c6-49a8-be65-73edb313e7a6" absoluteBounds="8.875, 6.25, 2, 1.9068933105468751">
+      <DataClassMoniker Name="/CSDataContext/p_lab_temp" />
+      <nestedChildShapes>
+        <elementListCompartment Id="fb2129c7-9d8c-4bee-9f71-53a90089e13b" absoluteBounds="8.89, 6.71, 1.9700000000000002, 1.346893310546875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="372a83a9-9edc-4a47-8ffa-80f19ff30802" absoluteBounds="3.375, 8.75, 2, 6.7115401204427059">
+      <DataClassMoniker Name="/CSDataContext/xml_ddata" />
+      <nestedChildShapes>
+        <elementListCompartment Id="2f0d4325-b145-46e0-aa03-724ab0db7150" absoluteBounds="3.39, 9.21, 1.9700000000000002, 6.151540120442708" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="9803c734-0da5-4ae6-9343-c51967748688" absoluteBounds="6.375, 11.75, 2, 3.0156579589843773">
+      <DataClassMoniker Name="/CSDataContext/xml_tdata" />
+      <nestedChildShapes>
+        <elementListCompartment Id="3faa77c5-4806-4d3b-8835-0e56a0687cc4" absoluteBounds="6.39, 12.21, 1.9700000000000002, 2.455657958984375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="c9565201-f7ed-49c1-9e43-45e2d32f0cd8" absoluteBounds="9.375, 11.75, 2, 4.6788049316406237">
+      <DataClassMoniker Name="/CSDataContext/xml_pdata" />
+      <nestedChildShapes>
+        <elementListCompartment Id="43b482e5-cdd2-4596-b44c-2ccd6d8f5153" absoluteBounds="9.39, 12.21, 1.9700000000000002, 4.118804931640625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

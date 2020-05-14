@@ -12,7 +12,7 @@ namespace ClinicSysteMc.ViewModel.Converters
         private readonly object[,] _data;
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private readonly TaskbarIcon tb = new TaskbarIcon();
-        bool _disposed = false;
+        private bool _disposed = false;
 
         public PTconvert(object[,] Data)
         {
@@ -48,24 +48,26 @@ namespace ClinicSysteMc.ViewModel.Converters
             int totalN = _data.GetUpperBound(0) - 1;  // -1 because line 1 is titles, so I should begin with 2 to total_N + 1
             // now I should divide the array into 500 lines each and store it into a list.
 
-            int total_div = totalN / 500;
-            int residual = totalN % 500;
+            int table_N = 500;
+            int total_div = totalN / table_N;
+            int residual = totalN % table_N;
+            int item_n = strT.Length;
 
             log.Info($"  start async process.");
             List<Task<PTinput>> tasks = new List<Task<PTinput>>();
 
-            for (int i = 0, idx = 12; i <= total_div; i++, idx += 5500)
+            for (int i = 0, idx = item_n + 1; i <= total_div; i++, idx += (table_N * item_n))
             {
                 object[,] dummy;
                 if (i < total_div)
                 {
-                    dummy = new object[500, 11];
-                    Array.Copy(_data, idx, dummy, 0, 5500);
+                    dummy = new object[table_N, item_n];
+                    Array.Copy(_data, idx, dummy, 0, table_N * item_n);
                 }
                 else
                 {
-                    dummy = new object[residual, 11];
-                    Array.Copy(_data, idx, dummy, 0, residual * 11);
+                    dummy = new object[residual, item_n];
+                    Array.Copy(_data, idx, dummy, 0, residual * item_n);
                 }
                 tasks.Add(ImportPT_async(dummy));
             }
@@ -243,7 +245,7 @@ namespace ClinicSysteMc.ViewModel.Converters
                                 }
                             }
                             // 市內電話
-                            if ((oldPt.p01 != (string)data[i, 3]) && (!string.IsNullOrEmpty((string)data[i, 3])))
+                            if ((oldPt.p01 ?? string.Empty) != ((string)data[i, 3] ?? string.Empty))
                             {
                                 strChange += $"改市內電話: {oldPt.p01}=>{data[i, 3]}; ";
                                 bChange = true;
@@ -251,7 +253,7 @@ namespace ClinicSysteMc.ViewModel.Converters
                             }
 
                             // 手機電話
-                            if ((oldPt.p02 != (string)data[i, 4]) && (!string.IsNullOrEmpty((string)data[i, 4])))
+                            if ((oldPt.p02 ?? string.Empty) != ((string)data[i, 4] ?? string.Empty))
                             {
                                 strChange += $"改手機電話: {oldPt.p02}=>{data[i, 4]}; ";
                                 bChange = true;
@@ -259,7 +261,7 @@ namespace ClinicSysteMc.ViewModel.Converters
                             }
 
                             // 地址
-                            if ((oldPt.p03 != (string)data[i, 9]) && (!string.IsNullOrEmpty((string)data[i, 9])))
+                            if ((oldPt.p03 ?? string.Empty) != ((string)data[i, 9] ?? string.Empty))
                             {
                                 strChange += $"改地址: {oldPt.p03}=>{data[i, 9]}; ";
                                 bChange = true;
@@ -267,7 +269,7 @@ namespace ClinicSysteMc.ViewModel.Converters
                             }
 
                             // 提醒
-                            if ((oldPt.p04 != (string)data[i, 10]) && (!string.IsNullOrEmpty((string)data[i, 10])))
+                            if ((oldPt.p04 ?? string.Empty) != ((string)data[i, 10] ?? string.Empty))
                             {
                                 strChange += $"改提醒: {oldPt.p04}=>{data[i, 10]}; ";
                                 bChange = true;
@@ -318,11 +320,9 @@ namespace ClinicSysteMc.ViewModel.Converters
             if (disposing)
             {
                 // Free any other managed objects here.
-
             }
 
             _disposed = true;
         }
-
     }
 }

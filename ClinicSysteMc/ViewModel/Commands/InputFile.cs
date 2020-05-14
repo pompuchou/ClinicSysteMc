@@ -12,7 +12,12 @@ namespace ClinicSysteMc.ViewModel.Commands
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private readonly TaskbarIcon tb = new TaskbarIcon();
 
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler CanExecuteChanged
+        { 
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
+        
 
         public bool CanExecute(object parameter)
         {
@@ -57,6 +62,53 @@ namespace ClinicSysteMc.ViewModel.Commands
                     p.Transform();
 
                     Logging.Record_admin("add/change patients", "加入/修改病患資料 Manual");
+
+                    break;
+
+                case "醫令":
+                    oFDialog.Filter = "xlsx|*.xlsx";
+                    if (oFDialog.ShowDialog() != true) return;
+                    loadpath = oFDialog.FileName;
+
+
+                    Microsoft.Office.Interop.Excel.Application myExcel2 = new Microsoft.Office.Interop.Excel.Application();
+                    Workbook wb2 = myExcel2.Workbooks.Open(loadpath);
+                    Worksheet ws2 = wb2.ActiveSheet;
+                    // 丟出的是一個object [,]
+                    ODRconvert odr = new ODRconvert(ws2.UsedRange.Value2);
+                    odr.Transform();
+
+                    Logging.Record_admin("add/change order", "加入/修改醫令資料 Manual");
+
+                    break;
+
+                case "申報匯入":
+                    oFDialog.Filter = "健保申報檔|TOTFA.xml";
+                    if (oFDialog.ShowDialog() != true) return;
+                    loadpath = oFDialog.FileName;
+
+                    TOTconvert tot = new TOTconvert(loadpath);
+                    tot.Transform();
+
+                    Logging.Record_admin("add opd", "匯入健保申報檔 Manual");
+
+
+                    break;
+
+                case "檢驗":
+                    oFDialog.Filter = "xls|*.xls";
+                    if (oFDialog.ShowDialog() != true) return;
+                    loadpath = oFDialog.FileName;
+
+
+                    Microsoft.Office.Interop.Excel.Application myExcel3 = new Microsoft.Office.Interop.Excel.Application();
+                    Workbook wb3 = myExcel3.Workbooks.Open(loadpath);
+                    Worksheet ws3 = wb3.ActiveSheet;
+                    // 丟出的是一個object [,]
+                    LABconvert lab = new LABconvert(ws3.UsedRange.Value2);
+                    lab.Transform();
+
+                    Logging.Record_admin("add lab data", "加入檢驗資料 Manual");
 
                     break;
 
