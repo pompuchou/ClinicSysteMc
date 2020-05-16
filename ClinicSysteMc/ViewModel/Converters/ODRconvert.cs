@@ -52,7 +52,7 @@ namespace ClinicSysteMc.ViewModel.Converters
             int totalN = _data.GetUpperBound(0) - 1;  // -1 because line 1 is titles, so I should begin with 2 to total_N + 1
             // now I should divide the array into 500 lines each and store it into a list.
 
-            int table_N = 500;
+            int table_N = 250;
             int total_div = totalN / table_N;
             int residual = totalN % table_N;
             int item_n = strT.Length;

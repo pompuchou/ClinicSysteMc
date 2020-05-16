@@ -1,5 +1,4 @@
 ﻿using ClinicSysteMc.ViewModel.Converters;
-using Hardcodet.Wpf.TaskbarNotification;
 using Microsoft.Office.Interop.Excel;
 using Microsoft.Win32;
 using System;
@@ -9,9 +8,6 @@ namespace ClinicSysteMc.ViewModel.Commands
 {
     internal class InputFile : ICommand
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private readonly TaskbarIcon tb = new TaskbarIcon();
-
         public event EventHandler CanExecuteChanged
         { 
             add { CommandManager.RequerySuggested += value; }

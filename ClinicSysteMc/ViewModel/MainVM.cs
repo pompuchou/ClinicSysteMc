@@ -31,12 +31,15 @@ namespace ClinicSysteMc.ViewModel
             log.Info($"Clinic System log in, version: {version}.");
 
             BTN_INPUT = new InputFile();
+            BTN_LabXML = new UploadLab();
             Refresh_Data();
         }
 
         #region Command Properties
 
         public InputFile BTN_INPUT { get; set; }
+
+        public UploadLab BTN_LabXML { get; set; }
 
         #endregion
 
