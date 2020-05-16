@@ -78,12 +78,12 @@
       <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -102,6 +102,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="ViewModel\Dialog\YMdialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -115,15 +119,21 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CS.dbml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\Commands\InputFile.cs" />
+    <Compile Include="ViewModel\Commands\FILEinput.cs" />
     <Compile Include="ViewModel\Commands\Prescription.cs" />
-    <Compile Include="ViewModel\Commands\UploadLab.cs" />
+    <Compile Include="ViewModel\Commands\YMinput.cs" />
+    <Compile Include="ViewModel\Converters\DEPchange.cs" />
     <Compile Include="ViewModel\Converters\LABconvert.cs" />
+    <Compile Include="ViewModel\Converters\LABXMLbuild.cs" />
     <Compile Include="ViewModel\Converters\ODRconvert.cs" />
     <Compile Include="ViewModel\Converters\ODRinput.cs" />
     <Compile Include="ViewModel\Converters\OPDconvert.cs" />
     <Compile Include="ViewModel\Converters\PTconvert.cs" />
     <Compile Include="ViewModel\Converters\TOTconvert.cs" />
+    <Compile Include="ViewModel\Dialog\YMdialog.xaml.cs">
+      <DependentUpon>YMdialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\Dialog\YMValidationRule.cs" />
     <Compile Include="ViewModel\InfoVM.cs" />
     <Compile Include="ViewModel\LabMatchVM.cs" />
     <Compile Include="ViewModel\Logging.cs" />

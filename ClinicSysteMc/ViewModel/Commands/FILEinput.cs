@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace ClinicSysteMc.ViewModel.Commands
 {
-    internal class InputFile : ICommand
+    internal class FILEinput : ICommand
     {
         public event EventHandler CanExecuteChanged
         { 
