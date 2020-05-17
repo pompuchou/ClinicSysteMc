@@ -8,12 +8,18 @@ namespace ClinicSysteMc.ViewModel.Commands
 {
     internal class FILEinput : ICommand
     {
+        private readonly MainVM _mainVM;
+
         public event EventHandler CanExecuteChanged
         { 
             add { CommandManager.RequerySuggested += value; }
             remove { CommandManager.RequerySuggested -= value; }
         }
-        
+
+        public FILEinput(MainVM MVM)
+        {
+            _mainVM = MVM;
+        }
 
         public bool CanExecute(object parameter)
         {
@@ -111,6 +117,9 @@ namespace ClinicSysteMc.ViewModel.Commands
                 default:
                     break;
             }
+
+            // 20200518 完成工作後可以更新資料
+            _mainVM.Refresh_Data();
 
             #endregion 讀取檔案路徑
         }

@@ -8,10 +8,17 @@ namespace ClinicSysteMc.ViewModel.Commands
     // B stands for begin, E for end
     internal class BEinput : ICommand
     {
+        private readonly MainVM _mainVM;
+
         public event EventHandler CanExecuteChanged
         {
             add { CommandManager.RequerySuggested += value; }
             remove { CommandManager.RequerySuggested -= value; }
+        }
+
+        public BEinput(MainVM MVM)
+        {
+            _mainVM = MVM;
         }
 
         public bool CanExecute(object parameter)
@@ -49,6 +56,9 @@ namespace ClinicSysteMc.ViewModel.Commands
                 OPDconvert_auto o = new OPDconvert_auto(dlg.BeginDate, dlg.EndDate);
                 o.Convert();
             }
+
+            // 20200518 完成工作後可以更新資料
+            _mainVM.Refresh_Data();
         }
     }
 }

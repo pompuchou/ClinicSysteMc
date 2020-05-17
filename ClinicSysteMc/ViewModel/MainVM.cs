@@ -30,10 +30,10 @@ namespace ClinicSysteMc.ViewModel
 
             log.Info($"Clinic System log in, version: {version}.");
 
-            BTN_File = new FILEinput();
-            BTN_YM = new YMinput();
-            BTN_SE = new BEinput();
-            BTN_ACT = new Plain();
+            BTN_File = new FILEinput(this);
+            BTN_YM = new YMinput(this);
+            BTN_SE = new BEinput(this);
+            BTN_ACT = new Plain(this);
             Refresh_Data();
         }
 
@@ -149,7 +149,7 @@ namespace ClinicSysteMc.ViewModel
 
         #endregion Data Properties
 
-        private void Refresh_Data()
+        public void Refresh_Data()
         {
             CSDataContext dc = new CSDataContext();
 
