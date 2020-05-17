@@ -1,4 +1,6 @@
 ﻿using ClinicSysteMc.Model;
+using ClinicSysteMc.ViewModel.Commands;
+using Hardcodet.Wpf.TaskbarNotification;
 using System.ComponentModel;
 using System.Linq;
 
@@ -10,12 +12,20 @@ namespace ClinicSysteMc.ViewModel
     internal class InfoVM : INotifyPropertyChanged
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private readonly TaskbarIcon tb = new TaskbarIcon();
 
         public InfoVM() //constructor
         {
             log.Info("Execute InfoVM.");
+            BTN_RFR = new DATArefreshi(this);
             Refresh_Data();
         }
+
+        #region Command Properties
+
+        public DATArefreshi BTN_RFR { get; set; }
+
+        #endregion
 
         #region Data Properties
 
@@ -81,7 +91,7 @@ namespace ClinicSysteMc.ViewModel
 
         #endregion Data Properties
 
-        private void Refresh_Data()
+        public void Refresh_Data()
         {
             CSDataContext dc = new CSDataContext();
             Admin = (from p in dc.log_Adm
@@ -107,6 +117,9 @@ namespace ClinicSysteMc.ViewModel
                   where p.operation_name == "Change patient data" || p.operation_name == "Add a new patient"
                   orderby p.regdate descending
                   select new { p.regdate, p.description }).Take(100);
+
+            tb.ShowBalloonTip("完成", "訊息頁資料已更新", BalloonIcon.Info);
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

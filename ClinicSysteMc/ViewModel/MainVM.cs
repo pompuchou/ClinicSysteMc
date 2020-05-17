@@ -1,5 +1,6 @@
 ﻿using ClinicSysteMc.Model;
 using ClinicSysteMc.ViewModel.Commands;
+using Hardcodet.Wpf.TaskbarNotification;
 using System.ComponentModel;
 using System.Deployment.Application;
 using System.Linq;
@@ -11,7 +12,8 @@ namespace ClinicSysteMc.ViewModel
     /// </summary>
     internal class MainVM : INotifyPropertyChanged
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);        
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private readonly TaskbarIcon tb = new TaskbarIcon();
 
         public MainVM() //constructor
         {
@@ -34,6 +36,7 @@ namespace ClinicSysteMc.ViewModel
             BTN_YM = new YMinput(this);
             BTN_SE = new BEinput(this);
             BTN_ACT = new Plain(this);
+            BTN_RFR = new DATArefresh(this);
             Refresh_Data();
         }
 
@@ -46,6 +49,8 @@ namespace ClinicSysteMc.ViewModel
         public BEinput BTN_SE { get; set; }
 
         public Plain BTN_ACT { get; set; }
+
+        public DATArefresh BTN_RFR { get; set; }
 
         #endregion
 
@@ -189,6 +194,9 @@ namespace ClinicSysteMc.ViewModel
                    select new { p.regdate }).Take(100);
 
             #endregion Function Page
+
+            tb.ShowBalloonTip("完成", "主頁資料已更新", BalloonIcon.Info);
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
