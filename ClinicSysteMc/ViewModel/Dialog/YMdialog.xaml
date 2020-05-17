@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="輸入年月"
         Height="150"
-        Width="240"
+        Width="220"
         ResizeMode="NoResize"
         ShowInTaskbar="False"
         WindowStartupLocation= "CenterScreen" >
@@ -16,7 +16,7 @@
             <Style TargetType="{x:Type TextBox}">
                 <Setter Property="FontSize" Value="24" />
                 <Setter Property="Margin" Value="6" />
-                <Setter Property="Width" Value="90" />
+                <Setter Property="Width" Value="95" />
                 <Setter Property="HorizontalContentAlignment" Value="Center" />
                 <Setter Property="VerticalContentAlignment" Value="Center" />
                 <Style.Triggers>
@@ -31,6 +31,7 @@
             </Style>
             <Style TargetType="{x:Type Button}" >
                 <Setter Property="Margin" Value="6" />
+                <Setter Property="Width" Value="30" />
                 <Setter Property="FontSize" Value="24" />
             </Style>
         </Grid.Resources>

@@ -216,6 +216,13 @@ namespace ClinicSysteMc.Model
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
 			return ((ISingleResult<sp_match_xmlResult>)(result.ReturnValue));
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.sp_get_hdata")]
+		public ISingleResult<sp_get_hdataResult> sp_get_hdata([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(5)")] string ym)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ym);
+			return ((ISingleResult<sp_get_hdataResult>)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.log_Adm")]
@@ -5417,6 +5424,518 @@ namespace ClinicSysteMc.Model
 				if ((this._rows_affected != value))
 				{
 					this._rows_affected = value;
+				}
+			}
+		}
+	}
+	
+	public partial class sp_get_hdataResult
+	{
+		
+		private string _h1;
+		
+		private string _h2;
+		
+		private string _h3;
+		
+		private string _h4;
+		
+		private string _h5;
+		
+		private string _h6;
+		
+		private string _h7;
+		
+		private System.Nullable<int> _h8;
+		
+		private string _h9;
+		
+		private string _h10;
+		
+		private string _h11;
+		
+		private System.Nullable<int> _h17;
+		
+		private string _h18;
+		
+		private string _h19;
+		
+		private string _h20;
+		
+		private string _h22;
+		
+		private string _h23;
+		
+		private string _h25;
+		
+		private string _h26;
+		
+		private System.Nullable<byte> _r1;
+		
+		private string _r2;
+		
+		private string _r3;
+		
+		private string _r4;
+		
+		private string _r5;
+		
+		private string _r6a;
+		
+		private string _r6b;
+		
+		private string _r9;
+		
+		private string _r10;
+		
+		public sp_get_hdataResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_h1", DbType="VarChar(1) NOT NULL", CanBeNull=false)]
+		public string h1
+		{
+			get
+			{
+				return this._h1;
+			}
+			set
+			{
+				if ((this._h1 != value))
+				{
+					this._h1 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_h2", DbType="NChar(10)")]
+		public string h2
+		{
+			get
+			{
+				return this._h2;
+			}
+			set
+			{
+				if ((this._h2 != value))
+				{
+					this._h2 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_h3", DbType="VarChar(2) NOT NULL", CanBeNull=false)]
+		public string h3
+		{
+			get
+			{
+				return this._h3;
+			}
+			set
+			{
+				if ((this._h3 != value))
+				{
+					this._h3 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_h4", DbType="NVarChar(5)")]
+		public string h4
+		{
+			get
+			{
+				return this._h4;
+			}
+			set
+			{
+				if ((this._h4 != value))
+				{
+					this._h4 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_h5", DbType="VarChar(1) NOT NULL", CanBeNull=false)]
+		public string h5
+		{
+			get
+			{
+				return this._h5;
+			}
+			set
+			{
+				if ((this._h5 != value))
+				{
+					this._h5 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_h6", DbType="NChar(7)")]
+		public string h6
+		{
+			get
+			{
+				return this._h6;
+			}
+			set
+			{
+				if ((this._h6 != value))
+				{
+					this._h6 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_h7", DbType="Char(2)")]
+		public string h7
+		{
+			get
+			{
+				return this._h7;
+			}
+			set
+			{
+				if ((this._h7 != value))
+				{
+					this._h7 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_h8", DbType="Int")]
+		public System.Nullable<int> h8
+		{
+			get
+			{
+				return this._h8;
+			}
+			set
+			{
+				if ((this._h8 != value))
+				{
+					this._h8 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_h9", DbType="Char(10)")]
+		public string h9
+		{
+			get
+			{
+				return this._h9;
+			}
+			set
+			{
+				if ((this._h9 != value))
+				{
+					this._h9 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_h10", DbType="Char(7)")]
+		public string h10
+		{
+			get
+			{
+				return this._h10;
+			}
+			set
+			{
+				if ((this._h10 != value))
+				{
+					this._h10 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_h11", DbType="Char(7)")]
+		public string h11
+		{
+			get
+			{
+				return this._h11;
+			}
+			set
+			{
+				if ((this._h11 != value))
+				{
+					this._h11 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_h17", DbType="Int")]
+		public System.Nullable<int> h17
+		{
+			get
+			{
+				return this._h17;
+			}
+			set
+			{
+				if ((this._h17 != value))
+				{
+					this._h17 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_h18", DbType="NVarChar(12)")]
+		public string h18
+		{
+			get
+			{
+				return this._h18;
+			}
+			set
+			{
+				if ((this._h18 != value))
+				{
+					this._h18 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_h19", DbType="NChar(13)")]
+		public string h19
+		{
+			get
+			{
+				return this._h19;
+			}
+			set
+			{
+				if ((this._h19 != value))
+				{
+					this._h19 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_h20", DbType="VarChar(10) NOT NULL", CanBeNull=false)]
+		public string h20
+		{
+			get
+			{
+				return this._h20;
+			}
+			set
+			{
+				if ((this._h20 != value))
+				{
+					this._h20 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_h22", DbType="NChar(11)")]
+		public string h22
+		{
+			get
+			{
+				return this._h22;
+			}
+			set
+			{
+				if ((this._h22 != value))
+				{
+					this._h22 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_h23", DbType="NChar(11)")]
+		public string h23
+		{
+			get
+			{
+				return this._h23;
+			}
+			set
+			{
+				if ((this._h23 != value))
+				{
+					this._h23 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_h25", DbType="VarChar(8) NOT NULL", CanBeNull=false)]
+		public string h25
+		{
+			get
+			{
+				return this._h25;
+			}
+			set
+			{
+				if ((this._h25 != value))
+				{
+					this._h25 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_h26", DbType="Char(4)")]
+		public string h26
+		{
+			get
+			{
+				return this._h26;
+			}
+			set
+			{
+				if ((this._h26 != value))
+				{
+					this._h26 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_r1", DbType="TinyInt")]
+		public System.Nullable<byte> r1
+		{
+			get
+			{
+				return this._r1;
+			}
+			set
+			{
+				if ((this._r1 != value))
+				{
+					this._r1 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_r2", DbType="NVarChar(100)")]
+		public string r2
+		{
+			get
+			{
+				return this._r2;
+			}
+			set
+			{
+				if ((this._r2 != value))
+				{
+					this._r2 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_r3", DbType="VarChar(8) NOT NULL", CanBeNull=false)]
+		public string r3
+		{
+			get
+			{
+				return this._r3;
+			}
+			set
+			{
+				if ((this._r3 != value))
+				{
+					this._r3 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_r4", DbType="NVarChar(4000)")]
+		public string r4
+		{
+			get
+			{
+				return this._r4;
+			}
+			set
+			{
+				if ((this._r4 != value))
+				{
+					this._r4 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_r5", DbType="NVarChar(50)")]
+		public string r5
+		{
+			get
+			{
+				return this._r5;
+			}
+			set
+			{
+				if ((this._r5 != value))
+				{
+					this._r5 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_r6a", DbType="NVarChar(4000)")]
+		public string r6a
+		{
+			get
+			{
+				return this._r6a;
+			}
+			set
+			{
+				if ((this._r6a != value))
+				{
+					this._r6a = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_r6b", DbType="NVarChar(4000)")]
+		public string r6b
+		{
+			get
+			{
+				return this._r6b;
+			}
+			set
+			{
+				if ((this._r6b != value))
+				{
+					this._r6b = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_r9", DbType="VarChar(10) NOT NULL", CanBeNull=false)]
+		public string r9
+		{
+			get
+			{
+				return this._r9;
+			}
+			set
+			{
+				if ((this._r9 != value))
+				{
+					this._r9 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_r10", DbType="NChar(11)")]
+		public string r10
+		{
+			get
+			{
+				return this._r10;
+			}
+			set
+			{
+				if ((this._r10 != value))
+				{
+					this._r10 = value;
 				}
 			}
 		}

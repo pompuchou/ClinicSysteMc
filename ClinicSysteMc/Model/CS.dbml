@@ -261,4 +261,37 @@
       <Column Name="rows_affected" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
+  <Function Name="dbo.sp_get_hdata" Method="sp_get_hdata">
+    <Parameter Name="ym" Type="System.String" DbType="NVarChar(5)" />
+    <ElementType Name="sp_get_hdataResult">
+      <Column Name="h1" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="h2" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Column Name="h3" Type="System.String" DbType="VarChar(2) NOT NULL" CanBeNull="false" />
+      <Column Name="h4" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="h5" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="h6" Type="System.String" DbType="NChar(7)" CanBeNull="true" />
+      <Column Name="h7" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+      <Column Name="h8" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="h9" Type="System.String" DbType="Char(10)" CanBeNull="true" />
+      <Column Name="h10" Type="System.String" DbType="Char(7)" CanBeNull="true" />
+      <Column Name="h11" Type="System.String" DbType="Char(7)" CanBeNull="true" />
+      <Column Name="h17" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="h18" Type="System.String" DbType="NVarChar(12)" CanBeNull="true" />
+      <Column Name="h19" Type="System.String" DbType="NChar(13)" CanBeNull="true" />
+      <Column Name="h20" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="h22" Type="System.String" DbType="NChar(11)" CanBeNull="true" />
+      <Column Name="h23" Type="System.String" DbType="NChar(11)" CanBeNull="true" />
+      <Column Name="h25" Type="System.String" DbType="VarChar(8) NOT NULL" CanBeNull="false" />
+      <Column Name="h26" Type="System.String" DbType="Char(4)" CanBeNull="true" />
+      <Column Name="r1" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="r2" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="r3" Type="System.String" DbType="VarChar(8) NOT NULL" CanBeNull="false" />
+      <Column Name="r4" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
+      <Column Name="r5" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="r6a" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
+      <Column Name="r6b" Type="System.String" DbType="NVarChar(4000)" CanBeNull="true" />
+      <Column Name="r9" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="r10" Type="System.String" DbType="NChar(11)" CanBeNull="true" />
+    </ElementType>
+  </Function>
 </Database>
