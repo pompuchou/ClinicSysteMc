@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Windows.Controls;
 
 namespace ClinicSysteMc.ViewModel.Converters
 {
@@ -9,6 +10,7 @@ namespace ClinicSysteMc.ViewModel.Converters
     {
         // 20190610 created
         // 目的是自動匯入病患資料
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public void Convert()
         {
@@ -35,27 +37,35 @@ namespace ClinicSysteMc.ViewModel.Converters
             AutoItX.WinActivate("各類特殊 追蹤與紀錄查詢");
             AutoItX.WinWaitActive("各類特殊 追蹤與紀錄查詢");
             AutoItX.ControlClick("各類特殊 追蹤與紀錄查詢", "", "[NAME:chk允許完整筆數呈現]");
-            AutoItX.Sleep(300);
+            AutoItX.Sleep(1000);
             // [NAME:btn病歷號查詢]
             AutoItX.ControlClick("各類特殊 追蹤與紀錄查詢", "", "[NAME:btn病歷號查詢]");
-            AutoItX.Sleep(300);
+            AutoItX.Sleep(1000);
             // 病歷號查詢
             // [NAME:TextBox]
             // [NAME:OKButton]
             AutoItX.ControlSend("病歷號查詢", "", "[NAME:TextBox]", "0000000001~9999999999");
             AutoItX.ControlClick("病歷號查詢", "", "[NAME:OKButton]");
-            AutoItX.WinWaitActive("各類特殊 追蹤與紀錄查詢");
-            AutoItX.Sleep(5000);
+            log.Info("Click inquiry.");
+            //AutoItX.WinWaitActive("各類特殊 追蹤與紀錄查詢");
+            //AutoItX.WinWaitActive("各類特殊 追蹤與紀錄查詢");
+            //log.Info("WinWait ends.");
+            //AutoItX.Sleep(20000);
 
             // 20190610 模仿昨天成功的經驗
             // [NAME:btn匯出EXCEL]
             // aut.WinWait("[dlgPrintMethodAsk]",, 1000)
             // aut.ControlClick("[dlgPrintMethodAsk]", "", "[NAME:OK_Button]")
+
+            log.Info("Start to Click.");
             do
             {
                 AutoItX.ControlClick("各類特殊 追蹤與紀錄查詢", "", "[NAME:btn匯出EXCEL]");
-                AutoItX.Sleep(5000);
-            } while (AutoItX.WinExists("活頁簿") == 0);
+                AutoItX.Sleep(10000);
+                log.Info("Click export one time.");
+            } while (Process.GetProcessesByName("EXCEL").Length == 0);
+            log.Info("Excel exists now.");
+
             // aut.Sleep(10000), 用等的,等10秒大多有效,但不能保證,且也許不用10秒,這樣就浪費了, 應該要個別化
             // 好在發現visibility可以有效等到整個檔案製作完成
             MyExcel = (Microsoft.Office.Interop.Excel.Application)Marshal.GetActiveObject("Excel.Application");
@@ -63,6 +73,7 @@ namespace ClinicSysteMc.ViewModel.Converters
             {
                 AutoItX.Sleep(100);
             } while (!MyExcel.Visible);
+            log.Info("Excel appears now.");
 
             #endregion Environment
 
