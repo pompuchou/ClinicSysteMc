@@ -127,6 +127,7 @@
     <Compile Include="ViewModel\Commands\FILEinput.cs" />
     <Compile Include="Model\Prescription.cs" />
     <Compile Include="ViewModel\Commands\Plain.cs" />
+    <Compile Include="ViewModel\Converters\Thesis.cs" />
     <Compile Include="ViewModel\Commands\YMinput.cs" />
     <Compile Include="ViewModel\Converters\DEPchange.cs" />
     <Compile Include="ViewModel\Converters\LABconvert.cs" />

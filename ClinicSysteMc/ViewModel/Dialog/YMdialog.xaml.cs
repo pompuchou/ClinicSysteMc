@@ -25,7 +25,7 @@ namespace ClinicSysteMc.ViewModel.Dialog
             DialogResult = true;
         }
 
-        public string strYM { get; set; }
+        public string StrYM { get; set; }
 
         // Validate all dependency objects in a window
         private bool IsValid(DependencyObject node)
@@ -53,8 +53,8 @@ namespace ClinicSysteMc.ViewModel.Dialog
 
         private void UPButton_Click(object sender, RoutedEventArgs e)
         {
-            string strY = strYM.Substring(0, 3);
-            string strM = strYM.Substring(3);
+            string strY = StrYM.Substring(0, 3);
+            string strM = StrYM.Substring(3);
             if (strM == "12")
             {
                 strM = "01";
@@ -64,15 +64,15 @@ namespace ClinicSysteMc.ViewModel.Dialog
             {
                 strM = (int.Parse(strM) + 101).ToString().Substring(1);
             }
-            strYM = strY + strM;
+            StrYM = strY + strM;
 
             RaisePropertyChanged("strYM");
         }
 
         private void DWButton_Click(object sender, RoutedEventArgs e)
         {
-            string strY = strYM.Substring(0, 3);
-            string strM = strYM.Substring(3);
+            string strY = StrYM.Substring(0, 3);
+            string strM = StrYM.Substring(3);
             if (strM == "01")
             {
                 strM = "12";
@@ -82,7 +82,7 @@ namespace ClinicSysteMc.ViewModel.Dialog
             {
                 strM = (int.Parse(strM) + 99).ToString().Substring(1);
             }
-            strYM = strY + strM;
+            StrYM = strY + strM;
 
             RaisePropertyChanged("strYM");
         }

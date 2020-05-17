@@ -27,7 +27,7 @@ namespace ClinicSysteMc.ViewModel.Commands
 
             var dlg = new YMdialog()
             {
-                strYM = $"{d.Year - 1911}{(d.Month + 100).ToString().Substring(1)}"
+                StrYM = $"{d.Year - 1911}{(d.Month + 100).ToString().Substring(1)}"
             };
             dlg.ShowDialog();
 
@@ -37,13 +37,13 @@ namespace ClinicSysteMc.ViewModel.Commands
 
             if ((string)parameter == "制檢驗上傳")
             {
-                LABXMLbuild x = new LABXMLbuild(dlg.strYM);
+                LABXMLbuild x = new LABXMLbuild(dlg.StrYM);
                 x.Build();
             }
 
             if ((string)parameter == "調整科別")
             {
-                DEPchange c = new DEPchange(dlg.strYM);
+                DEPchange c = new DEPchange(dlg.StrYM);
                 c.Change();
             }
         }
