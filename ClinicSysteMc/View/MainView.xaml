@@ -44,10 +44,12 @@
                        VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
                 <Label Content="手動" Background="AliceBlue" Margin="6" Grid.Column="2"
                        VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
-                <Button Margin="6" Content="門診(自動)" Grid.Row="1" IsEnabled="False" />
+                <Button Margin="6" Content="門診(自動)" Grid.Row="1" Command="{Binding BTN_SE}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}" />
                 <Button Margin="6" Content="病患(自動)" Grid.Row="2" IsEnabled="False" />
                 <Button Margin="6" Content="醫令(自動)" Grid.Row="3" IsEnabled="False" />
-                <Button Margin="6" Content="匯入批價檔" Grid.Row="4" IsEnabled="False" />
+                <Button Margin="6" Content="匯入批價檔" Grid.Row="4" Command="{Binding BTN_SE}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}" />
                 <Button Margin="6" Content="調整科別" Grid.Row="5" Command="{Binding BTN_YM}"
                         CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}" />
                 <Button Margin="6" Content="制檢驗上傳" Grid.Column="1" Grid.Row="1" Command="{Binding BTN_YM}"

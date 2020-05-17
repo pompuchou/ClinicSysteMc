@@ -1,4 +1,4 @@
-﻿namespace ClinicSysteMc.ViewModel.Commands
+﻿namespace ClinicSysteMc.Model
 {
     public class Prescription
     {

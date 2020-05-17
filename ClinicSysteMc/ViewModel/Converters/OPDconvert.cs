@@ -1,5 +1,4 @@
 ﻿using ClinicSysteMc.Model;
-using ClinicSysteMc.ViewModel.Commands;
 using Hardcodet.Wpf.TaskbarNotification;
 using System;
 using System.Collections.Generic;

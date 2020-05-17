@@ -10,16 +10,35 @@
         Width="240"
         ResizeMode="NoResize"
         ShowInTaskbar="False"
-        WindowStartupLocation= "CenterOwner"
-        FocusManager.FocusedElement= "{Binding ElementName=YM}">
+        WindowStartupLocation= "CenterScreen" >
     <Grid Margin="6">
+        <Grid.Resources>
+            <Style TargetType="{x:Type TextBox}">
+                <Setter Property="Margin" Value="6" />
+                <Setter Property="Width" Value="90" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Style.Triggers>
+                    <Trigger Property="Validation.HasError" Value="true">
+                        <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style TargetType="{x:Type StackPanel}" >
+                <Setter Property="Orientation" Value="Horizontal" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+            </Style>
+            <Style TargetType="{x:Type Button}" >
+                <Setter Property="Margin" Value="6" />
+                <Setter Property="FontSize" Value="24" />
+            </Style>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-            <TextBox x:Name="YM" Margin="6" Width="90" FontSize="24"
-                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center" >
+        <StackPanel>
+            <TextBox >
                 <TextBox.Text>
                     <Binding Path="strYM" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"
                              RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type Window} }" >
@@ -29,14 +48,12 @@
                     </Binding>
                 </TextBox.Text>
             </TextBox>
-            <Button Margin="6" Content="⮝" FontSize="24" Foreground="BlueViolet" Click="UPButton_Click" 
-                    VerticalContentAlignment="Center" />
-            <Button Margin="6" Content="⮟" FontSize="24" Foreground="BlueViolet" Click="DWButton_Click"
-                    VerticalContentAlignment="Center" />
+            <Button Content="⮝" Foreground="BlueViolet" Click="UPButton_Click" />
+            <Button Content="⮟" Foreground="BlueViolet" Click="DWButton_Click" />
         </StackPanel>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1">
-            <Button FontSize="24" Margin="6" Content="確定" Width="85" Click="Button_Click" IsDefault="True" />
-            <Button FontSize="24" Margin="6" Content="取消" Width="85" IsCancel="True" />
+        <StackPanel Grid.Row="1">
+            <Button Content="確定" Width="85" Click="Button_Click" IsDefault="True" />
+            <Button Content="取消" Width="85" IsCancel="True" />
         </StackPanel>
     </Grid>
 </Window>

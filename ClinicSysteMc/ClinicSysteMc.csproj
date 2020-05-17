@@ -102,6 +102,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="ViewModel\Dialog\SEdialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ViewModel\Dialog\YMdialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -120,7 +124,7 @@
       <DependentUpon>CS.dbml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\Commands\FILEinput.cs" />
-    <Compile Include="ViewModel\Commands\Prescription.cs" />
+    <Compile Include="Model\Prescription.cs" />
     <Compile Include="ViewModel\Commands\YMinput.cs" />
     <Compile Include="ViewModel\Converters\DEPchange.cs" />
     <Compile Include="ViewModel\Converters\LABconvert.cs" />
@@ -130,6 +134,10 @@
     <Compile Include="ViewModel\Converters\OPDconvert.cs" />
     <Compile Include="ViewModel\Converters\PTconvert.cs" />
     <Compile Include="ViewModel\Converters\TOTconvert.cs" />
+    <Compile Include="ViewModel\Commands\SEinput.cs" />
+    <Compile Include="ViewModel\Dialog\SEdialog.xaml.cs">
+      <DependentUpon>SEdialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\Dialog\YMdialog.xaml.cs">
       <DependentUpon>YMdialog.xaml</DependentUpon>
     </Compile>
