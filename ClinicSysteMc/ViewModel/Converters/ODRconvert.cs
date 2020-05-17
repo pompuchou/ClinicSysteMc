@@ -58,7 +58,7 @@ namespace ClinicSysteMc.ViewModel.Converters
             int item_n = strT.Length;
 
             log.Info($"  start async process.");
-            List<Task<ODRinput>> tasks = new List<Task<ODRinput>>();
+            List<Task<ODRresult>> tasks = new List<Task<ODRresult>>();
 
             for (int i = 0, idx = item_n + 1; i <= total_div; i++, idx += (table_N * item_n))
             {
@@ -76,7 +76,7 @@ namespace ClinicSysteMc.ViewModel.Converters
                 tasks.Add(ImportODR_async(dummy));
             }
 
-            ODRinput[] result = await Task.WhenAll(tasks);
+            ODRresult[] result = await Task.WhenAll(tasks);
 
             int total_NewODR = (from p in result
                                 select p.NewODR).Sum();
@@ -95,7 +95,7 @@ namespace ClinicSysteMc.ViewModel.Converters
             return;
         }
 
-        private async Task<ODRinput> ImportODR_async(object[,] data)
+        private async Task<ODRresult> ImportODR_async(object[,] data)
         {
             int totalN = data.GetUpperBound(0);
             int add_N = 0;
@@ -424,7 +424,7 @@ namespace ClinicSysteMc.ViewModel.Converters
                     all_N++;
                 }
             });
-            return new ODRinput()
+            return new ODRresult()
             {
                 NewODR = add_N,
                 ChangeODR = change_N,

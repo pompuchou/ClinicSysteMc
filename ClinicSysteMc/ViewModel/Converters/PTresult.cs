@@ -1,6 +1,6 @@
 ﻿namespace ClinicSysteMc.ViewModel
 {
-    public class PTinput
+    public class PTresult
     {
         public int NewPT { get; set; }
         public int ChangePT { get; set; }

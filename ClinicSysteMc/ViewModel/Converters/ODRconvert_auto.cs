@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace ClinicSysteMc.ViewModel.Converters
 {
-    class ODRinput
+    internal class ODRconvert_auto
     {
-        public int NewODR { get; set; }
-        public int ChangeODR { get; set; }
-        public int AllODR { get; set; }
+        public void Convert()
+        {
+
+        }
     }
 }

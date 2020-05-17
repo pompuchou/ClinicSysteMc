@@ -54,7 +54,7 @@ namespace ClinicSysteMc.ViewModel.Converters
             int item_n = strT.Length;
 
             log.Info($"  start async process.");
-            List<Task<PTinput>> tasks = new List<Task<PTinput>>();
+            List<Task<PTresult>> tasks = new List<Task<PTresult>>();
 
             for (int i = 0, idx = item_n + 1; i <= total_div; i++, idx += (table_N * item_n))
             {
@@ -72,7 +72,7 @@ namespace ClinicSysteMc.ViewModel.Converters
                 tasks.Add(ImportPT_async(dummy));
             }
 
-            PTinput[] result = await Task.WhenAll(tasks);
+            PTresult[] result = await Task.WhenAll(tasks);
 
             int total_NewPT = (from p in result
                                select p.NewPT).Sum();
@@ -91,7 +91,7 @@ namespace ClinicSysteMc.ViewModel.Converters
             return;
         }
 
-        private async Task<PTinput> ImportPT_async(object[,] data)
+        private async Task<PTresult> ImportPT_async(object[,] data)
         {
             int totalN = data.GetUpperBound(0);
             int add_N = 0;
@@ -296,7 +296,7 @@ namespace ClinicSysteMc.ViewModel.Converters
                     all_N++;
                 }
             });
-            return new PTinput()
+            return new PTresult()
             {
                 NewPT = add_N,
                 ChangePT = change_N,

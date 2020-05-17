@@ -23,6 +23,26 @@
                 </StackPanel>
             </TabItem.Header>
             <Grid DataContext="{StaticResource mvm}">
+                <Grid.Resources>
+                    <Style TargetType="{x:Type Label}" >
+                        <Setter Property="Background" Value="AliceBlue" />
+                        <Setter Property="Margin" Value="6" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    </Style>
+                    <Style TargetType="{x:Type Button}" >
+                        <Setter Property="Margin" Value="6" />
+                        <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Self}, Path=Content}" />
+                    </Style>
+                    <Style TargetType="{x:Type DataGrid}" >
+                        <Setter Property="Margin" Value="6" />
+                        <Setter Property="CanUserAddRows" Value="False" />
+                        <Setter Property="AutoGenerateColumns" Value="False" />
+                        <Setter Property="AlternatingRowBackground" Value="LavenderBlush" />
+                        <Setter Property="IsReadOnly" Value="True" />
+                        <Setter Property="CanUserDeleteRows" Value="False" />
+                    </Style>
+                </Grid.Resources>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100" />
                     <ColumnDefinition Width="100" />
@@ -39,31 +59,20 @@
                     <RowDefinition />
                     <RowDefinition Height="40" />
                 </Grid.RowDefinitions>
-                <Label Content="每日工作" Background="AliceBlue" Margin="6" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
-                <Label Content="每月工作" Background="AliceBlue" Margin="6" Grid.Column="1"
-                       VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
-                <Label Content="手動" Background="AliceBlue" Margin="6" Grid.Column="2"
-                       VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
-                <Button Margin="6" Content="門診(自動)" Grid.Row="1" Command="{Binding BTN_SE}"
-                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}" />
-                <Button Margin="6" Content="病患(自動)" Grid.Row="2" IsEnabled="False" />
-                <Button Margin="6" Content="醫令(自動)" Grid.Row="3" IsEnabled="False" />
-                <Button Margin="6" Content="匯入批價檔" Grid.Row="4" Command="{Binding BTN_SE}"
-                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}" />
-                <Button Margin="6" Content="調整科別" Grid.Row="5" Command="{Binding BTN_YM}"
-                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}" />
-                <Button Margin="6" Content="制檢驗上傳" Grid.Column="1" Grid.Row="1" Command="{Binding BTN_YM}"
-                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}" />
-                <Button Margin="6" Content="申報匯入" Grid.Column="1" Grid.Row="2" Command="{Binding BTN_File}" 
-                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}" />
-                <Button Margin="6" Content="門診" Grid.Column="2" Grid.Row="1" Command="{Binding BTN_File}" 
-                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}" />
-                <Button Margin="6" Content="病患" Grid.Column="2" Grid.Row="2" Command="{Binding BTN_File}" 
-                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}" />
-                <Button Margin="6" Content="醫令" Grid.Column="2" Grid.Row="3" Command="{Binding BTN_File}" 
-                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}" />
-                <Button Margin="6" Content="檢驗" Grid.Column="2" Grid.Row="4" Command="{Binding BTN_File}" 
-                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}" />
+                <Label Content="每日工作" />
+                <Label Content="每月工作" Grid.Column="1" />
+                <Label Content="手動" Grid.Column="2" />
+                <Button Content="門診(自動)" Grid.Row="1" Command="{Binding BTN_SE}" />
+                <Button Content="病患(自動)" Grid.Row="2" Command="{Binding BTN_ACT}" />
+                <Button Content="醫令(自動)" Grid.Row="3" Command="{Binding BTN_ACT}" />
+                <Button Content="匯入批價檔" Grid.Row="4" Command="{Binding BTN_SE}" />
+                <Button Content="調整科別" Grid.Row="5" Command="{Binding BTN_YM}" />
+                <Button Content="制檢驗上傳" Grid.Column="1" Grid.Row="1" Command="{Binding BTN_YM}" />
+                <Button Content="申報匯入" Grid.Column="1" Grid.Row="2" Command="{Binding BTN_File}" />
+                <Button Content="門診" Grid.Column="2" Grid.Row="1" Command="{Binding BTN_File}" />
+                <Button Content="病患" Grid.Column="2" Grid.Row="2" Command="{Binding BTN_File}" />
+                <Button Content="醫令" Grid.Column="2" Grid.Row="3" Command="{Binding BTN_File}" />
+                <Button Content="檢驗" Grid.Column="2" Grid.Row="4" Command="{Binding BTN_File}" />
                 <Grid Grid.Column="3" Grid.RowSpan="8">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -77,22 +86,15 @@
                         <RowDefinition Height="40" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <Label Content="登入紀錄" Background="AliceBlue" Margin="6" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
-                    <Label Content="申報匯入" Background="AliceBlue" Margin="6" Grid.Row="2"
-               VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
-                    <Label Content="門診匯入" Background="AliceBlue" Margin="6" Grid.Column="1"
-               VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
-                    <Label Content="批價匯入" Background="AliceBlue" Margin="6" Grid.Row="2" Grid.Column="1"
-               VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
-                    <Label Content="病患匯入" Background="AliceBlue" Margin="6" Grid.Column="2"
-               VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
-                    <Label Content="調整科別" Background="AliceBlue" Margin="6" Grid.Row="2" Grid.Column="2"
-               VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
-                    <Label Content="醫令匯入" Background="AliceBlue" Margin="6" Grid.Column="3"
-               VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
-                    <Label Content="檢驗匯入" Background="AliceBlue" Margin="6" Grid.Row="2" Grid.Column="3"
-               VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
-                    <DataGrid Margin="6" Grid.Row="1" ItemsSource="{Binding LogInOut}" AutoGenerateColumns="False">
+                    <Label Content="登入紀錄" />
+                    <Label Content="申報匯入" Grid.Row="2" />
+                    <Label Content="門診匯入" Grid.Column="1" />
+                    <Label Content="批價匯入" Grid.Row="2" Grid.Column="1" />
+                    <Label Content="病患匯入" Grid.Column="2" />
+                    <Label Content="調整科別" Grid.Row="2" Grid.Column="2" />
+                    <Label Content="醫令匯入" Grid.Column="3" />
+                    <Label Content="檢驗匯入" Grid.Row="2" Grid.Column="3" />
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding LogInOut}" >
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="日期" Width="1*" Binding="{Binding regdate, StringFormat={}{0:yyyy/MM/dd HH:mm:ss.F}}">
                                 <DataGridTextColumn.ElementStyle>
@@ -112,7 +114,7 @@
                             </DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <DataGrid Margin="6" Grid.Row="3" ItemsSource="{Binding Upload}" AutoGenerateColumns="False">
+                    <DataGrid Grid.Row="3" ItemsSource="{Binding Upload}" >
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="日期" Width="1*" Binding="{Binding regdate, StringFormat={}{0:yyyy/MM/dd HH:mm:ss.FF}}">
                                 <DataGridTextColumn.ElementStyle>
@@ -124,7 +126,7 @@
                             </DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <DataGrid Margin="6" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding OPD}" AutoGenerateColumns="False">
+                    <DataGrid Grid.Row="1" Grid.Column="1" ItemsSource="{Binding OPD}" >
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="日期" Width="1*" Binding="{Binding regdate, StringFormat={}{0:yyyy/MM/dd HH:mm:ss.FF}}">
                                 <DataGridTextColumn.ElementStyle>
@@ -136,7 +138,7 @@
                             </DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <DataGrid Margin="6" Grid.Row="3" Grid.Column="1"  ItemsSource="{Binding Pijia}" AutoGenerateColumns="False">
+                    <DataGrid Grid.Row="3" Grid.Column="1"  ItemsSource="{Binding Pijia}" >
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="日期" Width="1*" Binding="{Binding regdate, StringFormat={}{0:yyyy/MM/dd HH:mm:ss.FF}}">
                                 <DataGridTextColumn.ElementStyle>
@@ -148,7 +150,7 @@
                             </DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <DataGrid Margin="6" Grid.Row="1" Grid.Column="2" ItemsSource="{Binding PT}" AutoGenerateColumns="False">
+                    <DataGrid Grid.Row="1" Grid.Column="2" ItemsSource="{Binding PT}" >
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="日期" Width="1*" Binding="{Binding regdate, StringFormat={}{0:yyyy/MM/dd HH:mm:ss.FF}}">
                                 <DataGridTextColumn.ElementStyle>
@@ -160,7 +162,7 @@
                             </DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <DataGrid Margin="6" Grid.Row="3" Grid.Column="2" ItemsSource="{Binding ChangeDepartment}" AutoGenerateColumns="False">
+                    <DataGrid Grid.Row="3" Grid.Column="2" ItemsSource="{Binding ChangeDepartment}" >
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="日期" Width="1*" Binding="{Binding regdate, StringFormat={}{0:yyyy/MM/dd HH:mm:ss.FF}}">
                                 <DataGridTextColumn.ElementStyle>
@@ -172,7 +174,7 @@
                             </DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <DataGrid Margin="6" Grid.Row="1" Grid.Column="3" ItemsSource="{Binding Order}" AutoGenerateColumns="False">
+                    <DataGrid Grid.Row="1" Grid.Column="3" ItemsSource="{Binding Order}" >
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="日期" Width="1*" Binding="{Binding regdate, StringFormat={}{0:yyyy/MM/dd HH:mm:ss.FF}}">
                                 <DataGridTextColumn.ElementStyle>
@@ -184,7 +186,7 @@
                             </DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <DataGrid Margin="6" Grid.Row="3" Grid.Column="3" ItemsSource="{Binding Lab}" AutoGenerateColumns="False">
+                    <DataGrid Grid.Row="3" Grid.Column="3" ItemsSource="{Binding Lab}" >
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="日期" Width="1*" Binding="{Binding regdate, StringFormat={}{0:yyyy/MM/dd HH:mm:ss.FF}}">
                                 <DataGridTextColumn.ElementStyle>

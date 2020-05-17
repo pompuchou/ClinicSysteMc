@@ -5,11 +5,11 @@ using System.Windows;
 namespace ClinicSysteMc.ViewModel.Dialog
 {
     /// <summary>
-    /// SEdialog.xaml 的互動邏輯
+    /// BEdialog.xaml 的互動邏輯
     /// </summary>
-    public partial class SEdialog : Window, INotifyPropertyChanged
+    public partial class BEdialog : Window, INotifyPropertyChanged
     {
-        public SEdialog(DateTime begindate, DateTime enddate)
+        public BEdialog(DateTime begindate, DateTime enddate)
         {
             InitializeComponent();
             _begindate = begindate;
@@ -46,7 +46,7 @@ namespace ClinicSysteMc.ViewModel.Dialog
                 if ((_begindate.Year != _enddate.Year || _begindate.Month != _enddate.Month) || (_begindate.CompareTo(_enddate) > 0))
                 {
                     // set enddate to the end date of the same month
-                    EndDate = DateTime.Parse($"{_begindate.Year}/{_begindate.Month}/1").AddMonths(1).AddDays(-1);
+                    EndDate = DateTime.Parse($"{_begindate.Year}/{_begindate.Month}/1").AddMonths(1).AddSeconds(-1);
                 }
                 RaisePropertyChanged("BeginDate");
             }

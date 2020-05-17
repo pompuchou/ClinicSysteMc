@@ -32,7 +32,8 @@ namespace ClinicSysteMc.ViewModel
 
             BTN_File = new FILEinput();
             BTN_YM = new YMinput();
-            BTN_SE = new SEinput();
+            BTN_SE = new BEinput();
+            BTN_ACT = new Plain();
             Refresh_Data();
         }
 
@@ -42,7 +43,9 @@ namespace ClinicSysteMc.ViewModel
 
         public YMinput BTN_YM { get; set; }
 
-        public SEinput BTN_SE { get; set; }
+        public BEinput BTN_SE { get; set; }
+
+        public Plain BTN_ACT { get; set; }
 
         #endregion
 

@@ -102,7 +102,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="ViewModel\Dialog\SEdialog.xaml">
+    <Page Include="ViewModel\Dialog\BEdialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -125,18 +125,23 @@
     </Compile>
     <Compile Include="ViewModel\Commands\FILEinput.cs" />
     <Compile Include="Model\Prescription.cs" />
+    <Compile Include="ViewModel\Commands\Plain.cs" />
     <Compile Include="ViewModel\Commands\YMinput.cs" />
     <Compile Include="ViewModel\Converters\DEPchange.cs" />
     <Compile Include="ViewModel\Converters\LABconvert.cs" />
     <Compile Include="ViewModel\Converters\LABXMLbuild.cs" />
     <Compile Include="ViewModel\Converters\ODRconvert.cs" />
-    <Compile Include="ViewModel\Converters\ODRinput.cs" />
+    <Compile Include="ViewModel\Converters\ODRconvert_auto.cs" />
+    <Compile Include="ViewModel\Converters\ODRresult.cs" />
     <Compile Include="ViewModel\Converters\OPDconvert.cs" />
+    <Compile Include="ViewModel\Converters\OPDconvert_auto.cs" />
+    <Compile Include="ViewModel\Converters\PIJIAconvert.cs" />
     <Compile Include="ViewModel\Converters\PTconvert.cs" />
+    <Compile Include="ViewModel\Converters\PTconvert_auto.cs" />
     <Compile Include="ViewModel\Converters\TOTconvert.cs" />
-    <Compile Include="ViewModel\Commands\SEinput.cs" />
-    <Compile Include="ViewModel\Dialog\SEdialog.xaml.cs">
-      <DependentUpon>SEdialog.xaml</DependentUpon>
+    <Compile Include="ViewModel\Commands\BEinput.cs" />
+    <Compile Include="ViewModel\Dialog\BEdialog.xaml.cs">
+      <DependentUpon>BEdialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\Dialog\YMdialog.xaml.cs">
       <DependentUpon>YMdialog.xaml</DependentUpon>
@@ -146,7 +151,7 @@
     <Compile Include="ViewModel\LabMatchVM.cs" />
     <Compile Include="ViewModel\Logging.cs" />
     <Compile Include="ViewModel\MainVM.cs" />
-    <Compile Include="ViewModel\Converters\PTinput.cs" />
+    <Compile Include="ViewModel\Converters\PTresult.cs" />
     <Compile Include="View\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
       <SubType>Code</SubType>
