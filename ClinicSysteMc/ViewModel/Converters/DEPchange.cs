@@ -32,6 +32,7 @@ namespace ClinicSysteMc.ViewModel.Converters
             int change_N = 0;
             DateTime minD;
             DateTime maxD;
+            List<sp_change_depResult> ListChange;
 
             // 存放目錄,不存在就要建立一個
             if (!(System.IO.Directory.Exists(savepath))) System.IO.Directory.CreateDirectory(savepath);
@@ -41,7 +42,6 @@ namespace ClinicSysteMc.ViewModel.Converters
             try
             {
                 // 呼叫SQL stored procedure
-                List<sp_change_depResult> ListChange;
                 using (CSDataContext dc = new CSDataContext())
                 {
                     ListChange = dc.sp_change_dep(_strYM).ToList();
@@ -49,9 +49,9 @@ namespace ClinicSysteMc.ViewModel.Converters
 
                 // 自動產生名字
                 string savefile = $"\\change_dep_{_strYM}_{DateTime.Now.Year}{(DateTime.Now.Month + 100).ToString().Substring(1)}";
-                savefile += $"{(DateTime.Now.Day + 100).ToString().Substring(1)}_{DateTime.Now.TimeOfDay}.csv";
+                savefile += $"{(DateTime.Now.Day + 100).ToString().Substring(1)}_{DateTime.Now.TimeOfDay}";
                 savefile = savefile.Replace(":", "").Replace(".", "");
-                savepath += savefile;
+                savepath += $"{savefile}.csv";
 
                 // 製作csv檔 writing to csv
                 System.IO.StreamWriter sw = new System.IO.StreamWriter(savepath);
@@ -77,6 +77,10 @@ namespace ClinicSysteMc.ViewModel.Converters
                         // 找尋最小的值
                         if (tempD.CompareTo(minD) < 0) minD = tempD;
                         i++;
+                        string output = $"{minD:d}~{maxD:d}, 共{change_N}筆需要修改";
+                        tb.ShowBalloonTip("需修改:", output, BalloonIcon.Info);
+                        log.Info($"change department: {output}");
+                        Logging.Record_admin("change department", output);
                     }
                     sw.Close();
                 }
@@ -104,6 +108,8 @@ namespace ClinicSysteMc.ViewModel.Converters
                     Thesis.LogIN();
                     // 打開"看診清單"
                     AutoItX.Run(@"C:\Program Files (x86)\THESE\杏雲醫療資訊系統\THCClinic.exe", @"C:\Program Files (x86)\THESE\杏雲醫療資訊系統\");
+                    AutoItX.WinWaitActive("看診清單");
+                    AutoItX.WinActivate("看診清單");
                 }
             }
             catch (Exception ex)
@@ -115,145 +121,116 @@ namespace ClinicSysteMc.ViewModel.Converters
 
             #endregion Environment
 
-            /*
+            #region Execute change department
 
-#Region "Execute change department"
-        Try
-            aut.WinWaitActive("看診清單")
-            Shell("C:\vpn\exe\changeDP.exe " + savepath, AppWinStyle.Hide, True)
-            '            MessageBox.Show("修改了" + m.ToString + "筆, 請匯入門診資料")
-            Record_adm("change department", "修改了" + return_value.m.ToString + "筆")
-            Return return_value
-        Catch ex As Exception
-            Record_error(ex.ToString)
-            Return return_value
-        End Try
-#End Region
+            try
+            {
+                string strD_o = string.Empty;
+                string strV_o = string.Empty;
+                string strR_o = string.Empty;
 
-        // 製造一個AutoIT VB程式, changeDP_DATE_VIST_ROOM, 針對"看診清單", [NAME:dtpSDate], [NAME:cmbVist], [NAME:cmbRmno]
-        // 一個參數, 格式YYYYMMDDVRR
+                foreach (var c in ListChange)
+                {
+                    string strD_n = c.o.Substring(0, 8);
+                    string strV_n = c.o.Substring(8, 1);
+                    string strR_n = c.o.Substring(9, 2);
+                    bool changed = false;
 
-        // 製造一個AutoIT VB程式, changeDP_DEP, 針對"問診畫面"[NAME:cmbDept]
-        // 一個參數, 格式DD
+                    string strNr = c.o.Substring(11, 3);
+                    string strDEP = c.o.Substring(14, 2);
 
-#Region ;**** Directives created by AutoIt3Wrapper_GUI ****
-#EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
-#include <File.au3>
-#include <MsgBoxConstants.au3>
-#include <Constants.au3>
-#include <GuiComboBox.au3>
-#include <GuiDateTimePicker.au3>
+                    // 先檢查是否換日, 如果有就換到新日期;
+                    if (strD_n != strD_o)
+                    {
+                        // 製造3個AutoIT VB程式, 1. changeDP_DATE, 針對"看診清單", [NAME:dtpSDate]
+                        // 一個參數, 格式YYYYMMDD
+                        AutoItX.Run($"C:\\vpn\\exe\\changeDP_DATE.exe {strD_n}", @"C:\vpn\exe\");
+                        strD_o = strD_n;
+                        changed = true;
+                        AutoItX.Sleep(500);
+                    }
 
-Local $iLineCount = 0
-Local $file = $Cmdline[1] ;"C:\201905_should_be_in_family.csv"
+                    // 再檢查是否換午別, 如果有就換到新的午別
+                    if (strV_n != strV_o)
+                    {
+                        // 製造3個AutoIT VB程式, 2. changeDP_VIST, 針對"看診清單", [NAME:cmbVist]
+                        // 一個參數, 格式V
+                        AutoItX.Run($"C:\\vpn\\exe\\changeDP_VIST.exe {strV_n}", @"C:\vpn\exe\");
+                        strV_o = strV_n;
+                        changed = true;
+                        AutoItX.Sleep(500);
+                    }
 
-If WinExists("看診清單") Then
-	WinActivate("看診清單")
-EndIf
+                    // 最後檢查是否換診間, 如果有就換到新的診間
+                    if (strR_n != strR_o)
+                    {
+                        // 製造3個AutoIT VB程式, 3. changeDP_ROOM, 針對"看診清單", [NAME:cmbRmno]
+                        // 一個參數, 格式RR
+                        AutoItX.Run($"C:\\vpn\\exe\\changeDP_ROOM.exe {strR_n}", @"C:\vpn\exe\");
+                        strR_o = strR_n;
+                        changed = true;
+                        AutoItX.Sleep(500);
+                    }
 
-Sleep(500)
+                    if (changed)
+                    {
+                        AutoItX.ControlClick("看診清單", "", "[NAME:btnRefresh]");
+                        AutoItX.WinWaitActive("看診清單");
+                        changed = false;
+                    }
 
-$iLineCount = _FileCountLines($file)
-;msgbox($MB_SYSTEMMODAL, "table", $iLineCount)
-Local $otDate[7]=[False,"1973","1","7",0,0,0]
-Local $oV="1"
-Local $oR="01"
-Local $bChange=False
+                    // 按下新的號碼;
+                    // Seq NO
+                    // 輸入診號
+                    AutoItX.ControlSend("看診清單", "", "[NAME:txbSqno]", strNr);
 
-for $iCount = 1 to $iLineCount
-	$line = FileReadLine($file, $iCount)
+                    // 按鈕
+                    AutoItX.ControlClick("看診清單", "", "[NAME:btnGo]");
 
-	; 日期, what a strange way to solve the problem
-	; 先設定好要的日期
-	; 然後set focus, 再上下,才能把改變的資料傳入系統,否則,系統不知道
-	Dim $tDate[7] = [False, StringMid($line,1,4), StringMid($line,5,2), StringMid($line,7,2), 0, 0, 0]
-	if ($tDate[2]<>$otDate[2]) or  ($tDate[3]<>$otDate[3]) or  ($tDate[4]<>$otDate[4]) Then
-		$hDTP=ControlGetHandle("看診清單", "", "[NAME:dtpSDate]")
-		_GUICtrlDTP_SetSystemTime($hDTP,$tDate)
-		ControlFocus("看診清單", "", "[NAME:dtpSDate]")
-		Send("{Up}")
-		Send("{Down}")
-		$otDate[2]=$tDate[2]
-		$otDate[3]=$tDate[3]
-		$otDate[4]=$tDate[4]
-		$bChange=True
-		sleep(1000)
-	endif
-	; VIST
-	;msgbox(0, "", "the line "&$iCount&" is "&StringMid($line,9,1))
-	;午別
-	; combobox1, 午別, 0 全部, (1 上午, 2 下午, 3 晚上)好像value 不固定,只是順序而已
-	if $oV<>StringMid($line,9,1) then
-		$hCB1=ControlGetHandle("看診清單", "", "[NAME:cmbVist]")
-		;_GUICtrlComboBox_SetCurSel($hCB1,1)
-		_GUICtrlComboBox_SelectString($hCB1, StringMid($line,9,1))
-		$oV=StringMid($line,9,1)
-		$bChange=True
-		sleep(1000)
-	endif
-	sleep(1000)
-	; Room NO
-	;msgbox(0, "", "the line "&$iCount&" is "&StringMid($line,10,2))
-	;診別
-	; combobox2, 診間
-	if $oR<>StringMid($line,10,2) then
-		$hCB2=ControlGetHandle("看診清單", "", "[NAME:cmbRmno]")
-		;_GUICtrlComboBox_SetCurSel($hCB2,1)
-		_GUICtrlComboBox_SelectString($hCB2, StringMid($line,10,2))
-		$oV=StringMid($line,10,2)
-		$bChange=True
-	endif
+                    // 進入問診畫面
+                    AutoItX.WinWaitActive("問診畫面");
+                    AutoItX.Sleep(500);
 
-	sleep(1000)
-	if $bChange=True Then
-		ControlClick("看診清單", "", "[NAME:btnRefresh]")
-		$bChange=False
-	endif
-	WinWaitActive("看診清單")
+                    // 製造一個AutoIT VB程式, changeDP_DEP, 針對"問診畫面"[NAME:cmbDept]
+                    // 一個參數, 格式DD
+                    AutoItX.Run($"C:\\vpn\\exe\\changeDP_DEP.exe {strDEP}", @"C:\vpn\exe\");
 
-	; Seq NO
-	; msgbox(0, "", "the line "&$iCount&" is "&StringMid($line,12,3))
-	;輸入診號
-	ControlSend("看診清單", "", "[NAME:txbSqno]",StringMid($line,12,3))
+                    AutoItX.Sleep(500);
+                    int idx = 0;
 
-	; 按鈕
-	ControlClick("看診清單", "", "[NAME:btnGo]")
+                    // 先問「此病患已批價, 是否繼續?」, THCClinic, 還可能問重大傷病, 超過8種藥物, 可能有重複用藥畫面
+                    do
+                    {
+                        AutoItX.Send("{F9}");
+                        AutoItX.Sleep(100);
+                        idx++; // time out for 10 sec at most
+                    } while (AutoItX.WinExists("THCClinic") == 0 && idx < 100);
 
-	WinWaitActive("問診畫面")
+                    // 下一個畫面「確定要重複開立收據」
+                    idx = 0;
+                    do
+                    {
+                        AutoItX.ControlClick("THCClinic", "", "[CLASSNN:Button1]");
+                        AutoItX.Sleep(100);
+                        idx++; // time out for 10 sec at most
+                    } while (AutoItX.WinExists("These.CludCln.Accounting") == 0 && idx < 100);
 
-	; 然後set focus, 再上下,才能把改變的資料傳入系統,否則,系統不知道
-	$hCB1=ControlGetHandle("問診畫面", "", "[NAME:cmbDept]")
-	;_GUICtrlComboBox_SetCurSel($hCB1,1)
-	If StringLen($line)=16 Then
-		if StringMid($line,15,2)="01" Then
-			_GUICtrlComboBox_SetCurSel($hCB1,1)
-		elseif StringMid($line,15,2)="13" Then
-			_GUICtrlComboBox_SetCurSel($hCB1,13)
-		endif
-	Else
-		_GUICtrlComboBox_SetCurSel($hCB1,1)
-	endif
+                    // 是否重印收據
+                    AutoItX.WinWaitActive("These.CludCln.Accounting");
+                    AutoItX.ControlClick("These.CludCln.Accounting", "", "[CLASSNN:Button2]");
+                }
 
-	Sleep(1500)
-	Send("{F9}")
-	;	ControlClick("問診畫面", "", "[NAME:btnCancel]")
+                Logging.Record_admin("change department", $"修改了{change_N}筆");
+                tb.ShowBalloonTip("完成", $"修改了{change_N}筆, 請匯入門診資料.", BalloonIcon.Info);
+            }
+            catch (Exception ex)
+            {
+                Logging.Record_error(ex.Message);
+                log.Error(ex.Message);
+                return;
+            }
 
-	; 已經看過診了,是否繼續
-	Sleep(1500)
-	ControlClick("THCClinic", "", "[CLASSNN:Button1]")
-
-	; 超過8種藥物(不一定有)
-	Sleep(1500)
-	ControlClick("THCClinic", "", "[CLASSNN:Button1]")
-
-	; 是否重印收據
-	WinWaitActive("These.CludCln.Accounting")
-	ControlClick("These.CludCln.Accounting", "", "[CLASSNN:Button2]")
-
-Next
-fileclose($file)
-
-             */
+            #endregion Execute change department
         }
     }
 }

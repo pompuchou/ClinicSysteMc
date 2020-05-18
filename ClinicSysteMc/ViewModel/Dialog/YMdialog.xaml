@@ -19,11 +19,11 @@
                 <Setter Property="Width" Value="95" />
                 <Setter Property="HorizontalContentAlignment" Value="Center" />
                 <Setter Property="VerticalContentAlignment" Value="Center" />
-                <!--<Style.Triggers>
+                <Style.Triggers>
                     <Trigger Property="Validation.HasError" Value="true">
                         <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
                     </Trigger>
-                </Style.Triggers>-->
+                </Style.Triggers>
             </Style>
             <Style TargetType="{x:Type StackPanel}" >
                 <Setter Property="Orientation" Value="Horizontal" />
@@ -42,7 +42,8 @@
         <StackPanel>
             <TextBox >
                 <TextBox.Text>
-                    <Binding Path="strYM" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"
+                    <!--20200518 原來是大小寫問題, 難怪找不到原因, 電腦建議大寫StrYM, 但是這裡沒改還是strYM-->
+                    <Binding Path="StrYM" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"
                              RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type Window} }" >
                         <Binding.ValidationRules>
                             <local:YMValidationRule />
