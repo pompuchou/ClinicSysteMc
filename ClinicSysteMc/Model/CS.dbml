@@ -294,4 +294,10 @@
       <Column Name="r10" Type="System.String" DbType="NChar(11)" CanBeNull="true" />
     </ElementType>
   </Function>
+  <Function Name="dbo.sp_change_dep" Method="sp_change_dep">
+    <Parameter Name="YM" Parameter="yM" Type="System.String" DbType="Char(5)" />
+    <ElementType Name="sp_change_depResult">
+      <Column Name="o" Type="System.String" DbType="VarChar(16)" CanBeNull="true" />
+    </ElementType>
+  </Function>
 </Database>

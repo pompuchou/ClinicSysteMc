@@ -223,6 +223,13 @@ namespace ClinicSysteMc.Model
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), ym);
 			return ((ISingleResult<sp_get_hdataResult>)(result.ReturnValue));
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.sp_change_dep")]
+		public ISingleResult<sp_change_depResult> sp_change_dep([global::System.Data.Linq.Mapping.ParameterAttribute(Name="YM", DbType="Char(5)")] string yM)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), yM);
+			return ((ISingleResult<sp_change_depResult>)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.log_Adm")]
@@ -5936,6 +5943,32 @@ namespace ClinicSysteMc.Model
 				if ((this._r10 != value))
 				{
 					this._r10 = value;
+				}
+			}
+		}
+	}
+	
+	public partial class sp_change_depResult
+	{
+		
+		private string _o;
+		
+		public sp_change_depResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_o", DbType="VarChar(16)")]
+		public string o
+		{
+			get
+			{
+				return this._o;
+			}
+			set
+			{
+				if ((this._o != value))
+				{
+					this._o = value;
 				}
 			}
 		}

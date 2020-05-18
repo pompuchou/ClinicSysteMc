@@ -75,6 +75,8 @@ namespace ClinicSysteMc.ViewModel.Converters
 
             string BeginDate = $"{_begindate.Year}{(_begindate.Month + 100).ToString().Substring(1)}{(_begindate.Day + 100).ToString().Substring(1)}";
             string EndDate = $"{_enddate.Year}{(_enddate.Month + 100).ToString().Substring(1)}{(_enddate.Day + 100).ToString().Substring(1)}";
+            // changePresDTP 是用AutoIT VB寫成的, 功能專一是針對「處方清單備份選項」的起迄日 [NAME:dtpSDate], [NAME:dtpEDate]
+            // 只有一個參數, 格式為YYYYMMDDYYYYMMDD, 前面8碼是起始日, 後面8碼是結束日
             string Execution = $"C:\\vpn\\exe\\changePresDTP.exe {BeginDate}{EndDate}";
             AutoItX.Run(Execution, @"C:\vpn\exe\");
             // 檢查XML做好了嗎?
