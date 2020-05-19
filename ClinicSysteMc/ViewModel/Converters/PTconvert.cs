@@ -56,6 +56,7 @@ namespace ClinicSysteMc.ViewModel.Converters
             log.Info($"  start async process.");
             List<Task<PTresult>> tasks = new List<Task<PTresult>>();
 
+            // 將_data分拆成幾個小的Array
             for (int i = 0, idx = item_n + 1; i <= total_div; i++, idx += (table_N * item_n))
             {
                 object[,] dummy;

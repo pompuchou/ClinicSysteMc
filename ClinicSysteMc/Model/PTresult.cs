@@ -1,4 +1,4 @@
-﻿namespace ClinicSysteMc.ViewModel
+﻿namespace ClinicSysteMc.Model
 {
     public class PTresult
     {

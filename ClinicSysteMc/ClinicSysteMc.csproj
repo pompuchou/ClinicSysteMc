@@ -27,7 +27,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>19</ApplicationRevision>
+    <ApplicationRevision>20</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -130,6 +130,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CS.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Model\PIJIAresult.cs" />
     <Compile Include="ViewModel\Commands\DATArefresh.cs" />
     <Compile Include="ViewModel\Commands\DATArefreshi.cs" />
     <Compile Include="ViewModel\Commands\FILEinput.cs" />
@@ -142,7 +143,7 @@
     <Compile Include="ViewModel\Converters\LABXMLbuild.cs" />
     <Compile Include="ViewModel\Converters\ODRconvert.cs" />
     <Compile Include="ViewModel\Converters\ODRconvert_auto.cs" />
-    <Compile Include="ViewModel\Converters\ODRresult.cs" />
+    <Compile Include="Model\ODRresult.cs" />
     <Compile Include="ViewModel\Converters\OPDconvert.cs" />
     <Compile Include="ViewModel\Converters\OPDconvert_auto.cs" />
     <Compile Include="ViewModel\Converters\PIJIAconvert.cs" />
@@ -161,7 +162,7 @@
     <Compile Include="ViewModel\LabMatchVM.cs" />
     <Compile Include="ViewModel\Logging.cs" />
     <Compile Include="ViewModel\MainVM.cs" />
-    <Compile Include="ViewModel\Converters\PTresult.cs" />
+    <Compile Include="Model\PTresult.cs" />
     <Compile Include="View\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
       <SubType>Code</SubType>
