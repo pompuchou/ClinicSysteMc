@@ -86,5 +86,11 @@
         <elementListCompartment Id="43b482e5-cdd2-4596-b44c-2ccd6d8f5153" absoluteBounds="9.39, 12.21, 1.9700000000000002, 4.118804931640625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
+    <classShape Id="84b726b7-0b9f-4313-99f4-4e83ca5d0057" absoluteBounds="0.5, 0.5, 2, 6.3419519042968746">
+      <DataClassMoniker Name="/CSDataContext/tbl_pijia" />
+      <nestedChildShapes>
+        <elementListCompartment Id="83d3f0f4-ae0f-492b-8073-18c0b73fa73b" absoluteBounds="0.51499999999999968, 0.96, 1.9700000000000002, 5.781951904296875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>

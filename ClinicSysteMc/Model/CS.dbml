@@ -256,6 +256,40 @@
       <Column Name="p20" Type="System.String" DbType="NChar(2)" CanBeNull="true" />
     </Type>
   </Table>
+  <Table Name="dbo.tbl_pijia" Member="tbl_pijia">
+    <Type Name="tbl_pijia">
+      <Column Name="YM" Type="System.String" DbType="Char(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="STATUS" Type="System.String" DbType="NVarChar(5) NOT NULL" CanBeNull="false" />
+      <Column Name="bid" Type="System.String" DbType="Char(7) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="op" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="VDATE" Type="System.String" DbType="VarChar(8)" CanBeNull="true" />
+      <Column Name="SDATE" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="VIST" Type="System.String" DbType="NVarChar(4) NOT NULL" CanBeNull="false" />
+      <Column Name="RMNO" Type="System.String" DbType="VarChar(2) NOT NULL" CanBeNull="false" />
+      <Column Name="DEPTNAME" Type="System.String" DbType="NVarChar(6) NOT NULL" CanBeNull="false" />
+      <Column Name="DOCTNAME" Type="System.String" DbType="NVarChar(8)" CanBeNull="true" />
+      <Column Name="POSINAME" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="HEATH_CARD" Type="System.String" DbType="VarChar(4)" CanBeNull="true" />
+      <Column Name="Youmian" Type="System.String" DbType="NVarChar(4)" CanBeNull="true" />
+      <Column Name="PAYNO" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="uid" Type="System.String" DbType="VarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="cname" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="MedFee" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="RegFee" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Copay" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Deposit" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SelfPay" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PharmW" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Arrears" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Discount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="AMTreceivable" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="AMTreceived" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="bremark" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="remark" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="CASENO" Type="System.String" DbType="VarChar(14)" CanBeNull="true" />
+      <Column Name="G" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
   <Function Name="dbo.sp_match_xml" Method="sp_match_xml">
     <ElementType Name="sp_match_xmlResult">
       <Column Name="rows_affected" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
@@ -298,6 +332,21 @@
     <Parameter Name="YM" Parameter="yM" Type="System.String" DbType="Char(5)" />
     <ElementType Name="sp_change_depResult">
       <Column Name="o" Type="System.String" DbType="VarChar(16)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_CASENO_for_pijia" Method="sp_CASENO_for_pijia">
+    <ElementType Name="sp_CASENO_for_pijiaResult">
+      <Column Name="rows_affected" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_PIJIA_for_opd" Method="sp_PIJIA_for_opd">
+    <ElementType Name="sp_PIJIA_for_opdResult">
+      <Column Name="CASENO" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="bid" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="SDATE" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="VIST" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="RMNO" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="cname" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
     </ElementType>
   </Function>
 </Database>
