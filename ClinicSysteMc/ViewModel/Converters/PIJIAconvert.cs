@@ -16,6 +16,7 @@ namespace ClinicSysteMc.ViewModel.Converters
         private readonly DateTime _enddate;
         private string BeginDate;
         private string EndDate;
+        private int[] header_order;
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private readonly TaskbarIcon tb = new TaskbarIcon();
 
@@ -72,6 +73,10 @@ namespace ClinicSysteMc.ViewModel.Converters
 
             // 資料都從excel檔讀進記憶體, 也寫入csv檔
             Dictionary<string, object[,]> data = RetrievePIJIA();
+
+            // 空值就結束, 沒有後面什麼事
+            if (data is null) return;
+
             string strYM = $"{_begindate.Year - 1911}{(_begindate.Month + 100).ToString().Substring(1)}";
             List<Task<PIJIAresult>> tasks = new List<Task<PIJIAresult>>();
 
@@ -88,18 +93,18 @@ namespace ClinicSysteMc.ViewModel.Converters
                 // 讀取每一筆檔案
                 log.Info($"begin async process.");
                 foreach (var d in data)
-                {                    
+                {
                     // 20200519 程式碼移出, 程式不那麼臃腫, 較好維護
                     tasks.Add(WriteIntoSQL_async(d.Value, strYM));
                 }
                 PIJIAresult[] result = await Task.WhenAll(tasks);
 
                 int total_NewPIJIA = (from p in result
-                                   select p.NewPIJIA).Sum();
+                                      select p.NewPIJIA).Sum();
                 int total_ChangePIJIA = (from p in result
-                                      select p.ChangePIJIA).Sum();
+                                         select p.ChangePIJIA).Sum();
                 int total_AllPIJIA = (from p in result
-                                   select p.AllPIJIA).Sum();
+                                      select p.AllPIJIA).Sum();
 
                 log.Info($"end async process.");
 
@@ -124,13 +129,13 @@ namespace ClinicSysteMc.ViewModel.Converters
         private Dictionary<string, object[,]> RetrievePIJIA()
         {
             // 20200519 獨立成一個副程式
+
             #region Declaration
 
             Microsoft.Office.Interop.Excel.Application MyExcel;
             Dictionary<string, object[,]> output = new Dictionary<string, object[,]>();
 
             #endregion Declaration
-
 
             #region The Loop of 讀取檔案
 
@@ -158,7 +163,7 @@ namespace ClinicSysteMc.ViewModel.Converters
                 // [NAME:cmbArea]
                 // AutoItX.ControlFocus("日收入報表A", "", "[NAME:cmbArea]")
                 // AutoItX.Send(a)
-                AutoItX.Sleep(1000); //這裡等一下
+                AutoItX.Sleep(3000); //這裡等一下
                 AutoItX.ControlSend("日收入報表A", "", "[NAME:cmbArea]", a);
                 log.Info($"現在處理{a}");
                 // execute AutoIT
@@ -203,45 +208,58 @@ namespace ClinicSysteMc.ViewModel.Converters
 
                         // 要刪除什麼欄位,合計等等資料
                         //  ====================================================================================================================================
-                        // 檢查欄位, 如果欄位不對, 就不要處理了
-                        string[] header = { "項次", "狀態", "收據號", "批價人員", "作廢日期", "看診日期", "午別", "診別", "科別", "醫師", 
-                                            "身分", "就醫序號", "優免", "部分負擔說明", "病歷號", "身分證號", "患者姓名", "年齡", "醫療費用", "掛號費用", 
-                                            "部分負擔", "押金", "自付金額", "藥費加重", "欠收", "折扣", "應收金額", "實收金額", "還款金額", "收據說明", 
-                                            "說明", "電話", "地址", "國籍"};
-                        // 20200519版本, 刪除以下7欄
-                        // 項次 1, 病歷號 15, 年齡 18, 還款金額 29, 電話 32, 地址 33, 國籍 34
-                        int[] del_idx = {34, 33, 32, 29, 18, 15, 1};
+                        // 檢查欄位, 如果欄位不對, 就不要處理了, 一共要以下27欄位
+                        string[] header = { "狀態", "收據號", "批價人員", "作廢日期", "看診日期", "午別", "診別", "科別", "醫師", "身分",
+                                            "就醫序號", "優免", "部分負擔說明", "身分證號", "患者姓名", "醫療費用", "掛號費用", "部分負擔", "押金", "自付金額",
+                                            "藥費加重", "欠收", "折扣", "應收金額", "實收金額", "收據說明", "說明"};
+                        // excel檔有幾欄?
+                        int total_col_n = ws.UsedRange.Columns.Count;
+                        int last_row = ws.UsedRange.Rows.Count;
 
-                        // 檢查格式
-                        for (int i = 1; i <= header.Length; i++)
+                        // 刪除欄位
+                        for (int idx = total_col_n; idx > 0; idx--)
                         {
-                            if ((string)ws.Cells[1, i].Value != header[i - 1])
+                            if (!header.Contains((string)ws.Cells[1, idx].Value))
                             {
-                                // 寫入Error Log
-                                Logging.Record_error($"{a}輸入的批價檔案格式不對");
-                                log.Error($"{a}輸入的批價檔案格式不對");
-                                tb.ShowBalloonTip("錯誤", $"{a}檔案格式不對", BalloonIcon.Error);
-                                return null;
+                                ws.Columns[idx].delete();
                             }
                         }
 
-                        // 格式正確
-                        Logging.Record_admin("讀取批價檔", $"{a}輸入的批價檔案格式正確");
-                        log.Info($"{a}輸入的批價檔案格式正確");
-
-                        // 刪除欄位
-                        foreach (int idx in del_idx)
+                        if (header_order is null)
                         {
-                            ws.Columns[idx].delete();
+                            log.Info("Check header_order.");
+                            // 27欄位以上的都刪除掉
+                            header_order = new int[header.Length + 1]; // 0不要用, 使用1 - 27
+
+                            // 檢查格式, header.Length = 27
+                            for (int i = 1; i <= header.Length; i++)
+                            {
+                                for (int j = 1; j <= total_col_n; j++)
+                                {
+                                    if ((string)ws.Cells[1, j].Value == header[i - 1])
+                                    {
+                                        header_order[i] = j;
+                                        break;
+                                    }
+                                }
+                                // 只要任一header成員找不到ws相對應的文字, 那就是找不到
+                                if (header_order[i] == 0)
+                                {
+                                    // 寫入Error Log
+                                    Logging.Record_error($"{a}輸入的批價檔案格式不對");
+                                    log.Error($"{a}輸入的批價檔案格式不對");
+                                    tb.ShowBalloonTip("錯誤", $"{a}檔案格式不對", BalloonIcon.Error);
+                                    return null;
+                                }
+                            }
+
+                            // 格式正確
+                            Logging.Record_admin("讀取批價檔", $"{a}輸入的批價檔案格式正確");
+                            log.Info($"{a}輸入的批價檔案格式正確");
                         }
 
-                        // 刪除最後一列, 跟第一列
-                        int last_row = ws.UsedRange.Rows.Count;
+                        // 刪除最後一列, 存入檔案
                         ws.Rows[last_row].delete();
-                        ws.Rows[1].delete();
-
-                        output.Add(a, ws.UsedRange.Value2);
-
                         //  ====================================================================================================================================
                         // 製作自動檔名, 並存檔
                         string temp_filepath = @"C:\vpn\bills";
@@ -256,9 +274,11 @@ namespace ClinicSysteMc.ViewModel.Converters
                         temp_filepath += ".csv";
                         // wb.SaveAs(temp_filepath, Excel.XlFileFormat.xlCSV, vbNull, vbNull, False, False, Excel.XlSaveAsAccessMode.xlNoChange, vbNull, vbNull, vbNull, vbNull, vbNull)
                         wb.SaveAs(temp_filepath, Microsoft.Office.Interop.Excel.XlFileFormat.xlCSV);
-                        wb.Close();
-                        // 殺掉這個process
-                        pr[0].Kill();
+
+                        //// 刪除第一列, 存入data
+                        //ws.Rows[1].delete();
+
+                        output.Add(a, ws.UsedRange.Value2);
                     }
                     catch (Exception ex)
                     {
@@ -292,7 +312,7 @@ namespace ClinicSysteMc.ViewModel.Converters
 
             await Task.Run(() =>
             {
-                for (int i = 1; i <= totalN; i++)
+                for (int i = 2; i <= totalN; i++)
                 {
                     // 找到KEY值, YM, bid: YM=strYM, bid=Item(1), 第二個值就是bid
                     // 查詢,看看是否有重複
@@ -306,33 +326,33 @@ namespace ClinicSysteMc.ViewModel.Converters
                         tbl_pijia newPijia = new tbl_pijia()
                         {
                             YM = strYM,
-                            STATUS = (string)data[i, 1],
-                            bid = (string)data[i, 2],
-                            op = (string)data[i, 3],
-                            VDATE = (string)data[i, 4] ?? string.Empty,
-                            SDATE = (string)data[i, 5],
-                            VIST = (string)data[i, 6],
-                            RMNO = (string)data[i, 7],
-                            DEPTNAME = (string)data[i, 8],
-                            DOCTNAME = (string)data[i, 9],
-                            POSINAME = (string)data[i, 10],
-                            HEATH_CARD = (string)data[i, 11] ?? string.Empty,
-                            Youmian = (string)data[i, 12] ?? string.Empty,
-                            PAYNO = (string)data[i, 13] ?? string.Empty,
-                            uid = (string)data[i, 14],
-                            cname = (string)data[i, 15],
-                            MedFee = (int)double.Parse((string)data[i, 16]),
-                            RegFee = int.Parse((string)data[i, 17]),
-                            Copay = int.Parse((string)data[i, 18]),
-                            Deposit = int.Parse((string)data[i, 19]),
-                            SelfPay = int.Parse((string)data[i, 20]),
-                            PharmW = int.Parse((string)data[i, 21]),
-                            Arrears = int.Parse((string)data[i, 22]),
-                            Discount = int.Parse((string)data[i, 23]),
-                            AMTreceivable = int.Parse((string)data[i, 24]),
-                            AMTreceived = int.Parse((string)data[i, 25]),
-                            bremark = (string)data[i, 26] ?? string.Empty,
-                            remark = (string)data[i, 27] ?? string.Empty
+                            STATUS = (string)data[i, header_order[1]],
+                            bid = (string)data[i, header_order[2]],
+                            op = (string)data[i, header_order[3]],
+                            VDATE = (string)data[i, header_order[4]] ?? string.Empty,
+                            SDATE = (string)data[i, header_order[5]],
+                            VIST = (string)data[i, header_order[6]],
+                            RMNO = (string)data[i, header_order[7]],
+                            DEPTNAME = (string)data[i, header_order[8]],
+                            DOCTNAME = (string)data[i, header_order[9]],
+                            POSINAME = (string)data[i, header_order[10]],
+                            HEATH_CARD = (string)data[i, header_order[11]] ?? string.Empty,
+                            Youmian = (string)data[i, header_order[12]] ?? string.Empty,
+                            PAYNO = (string)data[i, header_order[13]] ?? string.Empty,
+                            uid = (string)data[i, header_order[14]],
+                            cname = (string)data[i, header_order[15]],
+                            MedFee = (int)double.Parse((string)data[i, header_order[16]]),
+                            RegFee = int.Parse((string)data[i, header_order[17]]),
+                            Copay = int.Parse((string)data[i, header_order[18]]),
+                            Deposit = int.Parse((string)data[i, header_order[19]]),
+                            SelfPay = int.Parse((string)data[i, header_order[20]]),
+                            PharmW = int.Parse((string)data[i, header_order[21]]),
+                            Arrears = int.Parse((string)data[i, header_order[22]]),
+                            Discount = int.Parse((string)data[i, header_order[23]]),
+                            AMTreceivable = int.Parse((string)data[i, header_order[24]]),
+                            AMTreceived = int.Parse((string)data[i, header_order[25]]),
+                            bremark = (string)data[i, header_order[26]] ?? string.Empty,
+                            remark = (string)data[i, header_order[27]] ?? string.Empty
                         };
                         dc.tbl_pijia.InsertOnSubmit(newPijia);
                         dc.SubmitChanges();
@@ -344,155 +364,155 @@ namespace ClinicSysteMc.ViewModel.Converters
                         tbl_pijia oldPijia = q.ToList()[0];     // this is a record
                         string strChange = string.Empty;
                         bool bChange = false;
-                        if (oldPijia.STATUS != (string)data[i, 1])
+                        if (oldPijia.STATUS != (string)data[i, header_order[1]])
                         {
-                            strChange += $";改狀態: {oldPijia.STATUS}=>{(string)data[i, 1]}";
+                            strChange += $";改狀態: {oldPijia.STATUS}=>{(string)data[i, header_order[1]]}";
                             bChange = true;
-                            oldPijia.STATUS = (string)data[i, 1];
+                            oldPijia.STATUS = (string)data[i, header_order[1]];
                         }
-                        if (oldPijia.op != (string)data[i, 3])
+                        if (oldPijia.op != (string)data[i, header_order[3]])
                         {
-                            strChange += $";改批價人員: {oldPijia.op}=>{(string)data[i, 3]}";
+                            strChange += $";改批價人員: {oldPijia.op}=>{(string)data[i, header_order[3]]}";
                             bChange = true;
-                            oldPijia.op = (string)data[i, 3];
+                            oldPijia.op = (string)data[i, header_order[3]];
                         }
-                        if (oldPijia.VDATE != ((string)data[i, 4] ?? string.Empty))
+                        if (oldPijia.VDATE != ((string)data[i, header_order[4]] ?? string.Empty))
                         {
-                            strChange += $";改作廢日期: {oldPijia.VDATE}=>{((string)data[i, 4] ?? string.Empty)}";
+                            strChange += $";改作廢日期: {oldPijia.VDATE}=>{((string)data[i, header_order[4]] ?? string.Empty)}";
                             bChange = true;
-                            oldPijia.VDATE = ((string)data[i, 4] ?? string.Empty);
+                            oldPijia.VDATE = ((string)data[i, header_order[4]] ?? string.Empty);
                         }
-                        if (oldPijia.SDATE != (string)data[i, 5])
+                        if (oldPijia.SDATE != (string)data[i, header_order[5]])
                         {
-                            strChange += $";改看診日期: {oldPijia.SDATE}=>{(string)data[i, 5]}";
+                            strChange += $";改看診日期: {oldPijia.SDATE}=>{(string)data[i, header_order[5]]}";
                             bChange = true;
-                            oldPijia.SDATE = (string)data[i, 5];
+                            oldPijia.SDATE = (string)data[i, header_order[5]];
                         }
-                        if (oldPijia.VIST != (string)data[i, 6])
+                        if (oldPijia.VIST != (string)data[i, header_order[6]])
                         {
-                            strChange += $";改午別: {oldPijia.VIST}=>{(string)data[i, 6]}";
+                            strChange += $";改午別: {oldPijia.VIST}=>{(string)data[i, header_order[6]]}";
                             bChange = true;
-                            oldPijia.VIST = (string)data[i, 6];
+                            oldPijia.VIST = (string)data[i, header_order[6]];
                         }
-                        if (oldPijia.RMNO != (string)data[i, 7])
+                        if (oldPijia.RMNO != (string)data[i, header_order[7]])
                         {
-                            strChange += $";改診別: {oldPijia.RMNO}=>{(string)data[i, 7]}";
+                            strChange += $";改診別: {oldPijia.RMNO}=>{(string)data[i, header_order[7]]}";
                             bChange = true;
-                            oldPijia.RMNO = (string)data[i, 7];
+                            oldPijia.RMNO = (string)data[i, header_order[7]];
                         }
-                        if (oldPijia.DEPTNAME != (string)data[i, 8])
+                        if (oldPijia.DEPTNAME != (string)data[i, header_order[8]])
                         {
-                            strChange += $";改科別: {oldPijia.DEPTNAME}=>{(string)data[i, 8]}";
+                            strChange += $";改科別: {oldPijia.DEPTNAME}=>{(string)data[i, header_order[8]]}";
                             bChange = true;
-                            oldPijia.DEPTNAME = (string)data[i, 8];
+                            oldPijia.DEPTNAME = (string)data[i, header_order[8]];
                         }
-                        if (oldPijia.DOCTNAME != (string)data[i, 9])
+                        if (oldPijia.DOCTNAME != (string)data[i, header_order[9]])
                         {
-                            strChange += $";改醫師: {oldPijia.DOCTNAME}=>{(string)data[i, 9]}";
+                            strChange += $";改醫師: {oldPijia.DOCTNAME}=>{(string)data[i, header_order[9]]}";
                             bChange = true;
-                            oldPijia.DOCTNAME = (string)data[i, 9];
+                            oldPijia.DOCTNAME = (string)data[i, header_order[9]];
                         }
-                        if (oldPijia.POSINAME != (string)data[i, 10])
+                        if (oldPijia.POSINAME != (string)data[i, header_order[10]])
                         {
-                            strChange += $";改身分: {oldPijia.POSINAME}=>{(string)data[i, 10]}";
+                            strChange += $";改身分: {oldPijia.POSINAME}=>{(string)data[i, header_order[10]]}";
                             bChange = true;
-                            oldPijia.POSINAME = (string)data[i, 10];
+                            oldPijia.POSINAME = (string)data[i, header_order[10]];
                         }
-                        if (oldPijia.HEATH_CARD != ((string)data[i, 11] ?? string.Empty))
+                        if (oldPijia.HEATH_CARD != ((string)data[i, header_order[11]] ?? string.Empty))
                         {
-                            strChange += $";改就醫序號: {oldPijia.HEATH_CARD}=>{((string)data[i, 11] ?? string.Empty)}";
+                            strChange += $";改就醫序號: {oldPijia.HEATH_CARD}=>{((string)data[i, header_order[11]] ?? string.Empty)}";
                             bChange = true;
-                            oldPijia.HEATH_CARD = ((string)data[i, 11] ?? string.Empty);
+                            oldPijia.HEATH_CARD = ((string)data[i, header_order[11]] ?? string.Empty);
                         }
-                        if (oldPijia.Youmian != ((string)data[i, 12] ?? string.Empty))
+                        if (oldPijia.Youmian != ((string)data[i, header_order[12]] ?? string.Empty))
                         {
-                            strChange += $";改優免: {oldPijia.Youmian}=>{((string)data[i, 12] ?? string.Empty)}";
+                            strChange += $";改優免: {oldPijia.Youmian}=>{((string)data[i, header_order[12]] ?? string.Empty)}";
                             bChange = true;
-                            oldPijia.Youmian = ((string)data[i, 12] ?? string.Empty);
+                            oldPijia.Youmian = ((string)data[i, header_order[12]] ?? string.Empty);
                         }
-                        if (oldPijia.PAYNO != ((string)data[i, 13] ?? string.Empty))
+                        if (oldPijia.PAYNO != ((string)data[i, header_order[13]] ?? string.Empty))
                         {
-                            strChange += $";改部分負擔: {oldPijia.PAYNO}=>{((string)data[i, 13] ?? string.Empty)}";
+                            strChange += $";改部分負擔: {oldPijia.PAYNO}=>{((string)data[i, header_order[13]] ?? string.Empty)}";
                             bChange = true;
-                            oldPijia.PAYNO = ((string)data[i, 13] ?? string.Empty);
+                            oldPijia.PAYNO = ((string)data[i, header_order[13]] ?? string.Empty);
                         }
-                        if (oldPijia.cname != (string)data[i, 15])
+                        if (oldPijia.cname != (string)data[i, header_order[15]])
                         {
-                            strChange += $";改患者姓名: {oldPijia.cname}=>{(string)data[i, 15]}";
+                            strChange += $";改患者姓名: {oldPijia.cname}=>{(string)data[i, header_order[15]]}";
                             bChange = true;
-                            oldPijia.cname = (string)data[i, 15];
+                            oldPijia.cname = (string)data[i, header_order[15]];
                         }
-                        if (oldPijia.MedFee != (int)double.Parse((string)data[i, 16]))
+                        if (oldPijia.MedFee != (int)double.Parse((string)data[i, header_order[16]]))
                         {
-                            strChange += $";改醫療費用: {oldPijia.MedFee}=>{(string)data[i, 16]}";
+                            strChange += $";改醫療費用: {oldPijia.MedFee}=>{(string)data[i, header_order[16]]}";
                             bChange = true;
-                            oldPijia.MedFee = (int)double.Parse((string)data[i, 16]);
+                            oldPijia.MedFee = (int)double.Parse((string)data[i, header_order[16]]);
                         }
-                        if (oldPijia.RegFee != int.Parse((string)data[i, 17]))
+                        if (oldPijia.RegFee != int.Parse((string)data[i, header_order[17]]))
                         {
-                            strChange += $";改掛號費用: {oldPijia.RegFee}=>{(string)data[i, 17]}";
+                            strChange += $";改掛號費用: {oldPijia.RegFee}=>{(string)data[i, header_order[17]]}";
                             bChange = true;
-                            oldPijia.RegFee = int.Parse((string)data[i, 17]);
+                            oldPijia.RegFee = int.Parse((string)data[i, header_order[17]]);
                         }
-                        if (oldPijia.Copay != int.Parse((string)data[i, 18]))
+                        if (oldPijia.Copay != int.Parse((string)data[i, header_order[18]]))
                         {
-                            strChange += $";改部分負擔: {oldPijia.Copay}=>{(string)data[i, 18]}";
+                            strChange += $";改部分負擔: {oldPijia.Copay}=>{(string)data[i, header_order[18]]}";
                             bChange = true;
-                            oldPijia.Copay = int.Parse((string)data[i, 18]);
+                            oldPijia.Copay = int.Parse((string)data[i, header_order[18]]);
                         }
-                        if (oldPijia.Deposit != int.Parse((string)data[i, 19]))
+                        if (oldPijia.Deposit != int.Parse((string)data[i, header_order[19]]))
                         {
-                            strChange += $";改押金: {oldPijia.Deposit}=>{(string)data[i, 19]}";
+                            strChange += $";改押金: {oldPijia.Deposit}=>{(string)data[i, header_order[19]]}";
                             bChange = true;
-                            oldPijia.Deposit = int.Parse((string)data[i, 19]);
+                            oldPijia.Deposit = int.Parse((string)data[i, header_order[19]]);
                         }
-                        if (oldPijia.SelfPay != int.Parse((string)data[i, 20]))
+                        if (oldPijia.SelfPay != int.Parse((string)data[i, header_order[20]]))
                         {
-                            strChange += $";改自付金額: {oldPijia.SelfPay}=>{(string)data[i, 20]}";
+                            strChange += $";改自付金額: {oldPijia.SelfPay}=>{(string)data[i, header_order[20]]}";
                             bChange = true;
-                            oldPijia.SelfPay = int.Parse((string)data[i, 20]);
+                            oldPijia.SelfPay = int.Parse((string)data[i, header_order[20]]);
                         }
-                        if (oldPijia.PharmW != int.Parse((string)data[i, 21]))
+                        if (oldPijia.PharmW != int.Parse((string)data[i, header_order[21]]))
                         {
-                            strChange += $";改藥費加重: {oldPijia.PharmW}=>{(string)data[i, 21]}";
+                            strChange += $";改藥費加重: {oldPijia.PharmW}=>{(string)data[i, header_order[21]]}";
                             bChange = true;
-                            oldPijia.PharmW = int.Parse((string)data[i, 21]);
+                            oldPijia.PharmW = int.Parse((string)data[i, header_order[21]]);
                         }
-                        if (oldPijia.Arrears != int.Parse((string)data[i, 22]))
+                        if (oldPijia.Arrears != int.Parse((string)data[i, header_order[22]]))
                         {
-                            strChange += $";改欠收: {oldPijia.Arrears}=>{(string)data[i, 22]}";
+                            strChange += $";改欠收: {oldPijia.Arrears}=>{(string)data[i, header_order[22]]}";
                             bChange = true;
-                            oldPijia.Arrears = int.Parse((string)data[i, 22]);
+                            oldPijia.Arrears = int.Parse((string)data[i, header_order[22]]);
                         }
-                        if (oldPijia.Discount != int.Parse((string)data[i, 23]))
+                        if (oldPijia.Discount != int.Parse((string)data[i, header_order[23]]))
                         {
-                            strChange += $";改折扣: {oldPijia.Discount}=>{(string)data[i, 23]}";
+                            strChange += $";改折扣: {oldPijia.Discount}=>{(string)data[i, header_order[23]]}";
                             bChange = true;
-                            oldPijia.Discount = int.Parse((string)data[i, 23]);
+                            oldPijia.Discount = int.Parse((string)data[i, header_order[23]]);
                         }
-                        if (oldPijia.AMTreceivable != int.Parse((string)data[i, 24]))
+                        if (oldPijia.AMTreceivable != int.Parse((string)data[i, header_order[24]]))
                         {
-                            strChange += $";改應收金額: {oldPijia.AMTreceivable}=>{(string)data[i, 24]}";
+                            strChange += $";改應收金額: {oldPijia.AMTreceivable}=>{(string)data[i, header_order[24]]}";
                             bChange = true;
-                            oldPijia.AMTreceivable = int.Parse((string)data[i, 24]);
+                            oldPijia.AMTreceivable = int.Parse((string)data[i, header_order[24]]);
                         }
-                        if (oldPijia.AMTreceived != int.Parse((string)data[i, 25]))
+                        if (oldPijia.AMTreceived != int.Parse((string)data[i, header_order[25]]))
                         {
-                            strChange += $";改實收金額: {oldPijia.AMTreceived}=>{(string)data[i, 25]}";
+                            strChange += $";改實收金額: {oldPijia.AMTreceived}=>{(string)data[i, header_order[25]]}";
                             bChange = true;
-                            oldPijia.AMTreceived = int.Parse((string)data[i, 25]);
+                            oldPijia.AMTreceived = int.Parse((string)data[i, header_order[25]]);
                         }
-                        if (oldPijia.bremark != ((string)data[i, 26] ?? string.Empty))
+                        if (oldPijia.bremark != ((string)data[i, header_order[26]] ?? string.Empty))
                         {
-                            strChange += $";改收據說明: {oldPijia.bremark}=>{((string)data[i, 26] ?? string.Empty)}";
+                            strChange += $";改收據說明: {oldPijia.bremark}=>{((string)data[i, header_order[26]] ?? string.Empty)}";
                             bChange = true;
-                            oldPijia.bremark = ((string)data[i, 26] ?? string.Empty);
+                            oldPijia.bremark = ((string)data[i, header_order[26]] ?? string.Empty);
                         }
-                        if (oldPijia.remark != ((string)data[i, 27] ?? string.Empty))
+                        if (oldPijia.remark != ((string)data[i, header_order[27]] ?? string.Empty))
                         {
-                            strChange += $";改說明: {oldPijia.remark}=>{((string)data[i, 27] ?? string.Empty)}";
+                            strChange += $";改說明: {oldPijia.remark}=>{((string)data[i, header_order[27]] ?? string.Empty)}";
                             bChange = true;
-                            oldPijia.remark = ((string)data[i, 27] ?? string.Empty);
+                            oldPijia.remark = ((string)data[i, header_order[27]] ?? string.Empty);
                         }
                         if (bChange)
                         {
