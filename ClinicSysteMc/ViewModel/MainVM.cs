@@ -164,8 +164,9 @@ namespace ClinicSysteMc.ViewModel
                         where p.operation_name == "Log in" || p.operation_name == "Log out"
                         orderby p.regdate descending
                         select new { p.regdate, p.operation_name }).Take(100);
+            // 20200522 add opd_import, for correct display
             OPD = (from p in dc.log_Adm
-                   where p.operation_name == "add opd"
+                   where p.operation_name == "add opd" || p.operation_name == "opd_import"
                    orderby p.regdate descending
                    select new { p.regdate }).Take(100);
             PT = (from p in dc.log_Adm

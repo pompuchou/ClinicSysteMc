@@ -94,12 +94,14 @@ namespace ClinicSysteMc.ViewModel
         public void Refresh_Data()
         {
             CSDataContext dc = new CSDataContext();
+            // 20200522 add Companion Log in and out
             Admin = (from p in dc.log_Adm
                      where p.operation_name != "Log in" && p.operation_name != "Log out" && p.operation_name != "update opd" &&
                            p.operation_name != "update opd order" && p.operation_name != "OPD file format" &&
                            p.operation_name != "Change order data" && p.operation_name != "Add a new order" &&
                            p.operation_name != "Lab file format" && p.operation_name != "Change patient data" &&
-                           p.operation_name != "Add a new patient"
+                           p.operation_name != "Add a new patient" && p.operation_name != "Companion Log out" &&
+                           p.operation_name != "Companion Log in"
                      orderby p.regdate descending
                      select new { p.regdate, p.operation_name, p.description }).Take(100);
             Err = (from p in dc.log_Err

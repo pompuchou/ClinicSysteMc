@@ -23,7 +23,6 @@ namespace ClinicSysteMc.ViewModel
         #region Command Properties
 
         public LABmatch BTN_Match { get; set; }
-
         public LABup BTN_Up { get; set; }
         public LABdown BTN_Down { get; set; }
 
