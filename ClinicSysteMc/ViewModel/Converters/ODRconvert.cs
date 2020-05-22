@@ -43,7 +43,7 @@ namespace ClinicSysteMc.ViewModel.Converters
             }
 
             // 通過測試
-            Logging.Record_admin("醫令檔案格式", "correct");
+            Logging.Record_admin("計價檔格式", "correct");
             log.Info("輸入的醫令資料檔案格式正確");
             tb.ShowBalloonTip("正確", "檔案格式正確", BalloonIcon.Info);
 
@@ -116,7 +116,7 @@ namespace ClinicSysteMc.ViewModel.Converters
                     {
                         // 寫入Error Log
                         // 沒有醫令代碼是不行的
-                        Logging.Record_error("醫令代碼是空的");
+                        //Logging.Record_error("醫令代碼是空的");
                         log.Error("醫令代碼是空的");
                         return;
                     }

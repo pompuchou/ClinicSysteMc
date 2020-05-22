@@ -36,8 +36,8 @@ namespace ClinicSysteMc.ViewModel
             get { return _adm; }
             set
             {
-                OnPropertyChanged("Admin");
                 _adm = value;
+                OnPropertyChanged("Admin");
             }
         }
 
@@ -48,8 +48,8 @@ namespace ClinicSysteMc.ViewModel
             get { return _opd; }
             set
             {
-                OnPropertyChanged("OPD");
                 _opd = value;
+                OnPropertyChanged("OPD");
             }
         }
 
@@ -60,8 +60,8 @@ namespace ClinicSysteMc.ViewModel
             get { return _order; }
             set
             {
-                OnPropertyChanged("Order");
                 _order = value;
+                OnPropertyChanged("Order");
             }
         }
 
@@ -72,8 +72,8 @@ namespace ClinicSysteMc.ViewModel
             get { return _pt; }
             set
             {
-                OnPropertyChanged("PT");
                 _pt = value;
+                OnPropertyChanged("PT");
             }
         }
 
@@ -84,8 +84,8 @@ namespace ClinicSysteMc.ViewModel
             get { return _err; }
             set
             {
-                OnPropertyChanged("Err");
                 _err = value;
+                OnPropertyChanged("Err");
             }
         }
 

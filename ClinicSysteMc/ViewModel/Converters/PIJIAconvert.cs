@@ -113,7 +113,8 @@ namespace ClinicSysteMc.ViewModel.Converters
                 tb.ShowBalloonTip("完成", output, BalloonIcon.Info);
                 Logging.Record_admin("PIJIA add/change", output);
 
-                return;
+                // 20200522 為何這裡有個return? 除掉就可以用後面的matching了
+                //return;
             }
             catch (Exception ex)
             {
