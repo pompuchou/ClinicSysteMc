@@ -255,6 +255,13 @@ namespace ClinicSysteMc.Model
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
 			return ((ISingleResult<sp_PIJIA_for_opdResult>)(result.ReturnValue));
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.sp_match_lab")]
+		public ISingleResult<sp_match_labResult> sp_match_lab([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> f, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> t)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), f, t);
+			return ((ISingleResult<sp_match_labResult>)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.log_Adm")]
@@ -6894,6 +6901,32 @@ namespace ClinicSysteMc.Model
 				if ((this._cname != value))
 				{
 					this._cname = value;
+				}
+			}
+		}
+	}
+	
+	public partial class sp_match_labResult
+	{
+		
+		private int _rows_affected;
+		
+		public sp_match_labResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rows_affected", DbType="Int NOT NULL")]
+		public int rows_affected
+		{
+			get
+			{
+				return this._rows_affected;
+			}
+			set
+			{
+				if ((this._rows_affected != value))
+				{
+					this._rows_affected = value;
 				}
 			}
 		}

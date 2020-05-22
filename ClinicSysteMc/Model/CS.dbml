@@ -349,4 +349,11 @@
       <Column Name="cname" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
     </ElementType>
   </Function>
+  <Function Name="dbo.sp_match_lab" Method="sp_match_lab">
+    <Parameter Name="f" Type="System.Int32" DbType="Int" />
+    <Parameter Name="t" Type="System.Int32" DbType="Int" />
+    <ElementType Name="sp_match_labResult">
+      <Column Name="rows_affected" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
 </Database>

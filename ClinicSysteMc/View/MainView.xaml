@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ClinicSysteMc"
+        xmlns:local="clr-namespace:ClinicSysteMc.View"
         mc:Ignorable="d" FontSize="16"
         Title="Clinic System" Height="750" Width="1200">
     <TabControl>
@@ -95,7 +95,7 @@
                     <Label Content="調整科別" Grid.Row="2" Grid.Column="2" />
                     <Label Content="醫令匯入" Grid.Column="3" />
                     <Label Content="檢驗匯入" Grid.Row="2" Grid.Column="3" />
-                    <DataGrid Grid.Row="1" ItemsSource="{Binding LogInOut}">
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding LogInOut, UpdateSourceTrigger=PropertyChanged}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="日期" Width="1*" Binding="{Binding regdate, StringFormat={}{0:yyyy/MM/dd HH:mm:ss.F}}">
                                 <DataGridTextColumn.ElementStyle>
@@ -115,7 +115,7 @@
                             </DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <DataGrid Grid.Row="3" ItemsSource="{Binding Upload}">
+                    <DataGrid Grid.Row="3" ItemsSource="{Binding Upload, UpdateSourceTrigger=PropertyChanged}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="日期" Width="1*" Binding="{Binding regdate, StringFormat={}{0:yyyy/MM/dd HH:mm:ss.FF}}">
                                 <DataGridTextColumn.ElementStyle>
@@ -127,7 +127,7 @@
                             </DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <DataGrid Grid.Row="1" Grid.Column="1" ItemsSource="{Binding OPD}">
+                    <DataGrid Grid.Row="1" Grid.Column="1" ItemsSource="{Binding OPD, UpdateSourceTrigger=PropertyChanged}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="日期" Width="1*" Binding="{Binding regdate, StringFormat={}{0:yyyy/MM/dd HH:mm:ss.FF}}">
                                 <DataGridTextColumn.ElementStyle>
@@ -139,7 +139,7 @@
                             </DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <DataGrid Grid.Row="3" Grid.Column="1"  ItemsSource="{Binding Pijia}">
+                    <DataGrid Grid.Row="3" Grid.Column="1"  ItemsSource="{Binding Pijia, UpdateSourceTrigger=PropertyChanged}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="日期" Width="1*" Binding="{Binding regdate, StringFormat={}{0:yyyy/MM/dd HH:mm:ss.FF}}">
                                 <DataGridTextColumn.ElementStyle>
@@ -151,7 +151,7 @@
                             </DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <DataGrid Grid.Row="1" Grid.Column="2" ItemsSource="{Binding PT}">
+                    <DataGrid Grid.Row="1" Grid.Column="2" ItemsSource="{Binding PT, UpdateSourceTrigger=PropertyChanged}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="日期" Width="1*" Binding="{Binding regdate, StringFormat={}{0:yyyy/MM/dd HH:mm:ss.FF}}">
                                 <DataGridTextColumn.ElementStyle>
@@ -163,7 +163,7 @@
                             </DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <DataGrid Grid.Row="3" Grid.Column="2" ItemsSource="{Binding ChangeDepartment}">
+                    <DataGrid Grid.Row="3" Grid.Column="2" ItemsSource="{Binding ChangeDepartment, UpdateSourceTrigger=PropertyChanged}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="日期" Width="1*" Binding="{Binding regdate, StringFormat={}{0:yyyy/MM/dd HH:mm:ss.FF}}">
                                 <DataGridTextColumn.ElementStyle>
@@ -175,7 +175,7 @@
                             </DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <DataGrid Grid.Row="1" Grid.Column="3" ItemsSource="{Binding Order}">
+                    <DataGrid Grid.Row="1" Grid.Column="3" ItemsSource="{Binding Order, UpdateSourceTrigger=PropertyChanged}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="日期" Width="1*" Binding="{Binding regdate, StringFormat={}{0:yyyy/MM/dd HH:mm:ss.FF}}">
                                 <DataGridTextColumn.ElementStyle>
@@ -187,7 +187,7 @@
                             </DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <DataGrid Grid.Row="3" Grid.Column="3" ItemsSource="{Binding Lab}">
+                    <DataGrid Grid.Row="3" Grid.Column="3" ItemsSource="{Binding Lab, UpdateSourceTrigger=PropertyChanged}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="日期" Width="1*" Binding="{Binding regdate, StringFormat={}{0:yyyy/MM/dd HH:mm:ss.FF}}">
                                 <DataGridTextColumn.ElementStyle>
@@ -251,7 +251,7 @@
                 <Label Content="病患修改紀錄" Grid.Row="2" Grid.Column="1" />
                 <Label Content="醫令修改紀錄" Grid.Row="2" Grid.Column="2" />
                 <Button Content="更新資料" Margin="6,6,250,6" Command="{Binding BTN_RFR}" />
-                <DataGrid Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding Admin}">
+                <DataGrid Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding Admin, UpdateSourceTrigger=PropertyChanged}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="日期" Width="1*" Binding="{Binding regdate, StringFormat={}{0:yyyy/MM/dd HH:mm:ss.F}}">
                             <DataGridTextColumn.ElementStyle>
@@ -279,7 +279,7 @@
                         </DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-                <DataGrid Grid.Row="1" Grid.Column="2" ItemsSource="{Binding Err}">
+                <DataGrid Grid.Row="1" Grid.Column="2" ItemsSource="{Binding Err, UpdateSourceTrigger=PropertyChanged}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="日期" Width="1*" Binding="{Binding error_date, StringFormat={}{0:yyyy/MM/dd HH:mm:ss.F}}">
                             <DataGridTextColumn.ElementStyle>
@@ -299,7 +299,7 @@
                         </DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-                <DataGrid Grid.Row="3" ItemsSource="{Binding OPD}">
+                <DataGrid Grid.Row="3" ItemsSource="{Binding OPD, UpdateSourceTrigger=PropertyChanged}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="日期" Width="1*" Binding="{Binding regdate, StringFormat={}{0:yyyy/MM/dd HH:mm:ss.F}}">
                             <DataGridTextColumn.ElementStyle>
@@ -319,7 +319,7 @@
                         </DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-                <DataGrid Grid.Row="3" Grid.Column="1" ItemsSource="{Binding PT}">
+                <DataGrid Grid.Row="3" Grid.Column="1" ItemsSource="{Binding PT, UpdateSourceTrigger=PropertyChanged}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="日期" Width="1*" Binding="{Binding regdate, StringFormat={}{0:yyyy/MM/dd HH:mm:ss.F}}">
                             <DataGridTextColumn.ElementStyle>
@@ -339,7 +339,7 @@
                         </DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-                <DataGrid Grid.Row="3" Grid.Column="2" ItemsSource="{Binding Order}">
+                <DataGrid Grid.Row="3" Grid.Column="2" ItemsSource="{Binding Order, UpdateSourceTrigger=PropertyChanged}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="日期" Width="1*" Binding="{Binding regdate, StringFormat={}{0:yyyy/MM/dd HH:mm:ss.F}}">
                             <DataGridTextColumn.ElementStyle>
@@ -396,6 +396,12 @@
                     <Style TargetType="{x:Type TextBox}">
                         <Setter Property="VerticalContentAlignment" Value="Center" />
                         <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Style.Triggers>
+                            <Trigger Property="Validation.HasError" Value="true">
+                                <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, 
+                                    Path=(Validation.Errors)[0].ErrorContent}"/>
+                            </Trigger>
+                        </Style.Triggers>
                     </Style>
                 </Grid.Resources>
                 <Grid.ColumnDefinitions>
@@ -412,11 +418,29 @@
                 </Grid.RowDefinitions>
                 <Label Content="有檢驗結果沒處方" Grid.Column ="1" />
                 <Label Content="有處方沒檢驗結果" Grid.Column ="4" />
-                <TextBox Text="0" Margin="10,6,60,6" Grid.Column="2" />
+                <TextBox Margin="6,6,60,6" Grid.Column="2" >
+                    <TextBox.Text>
+                        <Binding Path="StrFrom" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <local:FromValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
                 <Label Content="~" Margin="40,6,40,6" Grid.Column="2" Background="White" />
-                <TextBox Text="3" Margin="60,6,10,6" Grid.Column="2" />
-                <Button Content="配對" Margin="6" Grid.Column="3" />
-                <DataGrid ItemsSource="{Binding DataNoOrder}" Grid.Row="1" Grid.ColumnSpan="3">
+                <TextBox Margin="60,6,6,6" Grid.Column="2" >
+                    <TextBox.Text>
+                        <Binding Path="StrTO" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <local:ToValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <Button Content="⮝" Foreground="BlueViolet" Grid.Column="3" Margin="6,6,75,6" Command="{Binding BTN_Up}" />
+                <Button Content="⮟" Foreground="BlueViolet" Grid.Column="3" Margin="26,6,55,6" Command="{Binding BTN_Down}" />
+                <Button Content="配對" Margin="50,6,6,6" Grid.Column="3" Command="{Binding BTN_Match}" IsDefault="True" />
+                <DataGrid ItemsSource="{Binding DataNoOrder, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.ColumnSpan="3">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="lid" Binding="{Binding lid}" Width="10*" />
                         <DataGridTextColumn Header="身分證號" Binding="{Binding uid}" Width="8*" />
@@ -435,7 +459,7 @@
                         <DataGridTextColumn Header="" Binding="{Binding l09}" Width="3*" />
                     </DataGrid.Columns>
                 </DataGrid>
-                <DataGrid ItemsSource="{Binding OrderNoData}" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3">
+                <DataGrid ItemsSource="{Binding OrderNoData, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="CASENO" Binding="{Binding CASENO}" Width="10*" />
                         <DataGridTextColumn Header="身分證號" Binding="{Binding uid}" Width="8*" />
