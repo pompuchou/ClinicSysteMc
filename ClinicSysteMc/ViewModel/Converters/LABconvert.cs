@@ -26,7 +26,7 @@ namespace ClinicSysteMc.ViewModel.Converters
                                         "就醫序號"};
             for (int i = 1; i <= strT.Length; i++)
             {
-                if ((string)_data[1, i] != strT[i - 1])
+                if (strT[i - 1] != ((string)_data[1, i] ?? string.Empty) )
                 {
                     // 寫入Error Log
                     Logging.Record_error("輸入的常誠檢驗資料檔案格式不對");
