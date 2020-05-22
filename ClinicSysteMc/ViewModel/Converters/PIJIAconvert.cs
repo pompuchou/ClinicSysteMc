@@ -280,6 +280,20 @@ namespace ClinicSysteMc.ViewModel.Converters
                         //ws.Rows[1].delete();
 
                         output.Add(a, ws.UsedRange.Value2);
+
+                        try
+                        {
+                            // 殺掉所有的EXCEL
+                            foreach (Process p in Process.GetProcessesByName("EXCEL"))
+                            {
+                                p.Kill();
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            log.Error($"ignore this {ex.Message}");
+                        }
+
                     }
                     catch (Exception ex)
                     {

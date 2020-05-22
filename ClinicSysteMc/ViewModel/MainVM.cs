@@ -181,8 +181,9 @@ namespace ClinicSysteMc.ViewModel
                       where p.operation_name == "健保上傳XML檔配對"
                       orderby p.regdate descending
                       select new { p.regdate }).Take(100);
+            // 20200522 add PIJIA add/change, for correct display
             Pijia = (from p in dc.log_Adm
-                     where p.operation_name == "新增批價檔: "
+                     where p.operation_name == "新增批價檔: " || p.operation_name == "PIJIA add/change"
                      orderby p.regdate descending
                      select new { p.regdate }).Take(100);
             ChangeDepartment = (from p in dc.log_Adm
