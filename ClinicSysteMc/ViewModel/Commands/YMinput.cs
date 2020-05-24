@@ -1,6 +1,7 @@
 ﻿using ClinicSysteMc.ViewModel.Converters;
 using ClinicSysteMc.ViewModel.Dialog;
 using System;
+using System.Windows;
 using System.Windows.Input;
 
 namespace ClinicSysteMc.ViewModel.Commands
@@ -34,6 +35,7 @@ namespace ClinicSysteMc.ViewModel.Commands
 
             var dlg = new YMdialog()
             {
+                Owner = Application.Current.MainWindow,
                 StrYM = $"{d.Year - 1911}{(d.Month + 100).ToString().Substring(1)}"
             };
             dlg.ShowDialog();

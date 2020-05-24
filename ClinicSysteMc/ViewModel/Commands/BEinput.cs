@@ -1,6 +1,7 @@
 ﻿using ClinicSysteMc.ViewModel.Converters;
 using ClinicSysteMc.ViewModel.Dialog;
 using System;
+using System.Windows;
 using System.Windows.Input;
 
 namespace ClinicSysteMc.ViewModel.Commands
@@ -40,7 +41,10 @@ namespace ClinicSysteMc.ViewModel.Commands
                 ed = DateTime.Parse($"{DateTime.Now.Year}/{DateTime.Now.Month}/1").AddSeconds(-1);
             }
 
-            var dlg = new BEdialog(bd, ed);
+            var dlg = new BEdialog(bd, ed)
+            {
+                Owner = Application.Current.MainWindow
+            };
             dlg.ShowDialog();
 
             if (dlg.DialogResult == false) return;
