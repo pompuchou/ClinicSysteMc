@@ -92,8 +92,7 @@ namespace ClinicSysteMc.ViewModel.Commands
                     TOTconvert tot = new TOTconvert(loadpath);
                     tot.Transform();
 
-                    Logging.Record_admin("add opd", "匯入健保申報檔 Manual");
-
+                    Logging.Record_admin("import xml", "匯入健保申報檔 Manual");
 
                     break;
 
@@ -109,6 +108,20 @@ namespace ClinicSysteMc.ViewModel.Commands
                     // 丟出的是一個object [,]
                     LABconvert lab = new LABconvert(ws3.UsedRange.Value2);
                     lab.Transform();
+
+                    Logging.Record_admin("add lab data", "加入檢驗資料 Manual");
+
+                    break;
+
+                case "健保匯入":
+                    oFDialog.Filter = "健保藥物檔案|*.b5";
+                    if (oFDialog.ShowDialog() != true) return;
+                    loadpath = oFDialog.FileName;
+
+                    B5convert b5 = new B5convert(loadpath);
+                    b5.Transform();
+
+                    Logging.Record_admin("add opd", "匯入健保申報檔 Manual");
 
                     Logging.Record_admin("add lab data", "加入檢驗資料 Manual");
 

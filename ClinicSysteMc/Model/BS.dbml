@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="BL" Class="BSDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=S1\S1;Initial Catalog=BL;Persist Security Info=True;User ID=sa" SettingsObjectName="ClinicSysteMc.Properties.Settings" SettingsPropertyName="BLConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.NHI_med" Member="NHI_med">
+    <Type Name="NHI_med">
+      <Column Name="NewMark" Type="System.String" DbType="VarChar(2)" CanBeNull="true" />
+      <Column Name="OralMed" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="Complex" Type="System.String" DbType="VarChar(2)" CanBeNull="true" />
+      <Column Name="NHI_code" Type="System.String" DbType="VarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="NHI_price" Type="System.String" DbType="VarChar(9)" CanBeNull="true" />
+      <Column Name="begin_date" Type="System.String" DbType="VarChar(7) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="end_date" Type="System.String" DbType="VarChar(7)" CanBeNull="true" />
+      <Column Name="ename" Type="System.String" DbType="VarChar(120)" CanBeNull="true" />
+      <Column Name="spec_dose" Type="System.String" DbType="VarChar(7)" CanBeNull="true" />
+      <Column Name="spec_unit" Type="System.String" DbType="VarChar(52)" CanBeNull="true" />
+      <Column Name="comp_name" Type="System.String" DbType="VarChar(56)" CanBeNull="true" />
+      <Column Name="comp_dose" Type="System.String" DbType="VarChar(12)" CanBeNull="true" />
+      <Column Name="comp_unit" Type="System.String" DbType="VarChar(51)" CanBeNull="true" />
+      <Column Name="prep" Type="System.String" DbType="VarChar(86)" CanBeNull="true" />
+      <Column Name="vendor" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="clas" Type="System.String" DbType="VarChar(1)" CanBeNull="true" />
+      <Column Name="quality" Type="System.String" DbType="VarChar(1)" CanBeNull="true" />
+      <Column Name="cname" Type="System.String" DbType="VarChar(128)" CanBeNull="true" />
+      <Column Name="group_name" Type="System.String" DbType="VarChar(300)" CanBeNull="true" />
+      <Column Name="comp1" Type="System.String" DbType="VarChar(56)" CanBeNull="true" />
+      <Column Name="comp1_dose" Type="System.String" DbType="VarChar(11)" CanBeNull="true" />
+      <Column Name="comp1_unit" Type="System.String" DbType="VarChar(51)" CanBeNull="true" />
+      <Column Name="comp2" Type="System.String" DbType="VarChar(56)" CanBeNull="true" />
+      <Column Name="comp2_dose" Type="System.String" DbType="VarChar(11)" CanBeNull="true" />
+      <Column Name="comp2_unit" Type="System.String" DbType="VarChar(51)" CanBeNull="true" />
+      <Column Name="comp3" Type="System.String" DbType="VarChar(56)" CanBeNull="true" />
+      <Column Name="comp3_dose" Type="System.String" DbType="VarChar(11)" CanBeNull="true" />
+      <Column Name="comp3_unit" Type="System.String" DbType="VarChar(51)" CanBeNull="true" />
+      <Column Name="comp4" Type="System.String" DbType="VarChar(56)" CanBeNull="true" />
+      <Column Name="comp4_dose" Type="System.String" DbType="VarChar(11)" CanBeNull="true" />
+      <Column Name="comp4_unit" Type="System.String" DbType="VarChar(51)" CanBeNull="true" />
+      <Column Name="comp5" Type="System.String" DbType="VarChar(56)" CanBeNull="true" />
+      <Column Name="comp5_dose" Type="System.String" DbType="VarChar(11)" CanBeNull="true" />
+      <Column Name="comp5_unit" Type="System.String" DbType="VarChar(51)" CanBeNull="true" />
+      <Column Name="manufacturer" Type="System.String" DbType="VarChar(42)" CanBeNull="true" />
+      <Column Name="ATC_code" Type="System.String" DbType="VarChar(8)" CanBeNull="true" />
+      <Column Name="NoProduce" Type="System.String" DbType="VarChar(1)" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>

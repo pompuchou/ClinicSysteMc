@@ -125,6 +125,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Model\BS.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BS.dbml</DependentUpon>
+    </Compile>
     <Compile Include="Model\CS.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -139,6 +144,7 @@
     <Compile Include="ViewModel\Commands\LABmatch.cs" />
     <Compile Include="ViewModel\Commands\LABup.cs" />
     <Compile Include="ViewModel\Commands\Plain.cs" />
+    <Compile Include="ViewModel\Converters\B5convert.cs" />
     <Compile Include="ViewModel\Converters\Thesis.cs" />
     <Compile Include="ViewModel\Commands\YMinput.cs" />
     <Compile Include="ViewModel\Converters\DEPchange.cs" />
@@ -192,6 +198,14 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="ClinicSysteMc_TemporaryKey.pfx" />
+    <None Include="Model\BS.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>BS.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Model\BS.dbml.layout">
+      <DependentUpon>BS.dbml</DependentUpon>
+    </None>
     <None Include="Model\CS.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>CS.designer.cs</LastGenOutput>
