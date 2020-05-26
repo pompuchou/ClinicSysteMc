@@ -26,18 +26,6 @@
         <elementListCompartment Id="8100b743-390d-4608-a7ba-41bbe3eaeda8" absoluteBounds="11.015, 1.335, 1.9700000000000002, 1.5316874186197915" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="c6063c04-1621-4b15-ad35-a3e7510a9d98" absoluteBounds="3.5, 3.375, 2, 4.4940108235677076">
-      <DataClassMoniker Name="/CSDataContext/tbl_opd" />
-      <nestedChildShapes>
-        <elementListCompartment Id="09c4ed3a-754e-442e-8106-358de477e931" absoluteBounds="3.515, 3.835, 1.9700000000000002, 3.934010823567708" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="d9f4e6d2-290d-42d9-bf0a-b73458c6b551" absoluteBounds="6, 3.375, 2, 3.5700402832031246">
-      <DataClassMoniker Name="/CSDataContext/tbl_opd_order" />
-      <nestedChildShapes>
-        <elementListCompartment Id="dae680f1-bac9-4529-9dbb-946b55bcfdd1" absoluteBounds="6.015, 3.835, 1.9700000000000002, 3.010040283203125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
     <classShape Id="ebd4043c-d282-4322-823f-c919095bc90e" absoluteBounds="8.5, 3.625, 2, 2.4612756347656251">
       <DataClassMoniker Name="/CSDataContext/tbl_patients" />
       <nestedChildShapes>
@@ -80,7 +68,7 @@
         <elementListCompartment Id="43b482e5-cdd2-4596-b44c-2ccd6d8f5153" absoluteBounds="9.39, 12.21, 1.9700000000000002, 4.118804931640625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="84b726b7-0b9f-4313-99f4-4e83ca5d0057" absoluteBounds="0.5, 0.5, 2, 6.3419519042968746">
+    <classShape Id="84b726b7-0b9f-4313-99f4-4e83ca5d0057" isExpanded="false" absoluteBounds="0.5, 0.5, 2, 0.45">
       <DataClassMoniker Name="/CSDataContext/tbl_pijia" />
       <nestedChildShapes>
         <elementListCompartment Id="83d3f0f4-ae0f-492b-8073-18c0b73fa73b" absoluteBounds="0.51499999999999968, 0.96, 1.9700000000000002, 5.781951904296875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
@@ -90,6 +78,18 @@
       <DataClassMoniker Name="/CSDataContext/p_order" />
       <nestedChildShapes>
         <elementListCompartment Id="71783175-8403-4071-a685-4033cc7b77fd" absoluteBounds="11.39, 3.96, 1.9700000000000002, 6.5211283365885411" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="ea096f14-fcaa-4f9f-8856-38ff84047a59" isExpanded="false" absoluteBounds="3.5, 3.125, 2, 0.45">
+      <DataClassMoniker Name="/CSDataContext/tbl_opd" />
+      <nestedChildShapes>
+        <elementListCompartment Id="4836aa8a-db3c-4f26-ae4c-5e466c4b3e34" absoluteBounds="3.515, 3.585, 1.9700000000000002, 4.118804931640625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="f7d133e4-360c-4649-958d-7a4f82ffeb2d" isExpanded="false" absoluteBounds="5.875, 3.125, 2, 0.45">
+      <DataClassMoniker Name="/CSDataContext/tbl_opd_order" />
+      <nestedChildShapes>
+        <elementListCompartment Id="f33fc194-97f7-49e3-9663-0f618578edd6" absoluteBounds="5.89, 3.585, 1.9700000000000002, 3.1948343912760415" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

@@ -12,11 +12,17 @@ namespace ClinicSysteMc.ViewModel.Converters
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private readonly TaskbarIcon tb = new TaskbarIcon();
         private readonly string _loadpath;
-        bool _disposed = false;
+        private readonly DateTime _qdate;
+        private bool _disposed = false;
 
+        /// <summary>
+        /// the main part of this class
+        /// </summary>
+        /// <param name="loadpath"></param>
         public OPDconvert(string loadpath)
         {
             _loadpath = loadpath;
+            _qdate = DateTime.Now;
         }
 
         public void Transform()
@@ -145,7 +151,8 @@ namespace ClinicSysteMc.ViewModel.Converters
                             ICDCODE3 = (string)dtO_Row["ICDCODE3"], // ICDCODE3
                             INS_CODE = "A", // INS_CODE, default value "A"
                             STEXT = (string)dtO_Row["STEXT"], // STEXT
-                            OTEXT = (string)dtO_Row["OTEXT"] // OTEXT
+                            OTEXT = (string)dtO_Row["OTEXT"], // OTEXT
+                            QDATE = _qdate  // 20200526 加入
                         };
 
                         string tempstr;
@@ -182,7 +189,8 @@ namespace ClinicSysteMc.ViewModel.Converters
                                 PRICE = (string)dtP_Row["PRICE"], //PRICE
                                 AMT = (string)dtP_Row["AMT"], //AMT
                                 CLASS = (string)dtP_Row["CLASS"], //CLASS
-                                CHRONIC = (string)dtP_Row["CHRONIC"] //CHRONIC
+                                CHRONIC = (string)dtP_Row["CHRONIC"], //CHRONIC
+                                QDATE = _qdate  // 20200526 加入
                             };
                             dc.tbl_opd_order.InsertOnSubmit(newPr);
                             dc.SubmitChanges();
@@ -267,6 +275,7 @@ namespace ClinicSysteMc.ViewModel.Converters
                         if (bChange == true)
                         {
                             // 做實改變
+                            oldOPD.QDATE = _qdate;
                             dc.SubmitChanges();
                             change_opd_N++;
                             // 做記錄
@@ -367,7 +376,8 @@ namespace ClinicSysteMc.ViewModel.Converters
                                 PRICE = (string)q4[j]["PRICE"], //PRICE
                                 AMT = (string)q4[j]["AMT"], //AMT
                                 CLASS = (string)q4[j]["CLASS"], //CLASS
-                                CHRONIC = (string)q4[j]["CHRONIC"] //CHRONIC
+                                CHRONIC = (string)q4[j]["CHRONIC"], //CHRONIC
+                                QDATE = _qdate // 20200526加入
                             };
                             dc.tbl_opd_order.InsertOnSubmit(newPr);
                             dc.SubmitChanges();
@@ -390,6 +400,8 @@ namespace ClinicSysteMc.ViewModel.Converters
 
             this.Dispose();
         }
+
+        #region Helper Functions
 
         private string Exact(List<Prescription> oldPr, List<Prescription> newPr)
         {
@@ -470,6 +482,8 @@ namespace ClinicSysteMc.ViewModel.Converters
             return strReturn;
         }
 
+        #endregion Helper Functions
+
         public void Dispose()
         {
             Dispose(true);
@@ -486,7 +500,6 @@ namespace ClinicSysteMc.ViewModel.Converters
             if (disposing)
             {
                 // Free any other managed objects here.
-
             }
 
             _disposed = true;
