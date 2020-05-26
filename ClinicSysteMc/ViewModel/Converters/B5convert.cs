@@ -110,7 +110,7 @@ namespace ClinicSysteMc.ViewModel.Converters
                     string scomp5 = System.Text.Encoding.Default.GetString(lineStr, 1685, 56).Trim();        // 34 （複方五）成份名稱 c 56 1686 1741
                     string scomp5_dose = System.Text.Encoding.Default.GetString(lineStr, 1742, 11).Trim();   // 35 （複方五）藥品成份含量 N 11,3 1743 1753
                     string scomp5_unit = System.Text.Encoding.Default.GetString(lineStr, 1754, 51).Trim();   // 36 （複方五）藥品成份含量單位 c 51 1755 1805
-                    string smanufacturer = System.Text.Encoding.Default.GetString(lineStr, 1807, 42).Trim(); // 37 製造廠名稱 c 42 1807 1848
+                    string smanufacturer = System.Text.Encoding.Default.GetString(lineStr, 1806, 42).Trim(); // 37 製造廠名稱 c 42 1807 1848
                     string sATC_code = System.Text.Encoding.Default.GetString(lineStr, 1849, 8).Trim();      // 38 ATC CODE c 8 1850 1857
                     string sNoProduce = System.Text.Encoding.Default.GetString(lineStr, 1858, 1).Trim();     // 39 未生產或未輸入達五年 c 1 1859 1859 108.5.21.新增
 
