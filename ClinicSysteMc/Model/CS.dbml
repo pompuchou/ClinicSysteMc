@@ -47,19 +47,6 @@
       <Column Name="l08" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
     </Type>
   </Table>
-  <Table Name="dbo.tbl_patients" Member="tbl_patients">
-    <Type Name="tbl_patients">
-      <Column Name="cid" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
-      <Column Name="uid" Type="System.String" DbType="NVarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="cname" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="mf" Type="System.String" DbType="NVarChar(2)" CanBeNull="true" />
-      <Column Name="bd" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
-      <Column Name="p01" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="p02" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="p03" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="p04" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.tbl_lab" Member="tbl_lab">
     <Type Name="tbl_lab">
       <Column Name="uid" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
@@ -289,6 +276,20 @@
       <Column Name="AMT" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="CLASS" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="CHRONIC" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="QDATE" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tbl_patients" Member="tbl_patients">
+    <Type Name="tbl_patients">
+      <Column Name="cid" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="uid" Type="System.String" DbType="NVarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="cname" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="mf" Type="System.String" DbType="NVarChar(2)" CanBeNull="true" />
+      <Column Name="bd" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="p01" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="p02" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="p03" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="p04" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
       <Column Name="QDATE" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
     </Type>
   </Table>

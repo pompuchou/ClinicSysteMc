@@ -10,6 +10,7 @@ namespace ClinicSysteMc.ViewModel.Converters
     public class PTconvert : IDisposable
     {
         private readonly object[,] _data;
+        private readonly DateTime _qdate;
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private readonly TaskbarIcon tb = new TaskbarIcon();
         private bool _disposed = false;
@@ -17,6 +18,7 @@ namespace ClinicSysteMc.ViewModel.Converters
         public PTconvert(object[,] Data)
         {
             _data = Data;
+            _qdate = DateTime.Now;
         }
 
         public async void Transform()
@@ -167,6 +169,8 @@ namespace ClinicSysteMc.ViewModel.Converters
                             newPt.p02 = (string)data[i, 4];  // 手機電話, 第5欄
                             newPt.p03 = (string)data[i, 9];  // 地址,第10欄
                             newPt.p04 = (string)data[i, 10];  // 提醒,第11欄
+                            newPt.QDATE = _qdate;
+                            // 2020026新增QDATE
 
                             dc.tbl_patients.InsertOnSubmit(newPt);
                             dc.SubmitChanges();
@@ -280,6 +284,8 @@ namespace ClinicSysteMc.ViewModel.Converters
                             if (bChange)
                             {
                                 // 做實改變
+                                // 2020026新增QDATE
+                                oldPt.QDATE = _qdate;
                                 dc.SubmitChanges();
                                 // 做記錄
                                 // 20190929 加姓名, 病歷號
