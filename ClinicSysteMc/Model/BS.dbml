@@ -39,6 +39,7 @@
       <Column Name="manufacturer" Type="System.String" DbType="VarChar(42)" CanBeNull="true" />
       <Column Name="ATC_code" Type="System.String" DbType="VarChar(8)" CanBeNull="true" />
       <Column Name="NoProduce" Type="System.String" DbType="VarChar(1)" CanBeNull="true" />
+      <Column Name="QDATE" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
 </Database>

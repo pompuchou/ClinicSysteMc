@@ -154,6 +154,8 @@ namespace ClinicSysteMc.Model
 		
 		private string _NoProduce;
 		
+		private System.DateTime _QDATE;
+		
     #region 擴充性方法定義
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -232,6 +234,8 @@ namespace ClinicSysteMc.Model
     partial void OnATC_codeChanged();
     partial void OnNoProduceChanging(string value);
     partial void OnNoProduceChanged();
+    partial void OnQDATEChanging(System.DateTime value);
+    partial void OnQDATEChanged();
     #endregion
 		
 		public NHI_med()
@@ -975,6 +979,26 @@ namespace ClinicSysteMc.Model
 					this._NoProduce = value;
 					this.SendPropertyChanged("NoProduce");
 					this.OnNoProduceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QDATE", DbType="DateTime NOT NULL")]
+		public System.DateTime QDATE
+		{
+			get
+			{
+				return this._QDATE;
+			}
+			set
+			{
+				if ((this._QDATE != value))
+				{
+					this.OnQDATEChanging(value);
+					this.SendPropertyChanging();
+					this._QDATE = value;
+					this.SendPropertyChanged("QDATE");
+					this.OnQDATEChanged();
 				}
 			}
 		}

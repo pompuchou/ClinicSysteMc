@@ -121,9 +121,7 @@ namespace ClinicSysteMc.ViewModel.Commands
                     B5convert b5 = new B5convert(loadpath);
                     b5.Transform();
 
-                    Logging.Record_admin("add opd", "匯入健保申報檔 Manual");
-
-                    Logging.Record_admin("add lab data", "加入檢驗資料 Manual");
+                    Logging.Record_admin("add b5 data", $"加入健保藥物資料{loadpath}");
 
                     break;
 

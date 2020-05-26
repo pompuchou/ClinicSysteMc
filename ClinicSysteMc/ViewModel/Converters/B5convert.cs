@@ -10,10 +10,12 @@ namespace ClinicSysteMc.ViewModel.Converters
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private readonly string _loadpath;
+        private readonly DateTime _qdate;
 
         public B5convert(string loadpath)
         {
             this._loadpath = loadpath;
+            this._qdate = DateTime.Now;
         }
 
         internal async void Transform()
@@ -23,7 +25,7 @@ namespace ClinicSysteMc.ViewModel.Converters
             int totalN = Lines.Length;  // -1 because line 1 is titles, so I should begin with 2 to total_N + 1
             // now I should divide the array into 500 lines each and store it into a list.
 
-            int table_N = 10000;
+            int table_N = 15000; // after testing 15000 is better
             int total_div = totalN / table_N;
             int residual = totalN % table_N;
 
@@ -159,7 +161,8 @@ namespace ClinicSysteMc.ViewModel.Converters
                                     comp5_unit = scomp5_unit,   // 36 （複方五）藥品成份含量單位 c 51 1755 1805
                                     manufacturer = smanufacturer, // 37 製造廠名稱 c 42 1807 1848
                                     ATC_code = sATC_code,       // 38 ATC CODE c 8 1850 1857
-                                    NoProduce = sNoProduce      // 39 未生產或未輸入達五年 c 1 1859 1859 108.5.21.新增
+                                    NoProduce = sNoProduce,      // 39 未生產或未輸入達五年 c 1 1859 1859 108.5.21.新增
+                                    QDATE = _qdate
                                 };
                                 dc.NHI_med.InsertOnSubmit(newNHI);
                                 dc.SubmitChanges();
@@ -391,14 +394,15 @@ namespace ClinicSysteMc.ViewModel.Converters
                                 }      // 39 未生產或未輸入達五年 c 1 1859 1859 108.5.21.新增
                                 if (bChanged)
                                 {
-                                    // 做實改變
-                                    dc.SubmitChanges();
                                     // 做記錄
                                     // 20190929 加姓名, 病歷號
                                     Logging.Record_admin("Change b5 data", $"{sNHI_code}: {strChange}");
                                     log.Info($"Change b5 data: {sNHI_code}: {strChange}");
                                     change_N++;
                                 }
+                                // 做實改變
+                                oldNHI.QDATE = _qdate;
+                                dc.SubmitChanges();
                             }
                             catch (Exception ex)
                             {
