@@ -12,6 +12,7 @@ namespace ClinicSysteMc.ViewModel.Converters
 {
     internal class PIJIAconvert
     {
+        private readonly DateTime _qdate;
         private readonly DateTime _begindate;
         private readonly DateTime _enddate;
         private string BeginDate;
@@ -24,6 +25,7 @@ namespace ClinicSysteMc.ViewModel.Converters
         {
             _begindate = begindate;
             _enddate = enddate;
+            _qdate = DateTime.Now;
         }
 
         public async void Convert()
@@ -367,8 +369,10 @@ namespace ClinicSysteMc.ViewModel.Converters
                             AMTreceivable = int.Parse((string)data[i, header_order[24]]),
                             AMTreceived = int.Parse((string)data[i, header_order[25]]),
                             bremark = (string)data[i, header_order[26]] ?? string.Empty,
-                            remark = (string)data[i, header_order[27]] ?? string.Empty
+                            remark = (string)data[i, header_order[27]] ?? string.Empty,
+                            QDATE = _qdate
                         };
+                        // 20200526 加入QDATE
                         dc.tbl_pijia.InsertOnSubmit(newPijia);
                         dc.SubmitChanges();
                         add_N++;
@@ -541,6 +545,8 @@ namespace ClinicSysteMc.ViewModel.Converters
                             oldPijia.CASENO = null;
                             oldPijia.G = null;
                             // 做實改變
+                            // 20200526 加入QDATE
+                            oldPijia.QDATE = _qdate;
                             dc.SubmitChanges();
                             change_N++;
                             // 做記錄
