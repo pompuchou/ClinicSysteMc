@@ -10,6 +10,7 @@ namespace ClinicSysteMc.ViewModel.Converters
     internal class ODRconvert : IDisposable
     {
         private readonly object[,] _data;
+        private readonly DateTime _qdate;
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private readonly TaskbarIcon tb = new TaskbarIcon();
         private bool _disposed = false;
@@ -17,6 +18,7 @@ namespace ClinicSysteMc.ViewModel.Converters
         public ODRconvert(object[,] Data)
         {
             _data = Data;
+            _qdate = DateTime.Now;
         }
 
         public async void Transform()
@@ -167,7 +169,7 @@ namespace ClinicSysteMc.ViewModel.Converters
                                 r52 = (string)data[i, 52],  //門診缺藥, 第53欄, 20190929 改成第54欄, 20200319 改成53欄, 20200513 改成52欄
                                 r60 = (string)data[i, 60],  //異動人員, 第61欄, 20190929 改成第62欄, 20200319 改成61欄, 20200513 改成60欄
                                 r61 = (string)data[i, 61],  //異動日期, 第62欄, 20190929 改成第63欄, 20200319 改成62欄, 20200513 改成61欄
-                                r62 = DateTime.Now
+                                QDATE = _qdate
                             };
                             dc.p_order.InsertOnSubmit(newOd);
                             dc.SubmitChanges();
@@ -408,6 +410,7 @@ namespace ClinicSysteMc.ViewModel.Converters
                             if (bChange == true)
                             {
                                 //  做實改變
+                                oldOd.QDATE = _qdate;
                                 dc.SubmitChanges();
                                 // 做記錄
                                 Logging.Record_admin("Change order data", $"{strRID}: {strChange}");

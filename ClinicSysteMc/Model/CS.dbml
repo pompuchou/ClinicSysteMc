@@ -103,44 +103,6 @@
       <Column Name="p04" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
     </Type>
   </Table>
-  <Table Name="dbo.p_order" Member="p_order">
-    <Type Name="p_order">
-      <Column Name="rid" Type="System.String" DbType="NVarChar(255) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="r01" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="r02" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="r03" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="r04" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="r06" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="r07" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="r08" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="r09" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="r10" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="r11" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="r12" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="r13" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="r14" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="r15" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="r16" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="r18" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="r19" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="r25" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="r26" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="r27" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="r28" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="r29" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="r30" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="r31" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="r32" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="r33" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="r34" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="r40" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="r48" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="r52" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="r60" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
-      <Column Name="r61" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="r62" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.tbl_lab" Member="tbl_lab">
     <Type Name="tbl_lab">
       <Column Name="uid" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
@@ -288,6 +250,44 @@
       <Column Name="remark" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
       <Column Name="CASENO" Type="System.String" DbType="VarChar(14)" CanBeNull="true" />
       <Column Name="G" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.p_order" Member="p_order">
+    <Type Name="p_order">
+      <Column Name="rid" Type="System.String" DbType="NVarChar(255) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="r01" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r02" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r03" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r04" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r06" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r07" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r08" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r09" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r10" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r11" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r12" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r13" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r14" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r15" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r16" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r18" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r19" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r25" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r26" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r27" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r28" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r29" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r30" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r31" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r32" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r33" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r34" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r40" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r48" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="r52" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="r60" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="r61" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="QDATE" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
     </Type>
   </Table>
   <Function Name="dbo.sp_match_xml" Method="sp_match_xml">
