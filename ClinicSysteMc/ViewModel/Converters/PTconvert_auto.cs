@@ -1,4 +1,5 @@
 ﻿using AutoIt;
+using ClinicSysteMc.Model;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -12,7 +13,7 @@ namespace ClinicSysteMc.ViewModel.Converters
         // 目的是自動匯入病患資料
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public void Convert()
+        public void Convert(Progress<ProgressReportModel> progress)
         {
             Microsoft.Office.Interop.Excel.Application MyExcel = new Microsoft.Office.Interop.Excel.Application();
 
@@ -103,7 +104,7 @@ namespace ClinicSysteMc.ViewModel.Converters
 
             // 丟出的是一個object [,]
             PTconvert pt = new PTconvert(ws.UsedRange.Value2);
-            pt.Transform();
+            pt.Transform(progress);
 
 
             #region Ending

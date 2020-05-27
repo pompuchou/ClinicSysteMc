@@ -56,6 +56,17 @@ namespace ClinicSysteMc.ViewModel
 
         #region Data Properties
 
+        private int _progressvalue;
+        public int ProgressValue 
+        {
+            get { return _progressvalue; }
+            set
+            {
+                _progressvalue = value;
+                OnPropertyChanged("ProgressValue");
+            } 
+        }
+
         private object _loginout;
 
         public object LogInOut
@@ -63,8 +74,8 @@ namespace ClinicSysteMc.ViewModel
             get { return _loginout; }
             set
             {
-                OnPropertyChanged("LogInOut");
                 _loginout = value;
+                OnPropertyChanged("LogInOut");
             }
         }
 
@@ -75,8 +86,8 @@ namespace ClinicSysteMc.ViewModel
             get { return _opd; }
             set
             {
-                OnPropertyChanged("OPD");
                 _opd = value;
+                OnPropertyChanged("OPD");
             }
         }
 
@@ -87,8 +98,8 @@ namespace ClinicSysteMc.ViewModel
             get { return _pt; }
             set
             {
-                OnPropertyChanged("PT");
                 _pt = value;
+                OnPropertyChanged("PT");
             }
         }
 
@@ -99,8 +110,8 @@ namespace ClinicSysteMc.ViewModel
             get { return _order; }
             set
             {
-                OnPropertyChanged("Order");
                 _order = value;
+                OnPropertyChanged("Order");
             }
         }
 
@@ -111,8 +122,8 @@ namespace ClinicSysteMc.ViewModel
             get { return _upload; }
             set
             {
-                OnPropertyChanged("Upload");
                 _upload = value;
+                OnPropertyChanged("Upload");
             }
         }
 
@@ -123,8 +134,8 @@ namespace ClinicSysteMc.ViewModel
             get { return _pijia; }
             set
             {
-                OnPropertyChanged("Pijia");
                 _pijia = value;
+                OnPropertyChanged("Pijia");
             }
         }
 
@@ -135,8 +146,8 @@ namespace ClinicSysteMc.ViewModel
             get { return _changeDepartment; }
             set
             {
-                OnPropertyChanged("ChangeDepartment");
                 _changeDepartment = value;
+                OnPropertyChanged("ChangeDepartment");
             }
         }
 
@@ -147,8 +158,8 @@ namespace ClinicSysteMc.ViewModel
             get { return _lab; }
             set
             {
-                OnPropertyChanged("Lab");
                 _lab = value;
+                OnPropertyChanged("Lab");
             }
         }
 

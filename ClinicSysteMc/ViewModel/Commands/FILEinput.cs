@@ -1,4 +1,5 @@
-﻿using ClinicSysteMc.ViewModel.Converters;
+﻿using ClinicSysteMc.Model;
+using ClinicSysteMc.ViewModel.Converters;
 using Microsoft.Office.Interop.Excel;
 using Microsoft.Win32;
 using System;
@@ -34,6 +35,8 @@ namespace ClinicSysteMc.ViewModel.Commands
 
             // 讀取要輸入的位置
             string loadpath;
+            Progress<ProgressReportModel> progress = new Progress<ProgressReportModel>();
+            progress.ProgressChanged += ReportProgress;
             // 從杏翔病患資料輸入, 只有一種xml格式
             // 依照parameter, 不同來源: 申報匯入, 門診, 病患, 醫令, 檢驗, 指向不同方向
             OpenFileDialog oFDialog = new OpenFileDialog();
@@ -61,7 +64,8 @@ namespace ClinicSysteMc.ViewModel.Commands
                     Worksheet ws = wb.ActiveSheet;
                     // 丟出的是一個object [,]
                     PTconvert p = new PTconvert(ws.UsedRange.Value2);
-                    p.Transform();
+
+                    p.Transform(progress);
 
                     Logging.Record_admin("add/change patients", "加入/修改病患資料 Manual");
 
@@ -78,7 +82,7 @@ namespace ClinicSysteMc.ViewModel.Commands
                     Worksheet ws2 = wb2.ActiveSheet;
                     // 丟出的是一個object [,]
                     ODRconvert odr = new ODRconvert(ws2.UsedRange.Value2);
-                    odr.Transform();
+                    odr.Transform(progress);
 
                     Logging.Record_admin("add/change order", "加入/修改醫令資料 Manual");
 
@@ -133,6 +137,11 @@ namespace ClinicSysteMc.ViewModel.Commands
             _mainVM.Refresh_Data();
 
             #endregion 讀取檔案路徑
+        }
+
+        private void ReportProgress(object sender, ProgressReportModel e)
+        {
+            _mainVM.ProgressValue = e.PercentageComeplete;
         }
     }
 }

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ClinicSysteMc.ViewModel.Converters
 {
@@ -21,7 +22,7 @@ namespace ClinicSysteMc.ViewModel.Converters
             _qdate = DateTime.Now;
         }
 
-        public async void Transform()
+        public async void Transform(Progress<ProgressReportModel> progress)
         {
             // 檢查檔案格式
             // 可以算出總筆數,第一行是標題,不算
@@ -53,7 +54,7 @@ namespace ClinicSysteMc.ViewModel.Converters
             int table_N = 500;
             int total_div = totalN / table_N;
             int residual = totalN % table_N;
-            int item_n = strT.Length;
+            int item_n = strT.Length;            
 
             log.Info($"  start async process.");
             List<Task<PTresult>> tasks = new List<Task<PTresult>>();
@@ -72,7 +73,7 @@ namespace ClinicSysteMc.ViewModel.Converters
                     dummy = new object[residual, item_n];
                     Array.Copy(_data, idx, dummy, 0, residual * item_n);
                 }
-                tasks.Add(ImportPT_async(dummy));
+                tasks.Add(ImportPT_async(dummy, progress));
             }
 
             PTresult[] result = await Task.WhenAll(tasks);
@@ -94,12 +95,13 @@ namespace ClinicSysteMc.ViewModel.Converters
             return;
         }
 
-        private async Task<PTresult> ImportPT_async(object[,] data)
+        private async Task<PTresult> ImportPT_async(object[,] data, IProgress<ProgressReportModel> progress)
         {
             int totalN = data.GetUpperBound(0);
             int add_N = 0;
             int change_N = 0;
             int all_N = 0;
+            ProgressReportModel report = new ProgressReportModel();
 
             await Task.Run(() =>
             {
@@ -301,6 +303,8 @@ namespace ClinicSysteMc.ViewModel.Converters
                         }
                     }
                     all_N++;
+                    report.PercentageComeplete = (all_N * 100) / totalN;
+                    progress.Report(report);
                 }
             });
             return new PTresult()

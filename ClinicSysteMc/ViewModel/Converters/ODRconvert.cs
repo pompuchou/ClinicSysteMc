@@ -21,7 +21,7 @@ namespace ClinicSysteMc.ViewModel.Converters
             _qdate = DateTime.Now;
         }
 
-        public async void Transform()
+        public async void Transform(Progress<ProgressReportModel> progress)
         {
             // 檢查檔案格式
             // 可以算出總筆數,第一行是標題,不算
@@ -75,7 +75,7 @@ namespace ClinicSysteMc.ViewModel.Converters
                     dummy = new object[residual, item_n];
                     Array.Copy(_data, idx, dummy, 0, residual * item_n);
                 }
-                tasks.Add(ImportODR_async(dummy));
+                tasks.Add(ImportODR_async(dummy, progress));
             }
 
             ODRresult[] result = await Task.WhenAll(tasks);
@@ -97,12 +97,13 @@ namespace ClinicSysteMc.ViewModel.Converters
             return;
         }
 
-        private async Task<ODRresult> ImportODR_async(object[,] data)
+        private async Task<ODRresult> ImportODR_async(object[,] data, IProgress<ProgressReportModel> progress)
         {
             int totalN = data.GetUpperBound(0);
             int add_N = 0;
             int change_N = 0;
             int all_N = 0;
+            ProgressReportModel report = new ProgressReportModel();
 
             await Task.Run(() =>
             {
@@ -425,6 +426,8 @@ namespace ClinicSysteMc.ViewModel.Converters
                         }
                     }
                     all_N++;
+                    report.PercentageComeplete = (all_N * 100) / totalN;
+                    progress.Report(report);
                 }
             });
             return new ODRresult()
