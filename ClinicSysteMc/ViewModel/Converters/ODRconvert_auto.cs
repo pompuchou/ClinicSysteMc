@@ -3,6 +3,7 @@ using ClinicSysteMc.Model;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 
 namespace ClinicSysteMc.ViewModel.Converters
 {
@@ -12,7 +13,7 @@ namespace ClinicSysteMc.ViewModel.Converters
         // 目的是自動匯入批價項目資料
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public void Convert(Progress<ProgressReportModel> progress)
+        public async Task Convert(Progress<ProgressReportModel> progress)
         {
             Microsoft.Office.Interop.Excel.Application MyExcel = new Microsoft.Office.Interop.Excel.Application();
 
@@ -115,7 +116,7 @@ namespace ClinicSysteMc.ViewModel.Converters
 
             // 丟出的是一個object [,]
             ODRconvert odr = new ODRconvert(ws.UsedRange.Value2);
-            odr.Transform(progress);
+            await odr.Transform(progress);
 
             #region Ending
 

@@ -21,7 +21,7 @@ namespace ClinicSysteMc.ViewModel.Converters
             _qdate = DateTime.Now;
         }
 
-        public async void Transform(Progress<ProgressReportModel> progress)
+        public async Task Transform(Progress<ProgressReportModel> progress)
         {
             // 檢查檔案格式
             // 可以算出總筆數,第一行是標題,不算
@@ -58,6 +58,7 @@ namespace ClinicSysteMc.ViewModel.Converters
             int total_div = totalN / table_N;
             int residual = totalN % table_N;
             int item_n = strT.Length;
+            ProgressReportModel report = new ProgressReportModel();
 
             log.Info($"  start async process.");
             List<Task<ODRresult>> tasks = new List<Task<ODRresult>>();
@@ -75,7 +76,7 @@ namespace ClinicSysteMc.ViewModel.Converters
                     dummy = new object[residual, item_n];
                     Array.Copy(_data, idx, dummy, 0, residual * item_n);
                 }
-                tasks.Add(ImportODR_async(dummy, progress));
+                tasks.Add(ImportODR_async(dummy, progress, report));
             }
 
             ODRresult[] result = await Task.WhenAll(tasks);
@@ -97,16 +98,16 @@ namespace ClinicSysteMc.ViewModel.Converters
             return;
         }
 
-        private async Task<ODRresult> ImportODR_async(object[,] data, IProgress<ProgressReportModel> progress)
+        private async Task<ODRresult> ImportODR_async(object[,] data, IProgress<ProgressReportModel> progress, ProgressReportModel report)
         {
             int totalN = data.GetUpperBound(0);
             int add_N = 0;
             int change_N = 0;
             int all_N = 0;
-            ProgressReportModel report = new ProgressReportModel();
 
             await Task.Run(() =>
             {
+                log.Info($"    enter ImporODR_async.");
                 // 要有迴路, 來讀一行一行的xls, 能夠判斷
                 for (int i = 0; i <= totalN; i++)
                 {
@@ -121,7 +122,9 @@ namespace ClinicSysteMc.ViewModel.Converters
                         // 沒有醫令代碼是不行的
                         //Logging.Record_error("醫令代碼是空的");
                         log.Error("醫令代碼是空的");
-                        return;
+                        // 20200528 發現這裡用return是不對的, continue才對
+                        //return;
+                        continue;
                     }
 
                     // 再判斷是否已在資料表中
@@ -426,9 +429,10 @@ namespace ClinicSysteMc.ViewModel.Converters
                         }
                     }
                     all_N++;
-                    report.PercentageComeplete = (all_N * 100) / totalN;
+                    report.PercentageComeplete = all_N * 100 / totalN;
                     progress.Report(report);
                 }
+                log.Info($"    exit ImporODR_async.");
             });
             return new ODRresult()
             {

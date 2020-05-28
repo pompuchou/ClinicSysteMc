@@ -75,6 +75,7 @@
                 <Button Content="醫令" Grid.Column="2" Grid.Row="3" Command="{Binding BTN_File}" />
                 <Button Content="檢驗" Grid.Column="2" Grid.Row="4" Command="{Binding BTN_File}" />
                 <Button Content="更新資料" Grid.Column="2" Grid.Row="5" Command="{Binding BTN_RFR}" />
+                <Label Content="{Binding ProgressValue, UpdateSourceTrigger=PropertyChanged}" Grid.Row="6" Grid.ColumnSpan="3" />
                 <ProgressBar Value="{Binding ProgressValue, UpdateSourceTrigger=PropertyChanged}" Grid.Row="7" Grid.ColumnSpan="3" Margin="6" Padding="3" />
                 <Grid Grid.Column="3" Grid.RowSpan="8">
                     <Grid.ColumnDefinitions>

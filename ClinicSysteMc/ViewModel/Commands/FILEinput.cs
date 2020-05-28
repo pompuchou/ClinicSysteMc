@@ -10,6 +10,7 @@ namespace ClinicSysteMc.ViewModel.Commands
     internal class FILEinput : ICommand
     {
         private readonly MainVM _mainVM;
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public event EventHandler CanExecuteChanged
         { 
@@ -27,7 +28,7 @@ namespace ClinicSysteMc.ViewModel.Commands
             return true;
         }
 
-        public void Execute(object parameter)
+        public async void Execute(object parameter)
         {
             // inputbox
 
@@ -46,6 +47,7 @@ namespace ClinicSysteMc.ViewModel.Commands
                     oFDialog.Filter = "xml|*.xml";
                     if (oFDialog.ShowDialog() != true) return;
                     loadpath = oFDialog.FileName;
+                    log.Info($"    File: [{loadpath}] is being loaded.");
 
                     OPDconvert o = new OPDconvert(loadpath);
                     o.Transform();
@@ -58,6 +60,7 @@ namespace ClinicSysteMc.ViewModel.Commands
                     oFDialog.Filter = "xlsx|*.xlsx";
                     if (oFDialog.ShowDialog() != true) return;
                     loadpath = oFDialog.FileName;
+                    log.Info($"    File: [{loadpath}] is being loaded.");
 
                     Microsoft.Office.Interop.Excel.Application myExcel = new Microsoft.Office.Interop.Excel.Application();
                     Workbook wb = myExcel.Workbooks.Open(loadpath);
@@ -65,7 +68,7 @@ namespace ClinicSysteMc.ViewModel.Commands
                     // 丟出的是一個object [,]
                     PTconvert p = new PTconvert(ws.UsedRange.Value2);
 
-                    p.Transform(progress);
+                    await p.Transform(progress);
 
                     Logging.Record_admin("add/change patients", "加入/修改病患資料 Manual");
 
@@ -75,14 +78,14 @@ namespace ClinicSysteMc.ViewModel.Commands
                     oFDialog.Filter = "xlsx|*.xlsx";
                     if (oFDialog.ShowDialog() != true) return;
                     loadpath = oFDialog.FileName;
-
+                    log.Info($"    File: [{loadpath}] is being loaded.");
 
                     Microsoft.Office.Interop.Excel.Application myExcel2 = new Microsoft.Office.Interop.Excel.Application();
                     Workbook wb2 = myExcel2.Workbooks.Open(loadpath);
                     Worksheet ws2 = wb2.ActiveSheet;
                     // 丟出的是一個object [,]
                     ODRconvert odr = new ODRconvert(ws2.UsedRange.Value2);
-                    odr.Transform(progress);
+                    await odr.Transform(progress);
 
                     Logging.Record_admin("add/change order", "加入/修改醫令資料 Manual");
 
@@ -92,6 +95,7 @@ namespace ClinicSysteMc.ViewModel.Commands
                     oFDialog.Filter = "健保申報檔|TOTFA.xml";
                     if (oFDialog.ShowDialog() != true) return;
                     loadpath = oFDialog.FileName;
+                    log.Info($"    File: [{loadpath}] is being loaded.");
 
                     TOTconvert tot = new TOTconvert(loadpath);
                     tot.Transform();
@@ -104,7 +108,7 @@ namespace ClinicSysteMc.ViewModel.Commands
                     oFDialog.Filter = "xls|*.xls";
                     if (oFDialog.ShowDialog() != true) return;
                     loadpath = oFDialog.FileName;
-
+                    log.Info($"    File: [{loadpath}] is being loaded.");
 
                     Microsoft.Office.Interop.Excel.Application myExcel3 = new Microsoft.Office.Interop.Excel.Application();
                     Workbook wb3 = myExcel3.Workbooks.Open(loadpath);
@@ -121,6 +125,7 @@ namespace ClinicSysteMc.ViewModel.Commands
                     oFDialog.Filter = "健保藥物檔案|*.b5";
                     if (oFDialog.ShowDialog() != true) return;
                     loadpath = oFDialog.FileName;
+                    log.Info($"    File: [{loadpath}] is being loaded.");
 
                     B5convert b5 = new B5convert(loadpath);
                     b5.Transform();

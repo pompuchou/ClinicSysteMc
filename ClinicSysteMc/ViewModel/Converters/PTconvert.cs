@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace ClinicSysteMc.ViewModel.Converters
 {
@@ -22,7 +21,7 @@ namespace ClinicSysteMc.ViewModel.Converters
             _qdate = DateTime.Now;
         }
 
-        public async void Transform(Progress<ProgressReportModel> progress)
+        public async Task Transform(Progress<ProgressReportModel> progress)
         {
             // 檢查檔案格式
             // 可以算出總筆數,第一行是標題,不算
@@ -51,10 +50,11 @@ namespace ClinicSysteMc.ViewModel.Converters
             int totalN = _data.GetUpperBound(0) - 1;  // -1 because line 1 is titles, so I should begin with 2 to total_N + 1
             // now I should divide the array into 500 lines each and store it into a list.
 
-            int table_N = 500;
+            int table_N = 1000;
             int total_div = totalN / table_N;
             int residual = totalN % table_N;
-            int item_n = strT.Length;            
+            int item_n = strT.Length;
+            ProgressReportModel report = new ProgressReportModel();
 
             log.Info($"  start async process.");
             List<Task<PTresult>> tasks = new List<Task<PTresult>>();
@@ -73,7 +73,7 @@ namespace ClinicSysteMc.ViewModel.Converters
                     dummy = new object[residual, item_n];
                     Array.Copy(_data, idx, dummy, 0, residual * item_n);
                 }
-                tasks.Add(ImportPT_async(dummy, progress));
+                tasks.Add(ImportPT_async(dummy, progress, report));
             }
 
             PTresult[] result = await Task.WhenAll(tasks);
@@ -95,16 +95,16 @@ namespace ClinicSysteMc.ViewModel.Converters
             return;
         }
 
-        private async Task<PTresult> ImportPT_async(object[,] data, IProgress<ProgressReportModel> progress)
+        private async Task<PTresult> ImportPT_async(object[,] data, IProgress<ProgressReportModel> progress, ProgressReportModel report)
         {
             int totalN = data.GetUpperBound(0);
             int add_N = 0;
             int change_N = 0;
             int all_N = 0;
-            ProgressReportModel report = new ProgressReportModel();
 
             await Task.Run(() =>
             {
+                log.Info($"    enter ImportPT_async.");
                 // 要有迴路, 來讀一行一行的xls, 能夠判斷
                 for (int i = 0; i <= totalN; i++)
                 {
@@ -303,9 +303,10 @@ namespace ClinicSysteMc.ViewModel.Converters
                         }
                     }
                     all_N++;
-                    report.PercentageComeplete = (all_N * 100) / totalN;
+                    report.PercentageComeplete = all_N * 100 / totalN;
                     progress.Report(report);
                 }
+                log.Info($"    exit ImportPT_async.");
             });
             return new PTresult()
             {
