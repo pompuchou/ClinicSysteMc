@@ -128,7 +128,7 @@ namespace ClinicSysteMc.ViewModel.Commands
                     log.Info($"    File: [{loadpath}] is being loaded.");
 
                     B5convert b5 = new B5convert(loadpath);
-                    b5.Transform();
+                    b5.Transform(progress);
 
                     Logging.Record_admin("add b5 data", $"加入健保藥物資料{loadpath}");
 

@@ -18,7 +18,7 @@ namespace ClinicSysteMc.ViewModel.Converters
             this._qdate = DateTime.Now;
         }
 
-        internal async void Transform()
+        internal async Task Transform(IProgress<ProgressReportModel> progress)
         {
             string[] Lines = System.IO.File.ReadAllLines(_loadpath, System.Text.Encoding.Default);
 
@@ -28,6 +28,7 @@ namespace ClinicSysteMc.ViewModel.Converters
             int table_N = 15000; // after testing 15000 is better
             int total_div = totalN / table_N;
             int residual = totalN % table_N;
+            ProgressReportModel report = new ProgressReportModel();
 
             log.Info($"  start async process.");
             List<Task<PTresult>> tasks = new List<Task<PTresult>>();
@@ -46,7 +47,7 @@ namespace ClinicSysteMc.ViewModel.Converters
                     dummy = new string[residual];
                     Array.Copy(Lines, idx, dummy, 0, residual);
                 }
-                tasks.Add(ImportB5_async(dummy));
+                tasks.Add(ImportB5_async(dummy, progress, report));
             }
 
             PTresult[] result = await Task.WhenAll(tasks);
@@ -64,7 +65,7 @@ namespace ClinicSysteMc.ViewModel.Converters
             Logging.Record_admin("B5 add/change", output);
         }
 
-        private async Task<PTresult> ImportB5_async(string[] Lines)
+        private async Task<PTresult> ImportB5_async(string[] Lines, IProgress<ProgressReportModel> progress, ProgressReportModel report)
         {
             int totalN = Lines.Length;
             int add_N = 0;
@@ -73,6 +74,7 @@ namespace ClinicSysteMc.ViewModel.Converters
 
             await Task.Run(() =>
             {
+                log.Info($"    enter ImportB5_async.");
                 foreach (string Line in Lines)
                 {
                     byte[] lineStr = System.Text.Encoding.Default.GetBytes(Line);
@@ -412,7 +414,10 @@ namespace ClinicSysteMc.ViewModel.Converters
                         }
                     };
                     all_N++;
+                    report.PercentageComeplete = all_N * 100 / totalN;
+                    progress.Report(report);
                 }
+                log.Info($"    exit ImportB5_async.");
             });
             return new PTresult()
             {
