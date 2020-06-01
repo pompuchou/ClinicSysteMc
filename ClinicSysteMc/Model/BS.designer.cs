@@ -33,6 +33,9 @@ namespace ClinicSysteMc.Model
     partial void InsertNHI_med(NHI_med instance);
     partial void UpdateNHI_med(NHI_med instance);
     partial void DeleteNHI_med(NHI_med instance);
+    partial void InsertNHI_hosp(NHI_hosp instance);
+    partial void UpdateNHI_hosp(NHI_hosp instance);
+    partial void DeleteNHI_hosp(NHI_hosp instance);
     #endregion
 		
 		public BSDataContext() : 
@@ -70,6 +73,14 @@ namespace ClinicSysteMc.Model
 			get
 			{
 				return this.GetTable<NHI_med>();
+			}
+		}
+		
+		public System.Data.Linq.Table<NHI_hosp> NHI_hosp
+		{
+			get
+			{
+				return this.GetTable<NHI_hosp>();
 			}
 		}
 	}
@@ -979,6 +990,332 @@ namespace ClinicSysteMc.Model
 					this._NoProduce = value;
 					this.SendPropertyChanged("NoProduce");
 					this.OnNoProduceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QDATE", DbType="DateTime NOT NULL")]
+		public System.DateTime QDATE
+		{
+			get
+			{
+				return this._QDATE;
+			}
+			set
+			{
+				if ((this._QDATE != value))
+				{
+					this.OnQDATEChanging(value);
+					this.SendPropertyChanging();
+					this._QDATE = value;
+					this.SendPropertyChanged("QDATE");
+					this.OnQDATEChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.NHI_hosp")]
+	public partial class NHI_hosp : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private char _Div;
+		
+		private string _NHI_code;
+		
+		private string _Nam;
+		
+		private string _Adr;
+		
+		private string _Loc;
+		
+		private string _Tel;
+		
+		private char _Clas;
+		
+		private string _Form;
+		
+		private char _Typ;
+		
+		private string _end_date;
+		
+		private System.Nullable<char> _Stat;
+		
+		private System.DateTime _QDATE;
+		
+    #region 擴充性方法定義
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnDivChanging(char value);
+    partial void OnDivChanged();
+    partial void OnNHI_codeChanging(string value);
+    partial void OnNHI_codeChanged();
+    partial void OnNamChanging(string value);
+    partial void OnNamChanged();
+    partial void OnAdrChanging(string value);
+    partial void OnAdrChanged();
+    partial void OnLocChanging(string value);
+    partial void OnLocChanged();
+    partial void OnTelChanging(string value);
+    partial void OnTelChanged();
+    partial void OnClasChanging(char value);
+    partial void OnClasChanged();
+    partial void OnFormChanging(string value);
+    partial void OnFormChanged();
+    partial void OnTypChanging(char value);
+    partial void OnTypChanged();
+    partial void Onend_dateChanging(string value);
+    partial void Onend_dateChanged();
+    partial void OnStatChanging(System.Nullable<char> value);
+    partial void OnStatChanged();
+    partial void OnQDATEChanging(System.DateTime value);
+    partial void OnQDATEChanged();
+    #endregion
+		
+		public NHI_hosp()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Div", DbType="Char(1) NOT NULL")]
+		public char Div
+		{
+			get
+			{
+				return this._Div;
+			}
+			set
+			{
+				if ((this._Div != value))
+				{
+					this.OnDivChanging(value);
+					this.SendPropertyChanging();
+					this._Div = value;
+					this.SendPropertyChanged("Div");
+					this.OnDivChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NHI_code", DbType="Char(10) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string NHI_code
+		{
+			get
+			{
+				return this._NHI_code;
+			}
+			set
+			{
+				if ((this._NHI_code != value))
+				{
+					this.OnNHI_codeChanging(value);
+					this.SendPropertyChanging();
+					this._NHI_code = value;
+					this.SendPropertyChanged("NHI_code");
+					this.OnNHI_codeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Nam", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Nam
+		{
+			get
+			{
+				return this._Nam;
+			}
+			set
+			{
+				if ((this._Nam != value))
+				{
+					this.OnNamChanging(value);
+					this.SendPropertyChanging();
+					this._Nam = value;
+					this.SendPropertyChanged("Nam");
+					this.OnNamChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Adr", DbType="NVarChar(50)")]
+		public string Adr
+		{
+			get
+			{
+				return this._Adr;
+			}
+			set
+			{
+				if ((this._Adr != value))
+				{
+					this.OnAdrChanging(value);
+					this.SendPropertyChanging();
+					this._Adr = value;
+					this.SendPropertyChanged("Adr");
+					this.OnAdrChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Loc", DbType="NVarChar(50)")]
+		public string Loc
+		{
+			get
+			{
+				return this._Loc;
+			}
+			set
+			{
+				if ((this._Loc != value))
+				{
+					this.OnLocChanging(value);
+					this.SendPropertyChanging();
+					this._Loc = value;
+					this.SendPropertyChanged("Loc");
+					this.OnLocChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Tel", DbType="NVarChar(50)")]
+		public string Tel
+		{
+			get
+			{
+				return this._Tel;
+			}
+			set
+			{
+				if ((this._Tel != value))
+				{
+					this.OnTelChanging(value);
+					this.SendPropertyChanging();
+					this._Tel = value;
+					this.SendPropertyChanged("Tel");
+					this.OnTelChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Clas", DbType="Char(1) NOT NULL")]
+		public char Clas
+		{
+			get
+			{
+				return this._Clas;
+			}
+			set
+			{
+				if ((this._Clas != value))
+				{
+					this.OnClasChanging(value);
+					this.SendPropertyChanging();
+					this._Clas = value;
+					this.SendPropertyChanged("Clas");
+					this.OnClasChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Form", DbType="Char(2) NOT NULL", CanBeNull=false)]
+		public string Form
+		{
+			get
+			{
+				return this._Form;
+			}
+			set
+			{
+				if ((this._Form != value))
+				{
+					this.OnFormChanging(value);
+					this.SendPropertyChanging();
+					this._Form = value;
+					this.SendPropertyChanged("Form");
+					this.OnFormChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Typ", DbType="Char(1) NOT NULL")]
+		public char Typ
+		{
+			get
+			{
+				return this._Typ;
+			}
+			set
+			{
+				if ((this._Typ != value))
+				{
+					this.OnTypChanging(value);
+					this.SendPropertyChanging();
+					this._Typ = value;
+					this.SendPropertyChanged("Typ");
+					this.OnTypChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_end_date", DbType="VarChar(8)")]
+		public string end_date
+		{
+			get
+			{
+				return this._end_date;
+			}
+			set
+			{
+				if ((this._end_date != value))
+				{
+					this.Onend_dateChanging(value);
+					this.SendPropertyChanging();
+					this._end_date = value;
+					this.SendPropertyChanged("end_date");
+					this.Onend_dateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Stat", DbType="Char(1)")]
+		public System.Nullable<char> Stat
+		{
+			get
+			{
+				return this._Stat;
+			}
+			set
+			{
+				if ((this._Stat != value))
+				{
+					this.OnStatChanging(value);
+					this.SendPropertyChanging();
+					this._Stat = value;
+					this.SendPropertyChanged("Stat");
+					this.OnStatChanged();
 				}
 			}
 		}

@@ -56,6 +56,8 @@
                     <RowDefinition Height="40" />
                     <RowDefinition Height="40" />
                     <RowDefinition Height="40" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="40" />
                     <RowDefinition />
                     <RowDefinition Height="40" />
                 </Grid.RowDefinitions>
@@ -69,15 +71,19 @@
                 <Button Content="調整科別" Grid.Row="5" Command="{Binding BTN_YM}" />
                 <Button Content="制檢驗上傳" Grid.Column="1" Grid.Row="1" Command="{Binding BTN_YM}" />
                 <Button Content="申報匯入" Grid.Column="1" Grid.Row="2" Command="{Binding BTN_File}" />
-                <Button Content="健保匯入" Grid.Column="1" Grid.Row="3" Command="{Binding BTN_File}" />
+                <Button Content="印花稅" Grid.Column="1" Grid.Row="3" Command="{Binding BTN_SE}" IsEnabled="False" />
+                <Button Content="賽亞對帳" Grid.Column="1" Grid.Row="4" Command="{Binding BTN_File}" IsEnabled="False" />
+                <Button Content="月馨匯入" Grid.Column="1" Grid.Row="5" Command="{Binding BTN_File}" IsEnabled="False" />
+                <Button Content="逼武匯入" Grid.Column="1" Grid.Row="6" Command="{Binding BTN_File}" Background="Orange" />
+                <Button Content="機構匯入" Grid.Column="1" Grid.Row="7" Command="{Binding BTN_File}" Background="Orange" />
                 <Button Content="門診" Grid.Column="2" Grid.Row="1" Command="{Binding BTN_File}" />
                 <Button Content="病患" Grid.Column="2" Grid.Row="2" Command="{Binding BTN_File}" />
                 <Button Content="醫令" Grid.Column="2" Grid.Row="3" Command="{Binding BTN_File}" />
                 <Button Content="檢驗" Grid.Column="2" Grid.Row="4" Command="{Binding BTN_File}" />
-                <Button Content="更新資料" Grid.Column="2" Grid.Row="5" Command="{Binding BTN_RFR}" />
-                <Label Content="{Binding ProgressValue, UpdateSourceTrigger=PropertyChanged}" Grid.Row="6" Grid.ColumnSpan="3" />
-                <ProgressBar Value="{Binding ProgressValue, UpdateSourceTrigger=PropertyChanged}" Grid.Row="7" Grid.ColumnSpan="3" Margin="6" Padding="3" />
-                <Grid Grid.Column="3" Grid.RowSpan="8">
+                <Button Content="更新資料" Grid.Column="2" Grid.Row="7" Command="{Binding BTN_RFR}" Background="Yellow" />
+                <Label Content="{Binding ProgressValue, UpdateSourceTrigger=PropertyChanged}" Grid.Row="8" Grid.ColumnSpan="3" />
+                <ProgressBar Value="{Binding ProgressValue, UpdateSourceTrigger=PropertyChanged}" Grid.Row="9" Grid.ColumnSpan="3" Margin="6" Padding="3" />
+                <Grid Grid.Column="3" Grid.RowSpan="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition />

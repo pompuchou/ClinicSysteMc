@@ -121,16 +121,29 @@ namespace ClinicSysteMc.ViewModel.Commands
 
                     break;
 
-                case "健保匯入":
+                case "逼武匯入":
                     oFDialog.Filter = "健保藥物檔案|*.b5";
                     if (oFDialog.ShowDialog() != true) return;
                     loadpath = oFDialog.FileName;
                     log.Info($"    File: [{loadpath}] is being loaded.");
 
                     B5convert b5 = new B5convert(loadpath);
-                    b5.Transform(progress);
+                    await b5.Transform(progress);
 
                     Logging.Record_admin("add b5 data", $"加入健保藥物資料{loadpath}");
+
+                    break;
+
+                case "機構匯入":
+                    oFDialog.Filter = "健保特約機構檔案|hospbsc*.txt";
+                    if (oFDialog.ShowDialog() != true) return;
+                    loadpath = oFDialog.FileName;
+                    log.Info($"    File: [{loadpath}] is being loaded.");
+
+                    HOSPconvert hosp = new HOSPconvert(loadpath);
+                    hosp.Transform(progress);
+
+                    Logging.Record_admin("add HOSP data", $"加入健保特約機構資料{loadpath}");
 
                     break;
 

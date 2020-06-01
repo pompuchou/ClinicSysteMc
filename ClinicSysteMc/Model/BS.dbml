@@ -42,4 +42,20 @@
       <Column Name="QDATE" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
+  <Table Name="dbo.NHI_hosp" Member="NHI_hosp">
+    <Type Name="NHI_hosp">
+      <Column Name="Div" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="NHI_code" Type="System.String" DbType="Char(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Nam" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Adr" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Loc" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Tel" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Clas" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="Form" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="Typ" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="end_date" Type="System.String" DbType="VarChar(8)" CanBeNull="true" />
+      <Column Name="Stat" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="QDATE" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
 </Database>

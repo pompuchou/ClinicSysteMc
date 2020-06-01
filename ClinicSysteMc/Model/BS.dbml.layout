@@ -8,5 +8,11 @@
         <elementListCompartment Id="43e9ff4b-b97b-4568-b18d-07cde37721ac" absoluteBounds="3.265, 0.96, 1.9700000000000002, 7.260304768880208" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
+    <classShape Id="e58ec18b-289b-419e-800c-1dce51ba77e7" absoluteBounds="5.5, 0.5, 2, 3.0156579589843751">
+      <DataClassMoniker Name="/BSDataContext/NHI_hosp" />
+      <nestedChildShapes>
+        <elementListCompartment Id="ef7b8a70-bf21-40ad-9924-a1aac2bc5dac" absoluteBounds="5.515, 0.96, 1.9700000000000002, 2.455657958984375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>

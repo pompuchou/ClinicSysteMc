@@ -22,9 +22,7 @@ namespace ClinicSysteMc.ViewModel.Converters
         {
             string[] Lines = System.IO.File.ReadAllLines(_loadpath, System.Text.Encoding.Default);
 
-            int totalN = Lines.Length;  // -1 because line 1 is titles, so I should begin with 2 to total_N + 1
-            // now I should divide the array into 500 lines each and store it into a list.
-
+            int totalN = Lines.Length;
             int table_N = 15000; // after testing 15000 is better
             int total_div = totalN / table_N;
             int residual = totalN % table_N;
