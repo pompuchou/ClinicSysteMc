@@ -58,4 +58,31 @@
       <Column Name="QDATE" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
+  <Table Name="dbo.tbl_upload" Member="tbl_upload">
+    <Type Name="tbl_upload">
+      <Column Name="YM" Type="System.String" DbType="Char(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Cli" Type="System.String" DbType="Char(10) NOT NULL" CanBeNull="false" />
+      <Column Name="iid" Type="System.String" DbType="Char(10) NOT NULL" CanBeNull="false" />
+      <Column Name="uid" Type="System.String" DbType="Char(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="bd" Type="System.String" DbType="Char(7) NOT NULL" CanBeNull="false" />
+      <Column Name="InsD" Type="System.String" DbType="Char(7)" CanBeNull="true" />
+      <Column Name="OutD" Type="System.String" DbType="VarChar(7)" CanBeNull="true" />
+      <Column Name="cname" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="QDATE" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.VITA_bill" Member="VITA_bill">
+    <Type Name="VITA_bill">
+      <Column Name="bill_id" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="KaiDan" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="CaiJian" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="cname" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="cid" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="uid" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="bd" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="items" Type="System.String" DbType="NVarChar(2000) NOT NULL" CanBeNull="false" />
+      <Column Name="bill" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="QDATE" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
 </Database>

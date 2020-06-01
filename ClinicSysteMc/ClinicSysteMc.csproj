@@ -27,7 +27,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>38</ApplicationRevision>
+    <ApplicationRevision>39</ApplicationRevision>
     <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -147,6 +147,7 @@
     <Compile Include="ViewModel\Commands\Plain.cs" />
     <Compile Include="ViewModel\Converters\B5convert.cs" />
     <Compile Include="ViewModel\Converters\HOSPconvert.cs" />
+    <Compile Include="ViewModel\Converters\JYYconvert.cs" />
     <Compile Include="ViewModel\Converters\Thesis.cs" />
     <Compile Include="ViewModel\Commands\YMinput.cs" />
     <Compile Include="ViewModel\Converters\DEPchange.cs" />
@@ -162,6 +163,7 @@
     <Compile Include="ViewModel\Converters\PTconvert_auto.cs" />
     <Compile Include="ViewModel\Converters\TOTconvert.cs" />
     <Compile Include="ViewModel\Commands\BEinput.cs" />
+    <Compile Include="ViewModel\Converters\VITAconvert.cs" />
     <Compile Include="ViewModel\Dialog\BEdialog.xaml.cs">
       <DependentUpon>BEdialog.xaml</DependentUpon>
     </Compile>

@@ -36,6 +36,12 @@ namespace ClinicSysteMc.Model
     partial void InsertNHI_hosp(NHI_hosp instance);
     partial void UpdateNHI_hosp(NHI_hosp instance);
     partial void DeleteNHI_hosp(NHI_hosp instance);
+    partial void Inserttbl_upload(tbl_upload instance);
+    partial void Updatetbl_upload(tbl_upload instance);
+    partial void Deletetbl_upload(tbl_upload instance);
+    partial void InsertVITA_bill(VITA_bill instance);
+    partial void UpdateVITA_bill(VITA_bill instance);
+    partial void DeleteVITA_bill(VITA_bill instance);
     #endregion
 		
 		public BSDataContext() : 
@@ -81,6 +87,22 @@ namespace ClinicSysteMc.Model
 			get
 			{
 				return this.GetTable<NHI_hosp>();
+			}
+		}
+		
+		public System.Data.Linq.Table<tbl_upload> tbl_upload
+		{
+			get
+			{
+				return this.GetTable<tbl_upload>();
+			}
+		}
+		
+		public System.Data.Linq.Table<VITA_bill> VITA_bill
+		{
+			get
+			{
+				return this.GetTable<VITA_bill>();
 			}
 		}
 	}
@@ -1316,6 +1338,538 @@ namespace ClinicSysteMc.Model
 					this._Stat = value;
 					this.SendPropertyChanged("Stat");
 					this.OnStatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QDATE", DbType="DateTime NOT NULL")]
+		public System.DateTime QDATE
+		{
+			get
+			{
+				return this._QDATE;
+			}
+			set
+			{
+				if ((this._QDATE != value))
+				{
+					this.OnQDATEChanging(value);
+					this.SendPropertyChanging();
+					this._QDATE = value;
+					this.SendPropertyChanged("QDATE");
+					this.OnQDATEChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_upload")]
+	public partial class tbl_upload : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _YM;
+		
+		private string _Cli;
+		
+		private string _iid;
+		
+		private string _uid;
+		
+		private string _bd;
+		
+		private string _InsD;
+		
+		private string _OutD;
+		
+		private string _cname;
+		
+		private System.DateTime _QDATE;
+		
+    #region 擴充性方法定義
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnYMChanging(string value);
+    partial void OnYMChanged();
+    partial void OnCliChanging(string value);
+    partial void OnCliChanged();
+    partial void OniidChanging(string value);
+    partial void OniidChanged();
+    partial void OnuidChanging(string value);
+    partial void OnuidChanged();
+    partial void OnbdChanging(string value);
+    partial void OnbdChanged();
+    partial void OnInsDChanging(string value);
+    partial void OnInsDChanged();
+    partial void OnOutDChanging(string value);
+    partial void OnOutDChanged();
+    partial void OncnameChanging(string value);
+    partial void OncnameChanged();
+    partial void OnQDATEChanging(System.DateTime value);
+    partial void OnQDATEChanged();
+    #endregion
+		
+		public tbl_upload()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_YM", DbType="Char(5) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string YM
+		{
+			get
+			{
+				return this._YM;
+			}
+			set
+			{
+				if ((this._YM != value))
+				{
+					this.OnYMChanging(value);
+					this.SendPropertyChanging();
+					this._YM = value;
+					this.SendPropertyChanged("YM");
+					this.OnYMChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Cli", DbType="Char(10) NOT NULL", CanBeNull=false)]
+		public string Cli
+		{
+			get
+			{
+				return this._Cli;
+			}
+			set
+			{
+				if ((this._Cli != value))
+				{
+					this.OnCliChanging(value);
+					this.SendPropertyChanging();
+					this._Cli = value;
+					this.SendPropertyChanged("Cli");
+					this.OnCliChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_iid", DbType="Char(10) NOT NULL", CanBeNull=false)]
+		public string iid
+		{
+			get
+			{
+				return this._iid;
+			}
+			set
+			{
+				if ((this._iid != value))
+				{
+					this.OniidChanging(value);
+					this.SendPropertyChanging();
+					this._iid = value;
+					this.SendPropertyChanged("iid");
+					this.OniidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_uid", DbType="Char(10) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string uid
+		{
+			get
+			{
+				return this._uid;
+			}
+			set
+			{
+				if ((this._uid != value))
+				{
+					this.OnuidChanging(value);
+					this.SendPropertyChanging();
+					this._uid = value;
+					this.SendPropertyChanged("uid");
+					this.OnuidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bd", DbType="Char(7) NOT NULL", CanBeNull=false)]
+		public string bd
+		{
+			get
+			{
+				return this._bd;
+			}
+			set
+			{
+				if ((this._bd != value))
+				{
+					this.OnbdChanging(value);
+					this.SendPropertyChanging();
+					this._bd = value;
+					this.SendPropertyChanged("bd");
+					this.OnbdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_InsD", DbType="Char(7)")]
+		public string InsD
+		{
+			get
+			{
+				return this._InsD;
+			}
+			set
+			{
+				if ((this._InsD != value))
+				{
+					this.OnInsDChanging(value);
+					this.SendPropertyChanging();
+					this._InsD = value;
+					this.SendPropertyChanged("InsD");
+					this.OnInsDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OutD", DbType="VarChar(7)")]
+		public string OutD
+		{
+			get
+			{
+				return this._OutD;
+			}
+			set
+			{
+				if ((this._OutD != value))
+				{
+					this.OnOutDChanging(value);
+					this.SendPropertyChanging();
+					this._OutD = value;
+					this.SendPropertyChanged("OutD");
+					this.OnOutDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_cname", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string cname
+		{
+			get
+			{
+				return this._cname;
+			}
+			set
+			{
+				if ((this._cname != value))
+				{
+					this.OncnameChanging(value);
+					this.SendPropertyChanging();
+					this._cname = value;
+					this.SendPropertyChanged("cname");
+					this.OncnameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QDATE", DbType="DateTime NOT NULL")]
+		public System.DateTime QDATE
+		{
+			get
+			{
+				return this._QDATE;
+			}
+			set
+			{
+				if ((this._QDATE != value))
+				{
+					this.OnQDATEChanging(value);
+					this.SendPropertyChanging();
+					this._QDATE = value;
+					this.SendPropertyChanged("QDATE");
+					this.OnQDATEChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.VITA_bill")]
+	public partial class VITA_bill : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private long _bill_id;
+		
+		private System.DateTime _KaiDan;
+		
+		private System.DateTime _CaiJian;
+		
+		private string _cname;
+		
+		private string _cid;
+		
+		private string _uid;
+		
+		private System.Nullable<System.DateTime> _bd;
+		
+		private string _items;
+		
+		private int _bill;
+		
+		private System.DateTime _QDATE;
+		
+    #region 擴充性方法定義
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void Onbill_idChanging(long value);
+    partial void Onbill_idChanged();
+    partial void OnKaiDanChanging(System.DateTime value);
+    partial void OnKaiDanChanged();
+    partial void OnCaiJianChanging(System.DateTime value);
+    partial void OnCaiJianChanged();
+    partial void OncnameChanging(string value);
+    partial void OncnameChanged();
+    partial void OncidChanging(string value);
+    partial void OncidChanged();
+    partial void OnuidChanging(string value);
+    partial void OnuidChanged();
+    partial void OnbdChanging(System.Nullable<System.DateTime> value);
+    partial void OnbdChanged();
+    partial void OnitemsChanging(string value);
+    partial void OnitemsChanged();
+    partial void OnbillChanging(int value);
+    partial void OnbillChanged();
+    partial void OnQDATEChanging(System.DateTime value);
+    partial void OnQDATEChanged();
+    #endregion
+		
+		public VITA_bill()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bill_id", AutoSync=AutoSync.OnInsert, DbType="BigInt NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public long bill_id
+		{
+			get
+			{
+				return this._bill_id;
+			}
+			set
+			{
+				if ((this._bill_id != value))
+				{
+					this.Onbill_idChanging(value);
+					this.SendPropertyChanging();
+					this._bill_id = value;
+					this.SendPropertyChanged("bill_id");
+					this.Onbill_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_KaiDan", DbType="DateTime NOT NULL")]
+		public System.DateTime KaiDan
+		{
+			get
+			{
+				return this._KaiDan;
+			}
+			set
+			{
+				if ((this._KaiDan != value))
+				{
+					this.OnKaiDanChanging(value);
+					this.SendPropertyChanging();
+					this._KaiDan = value;
+					this.SendPropertyChanged("KaiDan");
+					this.OnKaiDanChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CaiJian", DbType="DateTime NOT NULL")]
+		public System.DateTime CaiJian
+		{
+			get
+			{
+				return this._CaiJian;
+			}
+			set
+			{
+				if ((this._CaiJian != value))
+				{
+					this.OnCaiJianChanging(value);
+					this.SendPropertyChanging();
+					this._CaiJian = value;
+					this.SendPropertyChanged("CaiJian");
+					this.OnCaiJianChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_cname", DbType="NVarChar(50)")]
+		public string cname
+		{
+			get
+			{
+				return this._cname;
+			}
+			set
+			{
+				if ((this._cname != value))
+				{
+					this.OncnameChanging(value);
+					this.SendPropertyChanging();
+					this._cname = value;
+					this.SendPropertyChanged("cname");
+					this.OncnameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_cid", DbType="VarChar(10)")]
+		public string cid
+		{
+			get
+			{
+				return this._cid;
+			}
+			set
+			{
+				if ((this._cid != value))
+				{
+					this.OncidChanging(value);
+					this.SendPropertyChanging();
+					this._cid = value;
+					this.SendPropertyChanged("cid");
+					this.OncidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_uid", DbType="VarChar(10) NOT NULL", CanBeNull=false)]
+		public string uid
+		{
+			get
+			{
+				return this._uid;
+			}
+			set
+			{
+				if ((this._uid != value))
+				{
+					this.OnuidChanging(value);
+					this.SendPropertyChanging();
+					this._uid = value;
+					this.SendPropertyChanged("uid");
+					this.OnuidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bd", DbType="DateTime")]
+		public System.Nullable<System.DateTime> bd
+		{
+			get
+			{
+				return this._bd;
+			}
+			set
+			{
+				if ((this._bd != value))
+				{
+					this.OnbdChanging(value);
+					this.SendPropertyChanging();
+					this._bd = value;
+					this.SendPropertyChanged("bd");
+					this.OnbdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_items", DbType="NVarChar(2000) NOT NULL", CanBeNull=false)]
+		public string items
+		{
+			get
+			{
+				return this._items;
+			}
+			set
+			{
+				if ((this._items != value))
+				{
+					this.OnitemsChanging(value);
+					this.SendPropertyChanging();
+					this._items = value;
+					this.SendPropertyChanged("items");
+					this.OnitemsChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bill", DbType="Int NOT NULL")]
+		public int bill
+		{
+			get
+			{
+				return this._bill;
+			}
+			set
+			{
+				if ((this._bill != value))
+				{
+					this.OnbillChanging(value);
+					this.SendPropertyChanging();
+					this._bill = value;
+					this.SendPropertyChanged("bill");
+					this.OnbillChanged();
 				}
 			}
 		}
