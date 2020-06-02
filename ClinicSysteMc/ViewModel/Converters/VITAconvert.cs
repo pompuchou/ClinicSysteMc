@@ -122,12 +122,31 @@ namespace ClinicSysteMc.ViewModel.Converters
                     // 開單日期	採檢日期	病患姓名	院所病歷號	身分證號	生日	檢驗項目	代檢費
 
                     // 再判斷是否已在資料表中
+                    // 0 開單日期
                     sKaiDan = (string)data[i, 0];    // 開單日期,第0欄
                     string[] saKaiDan = sKaiDan.Split('/');
                     DateTime dKaiDan = DateTime.Parse($"{int.Parse(saKaiDan[0])+1911}/{saKaiDan[1]}/{saKaiDan[2]}");
+                    // 1 採檢日期
+                    string sCaiJian = (string)data[i, 1];
+                    string[] saCaiJian = sCaiJian.Split('/');
+                    DateTime dCaiJian = DateTime.Parse($"{int.Parse(saCaiJian[0]) + 1911}/{saCaiJian[1]}/{saCaiJian[2]}");
+                    // 2 病患姓名
+                    string sCname = (string)data[i, 2];
+                    // 3 院所病歷號
+                    string sCid = (string)data[i, 3];
+                    // 4 身分證號
                     string sUID = (string)data[i, 4]; // 身分證號, 第4欄 
-                    var od = from d in dc.VITA_bill
-                             where (d.KaiDan == dKaiDan) && (d.uid == sUID)
+                    // 5 生日
+                    string sBD = (string)data[i, 5];
+                    string[] saBD = sBD.Split('/');
+                    DateTime dBD = DateTime.Parse($"{int.Parse(saBD[0]) + 1911}/{saBD[1]}/{saBD[2]}");
+                    // 6 檢驗項目
+                    string sItems = (string)data[i, 6];
+                    // 7 代檢費
+                    int iBill = int.Parse(data[i, 7].ToString());
+
+                    var od = from d in dc.VITA_bill 
+                             where (d.KaiDan == dKaiDan) && (d.CaiJian == dCaiJian) && (d.uid == sUID) && (d.items == sItems)
                              select d;    // this is a querry
                     if (od.Count() == 0)
                     {
@@ -136,23 +155,6 @@ namespace ClinicSysteMc.ViewModel.Converters
                         // 填入資料
                         try
                         {
-                            // 1 採檢日期
-                            string sCaiJian = (string)data[i, 1];
-                            string[] saCaiJian = sCaiJian.Split('/');
-                            DateTime dCaiJian = DateTime.Parse($"{int.Parse(saCaiJian[0])+1911}/{saCaiJian[1]}/{saCaiJian[2]}");
-                            // 2 病患姓名
-                            string sCname = (string)data[i, 2];
-                            // 3 院所病歷號
-                            string sCid = (string)data[i, 3];
-                            // 5 生日
-                            string sBD = (string)data[i, 5];
-                            string[] saBD = sBD.Split('/');
-                            DateTime dBD = DateTime.Parse($"{int.Parse(saBD[0]) + 1911}/{saBD[1]}/{saBD[2]}");
-                            // 6 檢驗項目
-                            string sItems = (string)data[i, 6];
-                            // 7 代檢費
-                            int iBill = int.Parse(data[i, 7].ToString());
-
                             VITA_bill newBill = new VITA_bill()
                             {
                                 KaiDan = dKaiDan,          // 0 開單日期
@@ -175,8 +177,8 @@ namespace ClinicSysteMc.ViewModel.Converters
                             Logging.Record_error(ex.Message);
                             log.Error(ex.Message);
                         }
-                    }
-                    all_N++;
+                }
+                all_N++;
                     report.PercentageComeplete = all_N * 100 / totalN;
                     progress.Report(report);
                 }
