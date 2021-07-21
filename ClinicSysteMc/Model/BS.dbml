@@ -85,4 +85,30 @@
       <Column Name="QDATE" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
+  <Table Name="dbo.StampDuty" Member="StampDuty">
+    <Type Name="StampDuty">
+      <Column Name="YM" Type="System.String" DbType="Char(7) NOT NULL" CanBeNull="false" />
+      <Column Name="N" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ReceiptID" Type="System.String" DbType="Char(7) NOT NULL" CanBeNull="false" />
+      <Column Name="SDATE" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="BDATE" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="dept" Type="System.String" DbType="NVarChar(6) NOT NULL" CanBeNull="false" />
+      <Column Name="cname" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="uid" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Bill" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Stamp" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Stat" Type="System.String" DbType="NVarChar(4) NOT NULL" CanBeNull="false" />
+      <Column Name="Taxed" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="QDATE" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Function Name="dbo.sp_StampDuty_stat" Method="sp_StampDuty_stat">
+    <Parameter Name="YM" Parameter="yM" Type="System.String" DbType="Char(7)" />
+    <ElementType Name="sp_StampDuty_statResult">
+      <Column Name="allcount" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="allbill" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="taxedcount" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="taxedbill" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
 </Database>

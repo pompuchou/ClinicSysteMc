@@ -105,6 +105,21 @@ namespace ClinicSysteMc.Model
 				return this.GetTable<VITA_bill>();
 			}
 		}
+		
+		public System.Data.Linq.Table<StampDuty> StampDuty
+		{
+			get
+			{
+				return this.GetTable<StampDuty>();
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.sp_StampDuty_stat")]
+		public ISingleResult<sp_StampDuty_statResult> sp_StampDuty_stat([global::System.Data.Linq.Mapping.ParameterAttribute(Name="YM", DbType="Char(7)")] string yM)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), yM);
+			return ((ISingleResult<sp_StampDuty_statResult>)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.NHI_med")]
@@ -1911,6 +1926,329 @@ namespace ClinicSysteMc.Model
 			if ((this.PropertyChanged != null))
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.StampDuty")]
+	public partial class StampDuty
+	{
+		
+		private string _YM;
+		
+		private int _N;
+		
+		private string _ReceiptID;
+		
+		private System.DateTime _SDATE;
+		
+		private System.DateTime _BDATE;
+		
+		private string _dept;
+		
+		private string _cname;
+		
+		private string _uid;
+		
+		private int _Bill;
+		
+		private int _Stamp;
+		
+		private string _Stat;
+		
+		private bool _Taxed;
+		
+		private System.DateTime _QDATE;
+		
+		public StampDuty()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_YM", DbType="Char(7) NOT NULL", CanBeNull=false)]
+		public string YM
+		{
+			get
+			{
+				return this._YM;
+			}
+			set
+			{
+				if ((this._YM != value))
+				{
+					this._YM = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_N", DbType="Int NOT NULL")]
+		public int N
+		{
+			get
+			{
+				return this._N;
+			}
+			set
+			{
+				if ((this._N != value))
+				{
+					this._N = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReceiptID", DbType="Char(7) NOT NULL", CanBeNull=false)]
+		public string ReceiptID
+		{
+			get
+			{
+				return this._ReceiptID;
+			}
+			set
+			{
+				if ((this._ReceiptID != value))
+				{
+					this._ReceiptID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SDATE", DbType="DateTime NOT NULL")]
+		public System.DateTime SDATE
+		{
+			get
+			{
+				return this._SDATE;
+			}
+			set
+			{
+				if ((this._SDATE != value))
+				{
+					this._SDATE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BDATE", DbType="DateTime NOT NULL")]
+		public System.DateTime BDATE
+		{
+			get
+			{
+				return this._BDATE;
+			}
+			set
+			{
+				if ((this._BDATE != value))
+				{
+					this._BDATE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_dept", DbType="NVarChar(6) NOT NULL", CanBeNull=false)]
+		public string dept
+		{
+			get
+			{
+				return this._dept;
+			}
+			set
+			{
+				if ((this._dept != value))
+				{
+					this._dept = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_cname", DbType="NVarChar(255)")]
+		public string cname
+		{
+			get
+			{
+				return this._cname;
+			}
+			set
+			{
+				if ((this._cname != value))
+				{
+					this._cname = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_uid", DbType="VarChar(10) NOT NULL", CanBeNull=false)]
+		public string uid
+		{
+			get
+			{
+				return this._uid;
+			}
+			set
+			{
+				if ((this._uid != value))
+				{
+					this._uid = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Bill", DbType="Int NOT NULL")]
+		public int Bill
+		{
+			get
+			{
+				return this._Bill;
+			}
+			set
+			{
+				if ((this._Bill != value))
+				{
+					this._Bill = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Stamp", DbType="Int NOT NULL")]
+		public int Stamp
+		{
+			get
+			{
+				return this._Stamp;
+			}
+			set
+			{
+				if ((this._Stamp != value))
+				{
+					this._Stamp = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Stat", DbType="NVarChar(4) NOT NULL", CanBeNull=false)]
+		public string Stat
+		{
+			get
+			{
+				return this._Stat;
+			}
+			set
+			{
+				if ((this._Stat != value))
+				{
+					this._Stat = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Taxed", DbType="Bit NOT NULL")]
+		public bool Taxed
+		{
+			get
+			{
+				return this._Taxed;
+			}
+			set
+			{
+				if ((this._Taxed != value))
+				{
+					this._Taxed = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QDATE", DbType="DateTime NOT NULL")]
+		public System.DateTime QDATE
+		{
+			get
+			{
+				return this._QDATE;
+			}
+			set
+			{
+				if ((this._QDATE != value))
+				{
+					this._QDATE = value;
+				}
+			}
+		}
+	}
+	
+	public partial class sp_StampDuty_statResult
+	{
+		
+		private System.Nullable<int> _allcount;
+		
+		private System.Nullable<int> _allbill;
+		
+		private System.Nullable<int> _taxedcount;
+		
+		private System.Nullable<int> _taxedbill;
+		
+		public sp_StampDuty_statResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_allcount", DbType="Int")]
+		public System.Nullable<int> allcount
+		{
+			get
+			{
+				return this._allcount;
+			}
+			set
+			{
+				if ((this._allcount != value))
+				{
+					this._allcount = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_allbill", DbType="Int")]
+		public System.Nullable<int> allbill
+		{
+			get
+			{
+				return this._allbill;
+			}
+			set
+			{
+				if ((this._allbill != value))
+				{
+					this._allbill = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_taxedcount", DbType="Int")]
+		public System.Nullable<int> taxedcount
+		{
+			get
+			{
+				return this._taxedcount;
+			}
+			set
+			{
+				if ((this._taxedcount != value))
+				{
+					this._taxedcount = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_taxedbill", DbType="Int")]
+		public System.Nullable<int> taxedbill
+		{
+			get
+			{
+				return this._taxedbill;
+			}
+			set
+			{
+				if ((this._taxedbill != value))
+				{
+					this._taxedbill = value;
+				}
 			}
 		}
 	}

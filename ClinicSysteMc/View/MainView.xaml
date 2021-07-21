@@ -71,7 +71,7 @@
                 <Button Content="調整科別" Grid.Row="5" Command="{Binding BTN_YM}" />
                 <Button Content="制檢驗上傳" Grid.Column="1" Grid.Row="1" Command="{Binding BTN_YM}" />
                 <Button Content="申報匯入" Grid.Column="1" Grid.Row="2" Command="{Binding BTN_File}" />
-                <Button Content="印花稅" Grid.Column="1" Grid.Row="3" Command="{Binding BTN_SE}" IsEnabled="False" />
+                <Button Content="印花稅" Grid.Column="1" Grid.Row="3" Command="{Binding BTN_YM}" />
                 <Button Content="賽亞對帳" Grid.Column="1" Grid.Row="4" Command="{Binding BTN_File}" />
                 <Button Content="月馨匯入" Grid.Column="1" Grid.Row="5" Command="{Binding BTN_File}" />
                 <Button Content="逼武匯入" Grid.Column="1" Grid.Row="6" Command="{Binding BTN_File}" Background="Orange" />

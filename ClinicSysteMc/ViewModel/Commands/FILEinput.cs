@@ -7,6 +7,10 @@ using System.Windows.Input;
 
 namespace ClinicSysteMc.ViewModel.Commands
 {
+    /// <summary>
+    /// 這個命令是用來輸入外部資料的
+    /// 包含種類有xml, xlsx, csv, txt等格式
+    /// </summary>
     internal class FILEinput : ICommand
     {
         private readonly MainVM _mainVM;

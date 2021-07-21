@@ -1,16 +1,14 @@
-﻿using ClinicSysteMc.Model;
-using ClinicSysteMc.ViewModel.Commands;
+﻿using ClinicSysteMc.ViewModel.Commands;
 using Hardcodet.Wpf.TaskbarNotification;
 using System.ComponentModel;
 using System.Deployment.Application;
-using System.Linq;
 
 namespace ClinicSysteMc.ViewModel
 {
     /// <summary>
     /// 20200510 created
     /// </summary>
-    internal class MainVM : INotifyPropertyChanged
+    internal partial class MainVM : INotifyPropertyChanged
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private readonly TaskbarIcon tb = new TaskbarIcon();
@@ -164,53 +162,6 @@ namespace ClinicSysteMc.ViewModel
         }
 
         #endregion Data Properties
-
-        public void Refresh_Data()
-        {
-            CSDataContext dc = new CSDataContext();
-
-            #region Function Page
-
-            LogInOut = (from p in dc.log_Adm
-                        where p.operation_name == "Log in" || p.operation_name == "Log out"
-                        orderby p.regdate descending
-                        select new { p.regdate, p.operation_name }).Take(100);
-            // 20200522 add opd_import, for correct display
-            OPD = (from p in dc.log_Adm
-                   where p.operation_name == "add opd" || p.operation_name == "opd_import"
-                   orderby p.regdate descending
-                   select new { p.regdate }).Take(100);
-            PT = (from p in dc.log_Adm
-                  where p.operation_name == "病患檔案格式"
-                  orderby p.regdate descending
-                  select new { p.regdate }).Take(100);
-            Order = (from p in dc.log_Adm
-                     where p.operation_name == "計價檔格式"
-                     orderby p.regdate descending
-                     select new { p.regdate }).Take(100);
-            Upload = (from p in dc.log_Adm
-                      where p.operation_name == "健保上傳XML檔配對"
-                      orderby p.regdate descending
-                      select new { p.regdate }).Take(100);
-            // 20200522 add PIJIA add/change, for correct display
-            Pijia = (from p in dc.log_Adm
-                     where p.operation_name == "新增批價檔: " || p.operation_name == "PIJIA add/change"
-                     orderby p.regdate descending
-                     select new { p.regdate }).Take(100);
-            ChangeDepartment = (from p in dc.log_Adm
-                                where p.operation_name == "change department"
-                                orderby p.regdate descending
-                                select new { p.regdate }).Take(100);
-            Lab = (from p in dc.log_Adm
-                   where p.operation_name == "Lab file format"
-                   orderby p.regdate descending
-                   select new { p.regdate }).Take(100);
-
-            #endregion Function Page
-
-            tb.ShowBalloonTip("完成", "主頁資料已更新", BalloonIcon.Info);
-
-        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

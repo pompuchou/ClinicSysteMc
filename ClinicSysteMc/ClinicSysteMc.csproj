@@ -62,7 +62,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>ClinicSysteMc.App</StartupObject>
@@ -146,11 +146,14 @@
     <Compile Include="ViewModel\Commands\LABup.cs" />
     <Compile Include="ViewModel\Commands\Plain.cs" />
     <Compile Include="ViewModel\Converters\B5convert.cs" />
+    <Compile Include="ViewModel\Converters\ChangeDepartment\DEPchange_Environment.cs" />
+    <Compile Include="ViewModel\Converters\ChangeDepartment\DEPchange_MAKECSV.cs" />
     <Compile Include="ViewModel\Converters\HOSPconvert.cs" />
     <Compile Include="ViewModel\Converters\JYYconvert.cs" />
+    <Compile Include="ViewModel\Converters\STAMPimport.cs" />
     <Compile Include="ViewModel\Converters\Thesis.cs" />
     <Compile Include="ViewModel\Commands\YMinput.cs" />
-    <Compile Include="ViewModel\Converters\DEPchange.cs" />
+    <Compile Include="ViewModel\Converters\ChangeDepartment\DEPchange.cs" />
     <Compile Include="ViewModel\Converters\LABconvert.cs" />
     <Compile Include="ViewModel\Converters\LABXMLbuild.cs" />
     <Compile Include="ViewModel\Converters\ODRconvert.cs" />
@@ -176,6 +179,7 @@
     <Compile Include="ViewModel\Logging.cs" />
     <Compile Include="ViewModel\MainVM.cs" />
     <Compile Include="Model\PTresult.cs" />
+    <Compile Include="ViewModel\MainVM_Refresh.cs" />
     <Compile Include="View\FromValidationRule.cs" />
     <Compile Include="View\ToValidationRule.cs" />
     <Compile Include="View\MainView.xaml.cs">
