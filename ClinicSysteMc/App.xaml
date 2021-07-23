@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:ClinicSysteMc"
              xmlns:vm="clr-namespace:ClinicSysteMc.ViewModel"
              StartupUri="View\MainView.xaml">
+    <!--StartupUri="Try.xaml">-->
     <Application.Resources>
         <vm:MainVM x:Key="mvm" />
         <vm:InfoVM x:Key="ivm" />

@@ -1,0 +1,27 @@
+﻿<Window x:Class="ClinicSysteMc.ViewModel.Converters.Dash"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ClinicSysteMc.ViewModel.Converters"
+        mc:Ignorable="d"
+        Title="修改科別" Height="100" Width="420" ResizeMode="NoResize">
+    <Grid Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="55*" />
+            <ColumnDefinition Width="45*" />
+            <ColumnDefinition Width="50*" />
+            <ColumnDefinition Width="45*" />
+            <ColumnDefinition Width="32*" />
+            <ColumnDefinition Width="60*" />
+            <ColumnDefinition Width="60*" />
+        </Grid.ColumnDefinitions>
+        <Label Grid.Column="0" Margin="5" Content="目前第" VerticalContentAlignment="Center" />
+        <Label Grid.Column="1" Margin="5" Content="100" x:Name="current_n" VerticalContentAlignment="Center" />
+        <Label Grid.Column="2" Margin="5" Content="筆, 共" VerticalContentAlignment="Center" />
+        <Label Grid.Column="3" Margin="5" Content="100" x:Name="total_n" VerticalContentAlignment="Center" />
+        <Label Grid.Column="4" Margin="5" Content="筆" VerticalContentAlignment="Center" />
+        <Button Grid.Column="5" Margin="5" Content="開始" Click="Button_Click" />
+        <Button Grid.Column="6" Margin="5" Content="停止" Click="Button_Click_1" />
+    </Grid>
+</Window>

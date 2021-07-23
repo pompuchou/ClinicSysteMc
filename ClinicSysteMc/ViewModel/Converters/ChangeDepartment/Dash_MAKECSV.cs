@@ -6,9 +6,9 @@ using System.Linq;
 
 namespace ClinicSysteMc.ViewModel.Converters
 {
-    internal partial class DEPchange
+    public partial class Dash
     {
-        private List<sp_change_depResult> MakeCSV()
+        public List<sp_change_depResult> MakeCSV()
         {
             // Dim output As DEP_return = Change_DEP(strYM)
             // MessageBox.Show("修改了" + output.m.ToString + "筆, 請匯入門診資料")
