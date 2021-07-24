@@ -26,9 +26,9 @@ namespace ClinicSysteMc.ViewModel.Converters
                     // 一個參數, 格式YYYYMMDD
                     AutoItX.Run($"C:\\vpn\\exe\\changeDP_DATE.exe {strD_n}", @"C:\vpn\exe\");
                     changed = true;
-                    log.Info($"Change Date from {strD_o} to {strD_n}.");
+                    log.Info($"Change Date from {strD_o} to {strD_n}. Then sleep 1000ms.");
                     // 等待可以反應
-                    AutoItX.Sleep(500);
+                    AutoItX.Sleep(1000);
                     //WaitForResponsiveness("看診清單", "[NAME:cmbVist]");
                 }
 
@@ -41,7 +41,7 @@ namespace ClinicSysteMc.ViewModel.Converters
                     log.Info($"Change Vist from {strV_o} to {strV_n}. Then sleep 1000ms.");
                     changed = true;
                     // 等待可以反應
-                    AutoItX.Sleep(500);
+                    AutoItX.Sleep(1000);
                     //WaitForResponsiveness("看診清單", "[NAME:cmbVist]");
                 }
 
@@ -51,10 +51,10 @@ namespace ClinicSysteMc.ViewModel.Converters
                     // 製造3個AutoIT VB程式, 3. changeDP_ROOM, 針對"看診清單", [NAME:cmbRmno]
                     // 一個參數, 格式RR
                     AutoItX.Run($"C:\\vpn\\exe\\changeDP_ROOM.exe {strR_n}", @"C:\vpn\exe\");
-                    log.Info($"Change Date from {strR_o} to {strR_n}. Then sleep 1000ms.");
+                    log.Info($"Change Room Number from {strR_o} to {strR_n}. Then sleep 1000ms.");
                     changed = true;
                     // 等待可以反應
-                    AutoItX.Sleep(500);
+                    AutoItX.Sleep(1000);
                     //WaitForResponsiveness("看診清單", "[NAME:cmbVist]");
                 }
 

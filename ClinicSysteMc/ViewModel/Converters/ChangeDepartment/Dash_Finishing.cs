@@ -24,6 +24,7 @@ namespace ClinicSysteMc.ViewModel.Converters
             do
             {
                 if (AutoItX.WinExists("THCClinic") == 1) AutoItX.ControlClick("THCClinic", "", "[CLASSNN:Button1]");
+                if (AutoItX.WinExists("診間完成檢核") == 1) AutoItX.ControlClick("診間完成檢核", "", "[NAME:Button_2]");
                 if (AutoItX.WinExists("跨院重複開立醫囑提示") == 1) AutoItX.ControlClick("跨院重複開立醫囑提示", "", "[NAME:OK_Button]");
                 AutoItX.Sleep(100);
                 idx++; // time out for 10 sec at most

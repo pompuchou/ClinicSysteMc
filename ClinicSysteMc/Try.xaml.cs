@@ -1,5 +1,4 @@
-﻿using ClinicSysteMc.ViewModel.Converters;
-using System.Windows;
+﻿using System.Windows;
 
 namespace ClinicSysteMc
 {
@@ -15,9 +14,7 @@ namespace ClinicSysteMc
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            // 測試Dashboard
-            Dash d = new Dash("11007");
-            d.Show();
+            // 測試Gu.UI.Automation
         }
     }
 }
